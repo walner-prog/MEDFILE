@@ -1,0 +1,7 @@
+/* resources/css/app.css */
+
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+/* Tu código personalizado sigue aquí */
