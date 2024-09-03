@@ -32,10 +32,6 @@ class User extends Authenticatable
     
        
     
-        public function ventas()
-        {
-            return $this->hasMany(Venta::class, 'usuario_id');
-        }
     /**
      * The attributes that should be hidden for serialization.
      *

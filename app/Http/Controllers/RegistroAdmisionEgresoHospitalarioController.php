@@ -23,9 +23,8 @@ class RegistroAdmisionEgresoHospitalarioController extends Controller
                             }])
                                 ->paginate(6); // Ajusta según el número de registros por página 
     
-        return view('registro_admision_egreso_hospitalario.index');
+        return view('registro_admision_egreso_hospitalario.index',compact('admisiones'));
     }
-    
     
 
     
