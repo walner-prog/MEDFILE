@@ -135,7 +135,7 @@
                               <div class="col-sm-9">
                                   <button type="submit" class="btn btn-info">Actualizar Perfil</button>
                                   @if (Route::has('password.request'))
-                                  <a class="btn btn-info btn-outline-indigo" href="{{ route('change-password') }}">
+                                  <a class="btn btn-info btn-outline-indigo" href="{{ route('change_password') }}">
                                       {{ __('Cambiar contraseña?') }}
                                   </a>
                                   @endif

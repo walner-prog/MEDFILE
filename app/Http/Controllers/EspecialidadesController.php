@@ -155,4 +155,11 @@ public function edit($id)
 
         return response()->json($especialidad);
     }
+
+    public function getEspecialidadescitas()
+{
+    $especialidades = Especialidad::select('id', 'nombre')->get();
+    return response()->json($especialidades);
+}
+
 }

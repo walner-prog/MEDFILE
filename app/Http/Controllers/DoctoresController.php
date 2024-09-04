@@ -253,6 +253,12 @@ class DoctoresController extends Controller
         ]);
     }
     
+    public function getDoctorescitas()
+{
+    $doctores = Doctor::select('id', 'primer_nombre','segundo_nombre','primer_apellido','segundo_apellido','especialidad_id')->get();
+    return response()->json($doctores);
+}
+
     
 
   // este metodo es para busacr un doctor por su id 

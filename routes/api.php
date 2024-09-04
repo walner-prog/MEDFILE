@@ -159,6 +159,17 @@ Route::get('departamentos', function () {
 
 
 
+Route::get('citas', function () {
+    
+    return datatables()
+    ->eloquent( App\Models\Cita::query())
+    ->addColumn('btn','actions-departamento')
+    ->rawColumns(['btn'])
+    ->toJson();
+});
+
+
+
 
 
 

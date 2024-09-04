@@ -65,6 +65,16 @@
         </div>
         
     </div>
+
+    <div class="row">
+        <div class="col-lg-12  text-center mr-auto">
+            <img 
+            src="{{ asset('storage/banner-medfile.jpeg') }}" 
+            alt="logo" 
+            class="img-fluid mb-4" 
+            style="max-width: 1080px; height: auto;">
+        </div>
+    </div>
     
      <div class="row">
         <div class="col-lg-2">
@@ -73,6 +83,7 @@
 
        
         <div class="col-lg-6   text-right mr-auto">
+            
             <h4 class="mb-2 text-dark">Consulta de pacientes  registrados </h4>
             
         </div>

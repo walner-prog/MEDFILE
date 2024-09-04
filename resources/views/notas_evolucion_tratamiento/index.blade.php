@@ -620,19 +620,6 @@ $(document).ready(function() {
     });
 
 
-
-  // Function to update date and time
-  function updateDateTime() {
-    const now = new Date();
-    const datetimeString = now.toLocaleString();
-    document.getElementById('datetime').textContent = datetimeString;
-   }
-
-// Initial call to set the date and time
-updateDateTime();
-
-// Update date and time every second
-setInterval(updateDateTime, 1000);
 $(document).ready(function() {
      $('#paciente_id').change(function() {
         var pacienteId = $(this).val();

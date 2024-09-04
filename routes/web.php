@@ -30,10 +30,16 @@ use App\Http\Controllers\RegistroPacientesController;
 use App\Http\Controllers\DoctoresController;
 use App\Http\Controllers\EspecialidadesController;
 use App\Http\Controllers\DepartamentosController;
+use App\Http\Controllers\CitaController;
+use App\Http\Controllers\HorarioDoctorController;
 
 
 
 
+
+Route::get('/api/pacientes/citas', [PacienteController::class, 'getPacientescitas']);
+Route::get('/api/doctores/citas', [DoctoresController::class, 'getDoctorescitas']);
+Route::get('/api/especialidades/citas', [EspecialidadesController::class, 'getEspecialidadescitas']);
 
 
 Route::get('/', function () {
@@ -78,8 +84,8 @@ Route::post('password/reset', [ResetPasswordController::class, 'reset'])->name('
 
 
 // Rutas para cambio de contrase;a
-Route::get('cambiar-password', 'App\Http\Controllers\UsuarioController@showChangePasswordForm')->name('change-password-form');
-Route::post('cambiar_assword', 'App\Http\Controllers\UsuarioController@changePassword')->name('change_password');
+Route::get('cambiar_password', 'App\Http\Controllers\UsuarioController@showChangePasswordForm')->name('change-password-form');
+Route::post('cambiar_password', 'App\Http\Controllers\UsuarioController@changePassword')->name('change_password');
 
 
 // Rutas para roles
@@ -219,3 +225,11 @@ Route::resource('departamentos', DepartamentosController::class)->middleware([
     'show' => 'can:ver-departamento',
 ]);
 
+Route::resource('citas', CitaController::class);
+
+
+Route::resource('horarios-doctor', HorarioDoctorController::class);
+
+Route::get('/horarios', [HorarioDoctorController::class, 'getHorarios']);
+
+Route::get('/horarios_disponibles', [HorarioDoctorController::class, 'horariosDisponibles']);

@@ -309,6 +309,7 @@ public function edit($id)
       $paciente = Paciente::with(['historiasClinicas', 'registrosAdmisionEgresoHospitalario'])->findOrFail($id);
   
       return response()->json([
+        'id' => $paciente->id,
           'no_expediente' => $paciente->no_expediente,
           'primer_nombre' => $paciente->primer_nombre,
           'segundo_nombre' => $paciente->segundo_nombre,
@@ -328,6 +329,7 @@ public function edit($id)
   }
   
 
+  
 /**Concatenar nombres y apellidos: Se utiliza una consulta donde se concatenan los nombres y apellidos
  *  del paciente para realizar la búsqueda.
 Descomponer la búsqueda en términos: Se divide la búsqueda en palabras clave para que puedan coincidir 

@@ -162,6 +162,8 @@ class UsuarioController extends Controller
     
         return redirect()->route('usuarios.index')->with('update', 'Contraseña actualizada exitosamente.');
     }
+
+    
     public function buscarUsuario(Request $request) {
         $query = $request->get('query');
         $usuarios = User::where('name', 'LIKE', "%{$query}%")
