@@ -29,7 +29,7 @@
 </head>
 <body>
     <div class="container">
-        <h1 class="mb-4">Total de Consultas por Enfermedad</h1>
+        <h4 class="mb-4">Total de Consultas por Enfermedad</h4>
 
         @if($enfermedades->isEmpty())
             <div class="alert alert-info" role="alert">
@@ -41,12 +41,12 @@
                     <h5 class="card-title">Resumen de Consultas por Enfermedad</h5>
                 </div>
                 <div class="card-body">
-                    <table class="table table-striped table-bordered">
-                        <thead class="table-dark">
+                    <table class="min-w-full w-100 border border-gray-300 shadow-md rounded-lg p-2">
+                        <thead class="from-green-500 to-green-600 text-white">
                             <tr>
-                                <th>Enfermedad</th>
-                                <th>Total de Consultas</th>
-                                <th>Porcentaje de Pacientes</th>
+                                <th class="px-6 py-3 text-left text-base font-medium tracking-wider border-b border-gray-200">Enfermedad</th>
+                                <th class="px-6 py-3 text-left text-base font-medium tracking-wider border-b border-gray-200">Total de Consultas</th>
+                                <th class="px-6 py-3 text-left text-base font-medium tracking-wider border-b border-gray-200">Porcentaje de Pacientes</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -65,52 +65,17 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Total de Pacientes Registrados</h5>
-                    <p class="card-text">{{ $totalPacientes }}</p>
+                    <p class="card-text text-dark">{{ $totalPacientes }}</p>
                 </div>
             </div>
 
             <!-- Gráficos -->
-            <div class="card">
-                <div class="card-header">
-                    <h5 class="card-title">Distribución de Consultas por Enfermedad</h5>
-                </div>
-                <div class="card-body">
-                    <div class="chart-container">
-                        <canvas id="enfermedadesChart"></canvas>
-                    </div>
-                </div>
-            </div>
+           
         @endif
     </div>
 
     <!-- Incluye Bootstrap JS y Popper.js -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-    <!-- Script para Chart.js -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var ctx = document.getElementById('enfermedadesChart').getContext('2d');
-            var enfermedadesChart = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: @json($enfermedades->keys()), // Etiquetas de enfermedades
-                    datasets: [{
-                        label: 'Total de Consultas',
-                        data: @json($enfermedades->values()), // Datos de consultas
-                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                        borderColor: 'rgba(75, 192, 192, 1)',
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    scales: {
-                        y: {
-                            beginAtZero: true
-                        }
-                    }
-                }
-            });
-        });
-    </script>
+   
 </body>
 </html>

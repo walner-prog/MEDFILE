@@ -84,6 +84,12 @@
                 
                         <div class="form-group">
                             <label for="" class="form-label">Permisos para este rol</label>
+                            <div class="form-check">
+                                {{ Form::checkbox('select_all', 'all', false, ['class' => 'form-check-input', 'id' => 'select_all']) }}
+                                <label class="form-check-label" for="select_all">
+                                    Seleccionar todos
+                                </label>
+                            </div>
                             <div class="row">
                                 @foreach($permission as $value)
                                     <div class="col-md-4 mb-3">
@@ -105,6 +111,9 @@
                         <button class="btn btn-info btn-block w-25" type="submit">Guardar</button>
                     </form>
                 </div>
+                
+               
+                
             </div>
         </div>
     </div>
@@ -123,6 +132,18 @@
     @stop
     
     
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const selectAllCheckbox = document.getElementById('select_all');
+            const permissionCheckboxes = document.querySelectorAll('input[name="permission[]"]');
+        
+            selectAllCheckbox.addEventListener('change', function() {
+                permissionCheckboxes.forEach(checkbox => {
+                    checkbox.checked = selectAllCheckbox.checked;
+                });
+            });
+        });
+        </script>
 </body>
 </html>
 

@@ -2,7 +2,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-" crossorigin="anonymous" />
 <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap5.min.css">
 
-@section('content')
+
 @section('content')
 <div class="container">
 
@@ -25,9 +25,13 @@
     </style>
 
     <div class="card">
-        <div class="card-header bg-primary text-white">
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
             <h4><i class="fa-solid fa-hospital-user fa-2x mb-1"></i> Registro de Identificación del Paciente</h4>
+            
+
         </div>
+        
+        
         <div class="card-body">
             <div class="row text-dark  border border-1 border-info">
                 <div class="col-md-6">
@@ -74,6 +78,18 @@
                         <div class="col-sm-4 font-weight-bold">Dirección:</div>
                         <div class="col-sm-8">{{ $paciente->direccion }}</div>
                     </div>
+                    <div class="row mb-2 p-2 ">
+                        <div class="col-sm-4 font-weight-bold">Foto:</div>
+                        <div class="col-sm-8">
+                            
+                            @if($paciente->foto)
+                            <img src="{{ asset('images/' . $paciente->foto) }}" alt="Foto de Paciente" width="150">
+                             @else
+                            <p>No hay foto disponible</p>
+                           @endif
+                        </div>
+                    </div>
+                   
                 </div>
             </div>
 
@@ -179,6 +195,10 @@
                 <div class="col-sm-4 font-weight-bold">Última Actualización:</div>
                 <div class="col-sm-8">{{ $paciente->updated_at->format('d-m-Y') }}</div>
             </div>
+                    
+           
+
+
 
             <div class="text-center mt-3">
               
@@ -211,7 +231,7 @@
                                 @endforeach
                             </ul>
                         @else
-                            <p>No hay registros de admisión o egreso disponibles.</p>
+                            <p class=" text-white">No hay registros de admisión o egreso disponibles.</p>
                         @endif
                           <br>
                         @if($registroMasReciente)
@@ -256,7 +276,7 @@
                             @endforeach
                         </ul>
                     @else
-                        <p>No hay registros de Registros de Historias Clinicas.</p>
+                        <p class=" text-white">No hay registros de Registros de Historias Clinicas.</p>
                     @endif
                     <br>
 

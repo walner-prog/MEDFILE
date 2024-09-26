@@ -91,34 +91,27 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul id="data-nav" class="nav nav-pills">
+                <ul id="data-nav" class="nav nav-pills ">
                     <li class="nav-item">
-                        <a class="nav-link active" data-target="pacientes_por_ciudad_enfermedad">Enfermedad con Más Pacientes por ciuddad</a>
+                        <a class="nav-link active text-white" data-target="pacientes_por_ciudad_enfermedad">Enfermedad con Más Pacientes por ciuddad</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" data-target="pacientes_recientes">Pacientes Recientes</a>
+                        <a class="nav-link text-white" data-target="pacientes_recientes">Pacientes Recientes</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" data-target="pacientes_por_enfermedad">Pacientes por Enfermedad</a>
+                        <a class="nav-link text-white" data-target="pacientes_por_enfermedad">Pacientes por Enfermedad</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" data-target="enfermedades_con_pacientes">Enfermedades con Pacientes</a>
+                        <a class="nav-link text-white" data-target="enfermedades_con_pacientes">Enfermedades con Pacientes</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" data-target="ciudades_con_pacientes">Ciudades con Pacientes</a>
+                        <a class="nav-link text-white" data-target="ciudades_con_pacientes">Ciudades con Pacientes</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" data-target="consulta_total_por_enfermedad">Consulta Total por Enfermedad</a>
+                        <a class="nav-link text-white" data-target="consulta_total_por_enfermedad">Consulta Total por Enfermedad</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-target="promedio_consultas_general">Promedio Consultas General</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-target="pacientes_con_promedio_consultas">Pacientes con Promedio Consultas</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-target="promedio_consultas_por_enfermedad">Promedio Consultas por Enfermedad</a>
-                    </li>
+                    
+                   
                 </ul>
             </div>
         </nav>
@@ -130,31 +123,6 @@
     
 
    
-
-
-    <p>Edad Promedio: {{ $averageAge }} años</p>
-
-
-    <h1>Cantidad de pacientes por medico</h1>
-     @foreach ($medicos as $medico)
-       <p>Médico: {{ $medico->primer_nombre }}
-        {{ $medico->primer_apellido }} - Pacientes: {{ $medico->pacientes_count }}</p>
-     @endforeach
-
-
-     <h1>Pacientes con Edad en el Percentil 25 a 75</h1>
-     <p>Percentil 25: {{ $percentile25 }}</p>
-     <p>Percentil 75: {{ $percentile75 }}</p>
-     
-     @if($pacientes->count())
-         @foreach ($pacientes as $paciente)
-             <p>{{ $paciente->primer_nombre }} {{ $paciente->primer_apellido }} - Edad: {{ now()->diffInYears($paciente->fecha_nacimiento) }}</p>
-         @endforeach
-     
-      
-     @else
-         <p>No se encontraron pacientes en el rango de edad especificado.</p>
-     @endif
  
 </div>
 

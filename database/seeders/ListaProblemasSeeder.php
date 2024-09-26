@@ -14,6 +14,6 @@ class ListaProblemasSeeder extends Seeder
      */
     public function run()
     {
-        ListaProblema::factory()->count(15)->create();
+        ListaProblema::factory()->count(50)->create();
     }
 }

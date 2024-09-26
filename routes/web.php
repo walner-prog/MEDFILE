@@ -32,7 +32,12 @@ use App\Http\Controllers\EspecialidadesController;
 use App\Http\Controllers\DepartamentosController;
 use App\Http\Controllers\CitaController;
 use App\Http\Controllers\HorarioDoctorController;
+use App\Http\Controllers\ExcepcionController;
+use App\Http\Controllers\WebController;
 
+Route::resource('welcome', WebController::class);
+Route::get('horarios-consultorio/{id}', [WebController::class, 'horarios_doctor_consultorio'])
+    ->name('horarios-consultorio');
 
 
 
@@ -40,6 +45,8 @@ use App\Http\Controllers\HorarioDoctorController;
 Route::get('/api/pacientes/citas', [PacienteController::class, 'getPacientescitas']);
 Route::get('/api/doctores/citas', [DoctoresController::class, 'getDoctorescitas']);
 Route::get('/api/especialidades/citas', [EspecialidadesController::class, 'getEspecialidadescitas']);
+
+
 
 
 Route::get('/', function () {
@@ -109,12 +116,14 @@ Route::get('/ventas/{venta}/print-pdf', 'App\Http\Controllers\VentaController@pr
 
 
 
-Route::resource('pacientes', PacienteController::class);
-Route::get('/pacientes/{paciente}', [PacienteController::class, 'show'])->name('pacientes.show');
+
+Route::resource('pacientes', PacienteController::class)->middleware('permission:ver-paciente');
+Route::get('/pacientes/{no_expediente}', [PacienteController::class, 'show'])->name('pacientes.show');
+
 Route::get('/api/pacientes/{id}', [PacienteController::class, 'getPaciente'])->name('pacientes.getPaciente');
 Route::get('/buscar-paciente', [PacienteController::class, 'buscarPaciente'])->name('buscarPaciente');
  
- Route::get('/pacientes/{id}/edit', [PacienteController::class, 'edit'])->name('pacientes.edit');
+// Route::get('/pacientes/{id}/edit', [PacienteController::class, 'edit'])->name('pacientes.edit');
 
 Route::get('/pacientes/{id}/pdf', [PacienteController::class, 'download'])->name('pacientes.pdf');
 
@@ -130,14 +139,14 @@ Route::get('/pacientes/{id}/historia_clinica', function($id) {
         return redirect()->back()->with('error', 'Este paciente no tiene una historia clínica.');
     }
 });
-Route::get('pacientes_por_enfermedad', [PacienteController::class, 'getPacientesPorEnfermedad']);
-Route::get('pacientes_por_ciudad_enfermedad', [PacienteController::class, 'filtrarPacientesPorCiudadYEnfermedad']);
-Route::get('enfermedades_con_pacientes', [PacienteController::class, 'getEnfermedadesConPacientes']);
-Route::get('ciudades_con_pacientes', [PacienteController::class, 'getCiudadesConPacientes']);
-Route::get('consulta_total_por_enfermedad', [PacienteController::class, 'getConsultaTotalPorEnfermedad']);
-Route::get('promedio_consultas_general', [PacienteController::class, 'getPromedioConsultasGeneral']);
-Route::get('pacientes_con_promedio_consultas', [PacienteController::class, 'getPacientesConPromedioConsultas']);
-Route::get('promedio_consultas_por_enfermedad', [PacienteController::class, 'getPromedioConsultasPorEnfermedad']);
+Route::get('pacientes_por_enfermedad', [PacienteController::class, 'getPacientesPorEnfermedad'])->middleware('permission:ver-paciente');
+Route::get('pacientes_por_ciudad_enfermedad', [PacienteController::class, 'filtrarPacientesPorCiudadYEnfermedad'])->middleware('permission:ver-paciente');
+Route::get('enfermedades_con_pacientes', [PacienteController::class, 'getEnfermedadesConPacientes'])->middleware('permission:ver-paciente');
+Route::get('ciudades_con_pacientes', [PacienteController::class, 'getCiudadesConPacientes'])->middleware('permission:ver-paciente');
+Route::get('consulta_total_por_enfermedad', [PacienteController::class, 'getConsultaTotalPorEnfermedad'])->middleware('permission:ver-paciente');
+Route::get('promedio_consultas_general', [PacienteController::class, 'getPromedioConsultasGeneral'])->middleware('permission:ver-paciente');
+Route::get('pacientes_con_promedio_consultas', [PacienteController::class, 'getPacientesConPromedioConsultas'])->middleware('permission:ver-paciente');
+Route::get('promedio_consultas_por_enfermedad', [PacienteController::class, 'getPromedioConsultasPorEnfermedad'])->middleware('permission:ver-paciente');
 
 
 Route::get('pacientes_calculos', [PacienteController::class, 'calculosPacientes'])->name('pacientes.calculos');
@@ -153,10 +162,22 @@ Route::resource('lista_problemas', ListaProblemasController::class);
 
 
 Route::get('/api/historia_clinica/{id}', [HistoriaClinica::class, 'gethistoria_clinica'])->name('historias_clinicas.gethistoria_clinica');
-Route::resource('historias_clinicas', HistoriaClinicaController::class);
+//Route::resource('historias_clinicas', HistoriaClinicaController::class);
+
+
+//Route::middleware(['role:admin'])->group(function () { Route::resource('historias_clinicas', HistoriaClinicaController::class);});
+
+//Route::middleware('can:ver-historia-clinica')->group(function () {Route::resource('historias_clinicas', HistoriaClinicaController::class);});
+
+
+Route::resource('historias_clinicas', HistoriaClinicaController::class) ->middleware('permission:ver-historia-clinica');
+
+//Route::group(['middleware' => 'permission:ver-historia-clinica'], function () { Route::resource('historias_clinicas', HistoriaClinicaController::class);});
+
 Route::get('historias_clinicas/{id}', [HistoriaClinicaController::class, 'show'])->name('historias_clinicas.show');
 
 Route::get('/api/historias-clinicas/comprobar/{pacienteId}', [HistoriaClinicaController::class, 'comprobarHistoriaClinica']);
+Route::get('historias_clinicas/{id}/pdf', 'App\Http\Controllers\HistoriaClinicaController@generatePdf')->name('historias_clinicas.pdf');
 
 
 
@@ -227,9 +248,19 @@ Route::resource('departamentos', DepartamentosController::class)->middleware([
 
 Route::resource('citas', CitaController::class);
 
+Route::post('/citas/verificar-disponibilidad', [CitaController::class, 'verificarDisponibilidad'])->name('citas.verificar_disponibilidad');
+Route::post('/citas/obtener-horarios-disponibles', [CitaController::class, 'obtenerHorariosDisponibles'])->name('citas.obtenerHorariosDisponibles');
+Route::get('horarios-citas-consultorio/{id}', [CitaController::class, 'horarios_citas_consultorio'])
+    ->name('horarios-citas-consultorio');
 
-Route::resource('horarios-doctor', HorarioDoctorController::class);
 
+Route::resource('horarios-doctor', HorarioDoctorController::class)->names('horarios-doctor');
+Route::get('horarios-doctor-consultorio/{id}', [HorarioDoctorController::class, 'horarios_doctor_consultorio'])
+    ->name('horarios-doctor-consultorio');
 Route::get('/horarios', [HorarioDoctorController::class, 'getHorarios']);
-
 Route::get('/horarios_disponibles', [HorarioDoctorController::class, 'horariosDisponibles']);
+
+
+
+Route::resource('excepciones', ExcepcionController::class);
+

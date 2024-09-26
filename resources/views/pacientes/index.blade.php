@@ -69,12 +69,12 @@
         </div>
         
     </div>
-    
+   
     
      
       <div class="row">
         <div class="col-lg-2">
-            @can('create', App\Models\Paciente::class)
+            @can('crear-paciente', App\Models\Paciente::class)
             <button class="btn btn-indigo mb-3" data-toggle="modal" data-target="#createPacienteForm">
                 <i class="fas fa-plus"></i> Crear Paciente
             </button>
@@ -116,42 +116,17 @@
       @endif
     
      
+      @can('ver-paciente')
+      <!-- Código o vista para ver un paciente -->
       
-    
       @livewire('pacientes')
+     @endcan
+  
+    
   
  
 
-<!-- Modal único -->
-<div class="modal fade" id="editPacienteModal" tabindex="-1" role="dialog" aria-labelledby="editPacienteModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
-    <div class="modal-dialog modal-xl" role="document">
-        <div class="modal-content">
-            <div class="modal-header bg-primary">
-                <h5 class="modal-title text-white" id="editPacienteModalLabel">Editar Paciente</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <form id="editPacienteForm" method="POST">
-                @csrf
-                @method('PUT')
-                <div class="modal-body">
-                    <!-- Los campos del formulario aquí -->
-                    <!-- Ejemplo: -->
-                    <div class="form-group">
-                        <label for="no_expediente">No. Expediente</label>
-                        <input type="text" class="form-control" id="no_expediente" name="no_expediente" required>
-                    </div>
-                    <!-- Más campos -->
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                    <button type="submit" class="btn btn-primary">Guardar cambios</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
+
 
       
 <div class="modal fade" id="createPacienteForm" tabindex="-1" role="dialog" aria-labelledby="createPacienteModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
@@ -163,7 +138,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="{{ route('pacientes.store') }}" method="POST">
+            <form action="{{ route('pacientes.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="modal-body">
                     <div class="row">
@@ -479,6 +454,16 @@
                                 @endif
                             </div>
                         </div>
+                        <div class="col-lg-3">
+                            <div class="form-group">
+                                <label for="foto">Foto (Tamaño carnet)</label>
+                                <input type="file" class="form-control" name="foto" accept="image/*">
+                                @if ($errors->has('foto'))
+                                    <div class="text-danger">{{ $errors->first('foto') }}</div>
+                                @endif
+                            </div>
+                        </div>
+                        
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -540,35 +525,44 @@ $(document).ready(function() {
         serverSide: true,
         ajax: "{{ url('api/pacientes') }}",
         columns: [
-            { data: 'id' },
-            { data: 'no_expediente',
-                render: function (data, type, row) {
-                 return `<span class="text-primary font-weight-bold">${data}</span> <span class="badge badge-info">EXP</span>`;
-               },
-            },
+    { data: 'id' },
+    { data: 'foto', 
+        render: function(data, type, row) {
+            if (data) {
+                return `<img src="/images/${data}" alt="Foto del Paciente" class=" mr-1" style="width: 50px; height: 50px; border-radius: 50%;">`;
+            } else {
+                return ` <i class="fa-solid fa-hospital-user fa-2x  font-weight-bold ml-1" </i>`;
+            }
+        },
+        orderable: false, searchable: false
+    },
+    { data: 'no_expediente',
+        render: function (data, type, row) {
+            return `<span class="text-primary font-weight-bold">${data}</span> <span class="badge badge-info">EXP</span>`;
+        },
+    },
+    { data: 'primer_nombre',
+        render: function (data, type, row) {
+            return `<span class="font-weight-bold">${data}</span>`;
+        },
+    },
+    { data: 'segundo_nombre' },
+    { data: 'primer_apellido' },
+    { data: 'segundo_apellido' },
+    { data: 'no_cedula',
+        render: function (data, type, row) {
+            return `<span class="text-danger font-weight-bold">${data}</span>`;
+        },
+    },
+    { data: 'edad',
+        render: function (data, type, row) {
+            return `<span class="text-success font-weight-bold">${data}</span>`;
+        },
+    },
+   
+    { data: 'btn', orderable: false, searchable: false }
+],
 
-            { data: 'primer_nombre',
-                    render: function (data, type, row) {
-                     return ` <span class=" font-weight-bold">${data}</span> `;
-                  },
-            },
-
-            { data: 'segundo_nombre' },
-            { data: 'primer_apellido' },
-            { data: 'segundo_apellido' },
-            { data: 'no_cedula',
-                render: function (data, type, row) {
-                 return `<span class="text-danger font-weight-bold">${data}</span> `;
-               },
-            },
-         
-            { data: 'edad',
-                render: function (data, type, row) {
-                 return `<span class="text-success font-weight-bold">${data}</span> `;
-               },
-            },
-            { data: 'btn', orderable: false, searchable: false }
-        ],
         language: {
             search: "Buscar ",
             lengthMenu: "Mostrar _MENU_ registros por página",
@@ -714,29 +708,7 @@ $(document).ready(function() {
 });
 
 
-    document.addEventListener('DOMContentLoaded', function () {
-        function showAlert(message, icon, type) {
-            Swal.fire({
-                title: message,
-                icon: icon,
-                showCancelButton: false,
-                confirmButtonColor: '#3085d6',
-                confirmButtonText: 'Aceptar'
-            });
-        }
-
-        @if(session('info'))
-            showAlert('{{ session('info') }}', 'success', 'success');
-        @endif
-
-        @if(session('update'))
-            showAlert('{{ session('update') }}', 'info', 'info');
-        @endif
-
-        @if(session('delete'))
-            showAlert('{{ session('delete') }}', 'error', 'error');
-        @endif
-    });
+    
     
   </script>
   @stop

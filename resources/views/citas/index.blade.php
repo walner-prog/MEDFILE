@@ -2,18 +2,12 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-" crossorigin="anonymous" />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-" crossorigin="anonymous" />
-         <!-- Agrega esto en la sección head de tu HTML -->
-           <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" integrity="sha512-TCJ6FYD6dMj4wsiWZz6swnVMqB5RW2MaebusGM1h8zE3DlX5C4sG5ndooMU2t7pLzYl5GmMKa9oB/njpy5Ul9w==" crossorigin="anonymous" />
-              <!-- Otros encabezados -->
-    
+       
     @section('css')
     <link rel="stylesheet" href="{{ asset('css/admin_custom.css') }}">
       <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
     
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+   
       <link rel="stylesheet" href="https://cdn.datatables.net/select/1.4.0/css/select.dataTables.min.css">
      
       @livewireStyles
@@ -98,7 +92,7 @@
     @endif
 
     <div class="table-responsive">
-        <table id="citasTable" class="min-w-full border border-gray-300 shadow-md rounded-lg p-2">
+        <table id="citasTable" class="min-w-full w-100 border border-gray-300 shadow-md rounded-lg p-2">
             <thead class="from-green-500 to-green-600 text-white">
                 <tr>
                     <th class="px-6 py-3 text-left text-base font-medium tracking-wider border-b border-gray-200">ID</th>
@@ -117,6 +111,86 @@
             </tbody>
         </table>
     </div>
+
+     
+    <div class="row">
+
+        <div class="col-lg-12 mt-5">
+
+            <div class="card">
+                <div class=" card-header from-green-500 to-green-600 text-white text-center  p-2">
+                    <h3 class="text-lg font-semibold card-title ">Calendario de Atención de Doctores</h3>
+                </div>
+                <div class="card-body">
+                    <div class="col-lg-4">
+                        <div class="form-group">
+                            <label for="consultorio_id">Consultorio</label>
+                            <select class="form-control" id="consultorio_select" name="consultorio_id" required>
+                                <option value="">Selecciona un consultorio</option>
+                                @foreach ($consultorios as $consultorio)
+                                    <option value="{{ $consultorio->id }}">
+                                        {{  $consultorio->nombre . "- Ubicacion: ". $consultorio->ubicacion }} 
+                                    </option>
+                                @endforeach
+                            </select>
+                            @if ($errors->has('consultorio_id'))
+                                <div class="text-danger">{{ $errors->first('consultorio_id') }}</div>
+                            @endif
+                        </div>
+                       
+                    </div>
+                        
+                    <div class=" text-white" id="consultorio_info"></div>
+                   
+                    <hr>
+                    <div class="overflow-x-auto">
+                        
+                    </div>
+                    
+                </div>
+            </div>
+            
+    
+        </div>
+    
+
+        <div class="col-lg-12 mt-5">
+
+            <div class="card">
+                <div class=" card-header from-green-500 to-green-600 text-white text-center  p-2">
+                    <h3 class="text-lg font-semibold card-title ">Calendario de Reservas de citas medicas </h3>
+                </div>
+                <div class="card-body">
+                    <div class="col-lg-4">
+                        <div class="form-group">
+                            <label for="consultorio_id">Consultorio</label>
+                            <select class="form-control" id="consultorio_select" name="consultorio_id" required>
+                                <option value="">Selecciona un consultorio</option>
+                                @foreach ($consultorios as $consultorio)
+                                    <option value="{{ $consultorio->id }}">
+                                        {{  $consultorio->nombre . "- Ubicacion: ". $consultorio->ubicacion }} 
+                                    </option>
+                                @endforeach
+                            </select>
+                            @if ($errors->has('consultorio_id'))
+                                <div class="text-danger">{{ $errors->first('consultorio_id') }}</div>
+                            @endif
+                        </div>
+                       
+                    </div>
+
+                     <div class="col-lg-">
+                        <div id='calendar'></div>
+                     </div>
+                   
+                    
+                </div>
+            </div>
+            
+
+        </div>
+    </div>
+   
 
     <!-- Modal para crear citas -->
     <div class="modal fade" id="createCitaForm" tabindex="-1" role="dialog" aria-labelledby="createCitaFormModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
@@ -164,7 +238,7 @@
                 </div>
                 
                 <div class="modal-body">
-                    <form action="{{ route('citas.store') }}" method="POST">
+                    <form action="{{ route('citas.store') }}" method="POST" id="citaForm">
                         @csrf
                     
                         <div class="row">
@@ -225,7 +299,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="especialidad_id" class="font-weight-bold">Especialidad <span class="text-danger">*</span></label>
-                                    <select class="form-control" id="especialidad_id" name="especialidad_id" required>
+                                    <select class="form-control" id="especialidad_id" name="especialidad_id" >
                                         {{-- Opciones dinámicas de especialidades --}}
                                     </select>
                                     @if ($errors->has('especialidad_id'))
@@ -250,14 +324,13 @@
                         <!-- Hora de la Cita -->
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="hora_cita" class="font-weight-bold">Hora <span class="text-danger">*</span></label>
-                                <select class="form-control" id="hora_cita" name="hora_cita" required>
-                                    <!-- Opciones de horas se llenarán dinámicamente -->
-                                </select>
+                                <label for="hora_cita" class="font-weight-bold">Hora de la cita <span class="text-danger">*</span></label>
+                                <input type="time" class="form-control" id="hora_cita" name="hora_cita" required>
                                 @if ($errors->has('hora_cita'))
                                     <div class="text-danger">{{ $errors->first('hora_cita') }}</div>
                                 @endif
                             </div>
+                            <div id="horariosDisponibles"></div>
                         </div>
                     </div>
 
@@ -297,14 +370,46 @@
 
                     <!-- Descripción de la Cita -->
                     <div class="row">
-                        <div class="col-12">
+                        <div class="col-10">
                             <div class="form-group">
                                 <label for="descripcion_cita" class="font-weight-bold">Descripción</label>
                                 <textarea class="form-control" id="descripcion_cita" name="descripcion_cita" rows="3"></textarea>
                             </div>
                         </div>
+                         <!-- Hora de la Cita -->
+                         <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="duracion" class="font-weight-bold">Duarcion de la cita <span class="text-danger">*</span></label>
+                                <input type="number" class="form-control" id="duracion" name="duracion" required>
+                                @if ($errors->has('duracion'))
+                                    <div class="text-danger">{{ $errors->first('duracion') }}</div>
+                                @endif
+                            </div>
+                        </div>
                     </div>
-
+                      
+                    <div class="ro">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="fecha_reserva" class="font-weight-bold">Fecha de Reserva <span class="text-danger">*</span></label>
+                                <input type="date" class="form-control" id="fecha_cita" name="fecha_cita" value="{{ old('fecha_cita') }}" required>
+                                @if ($errors->has('fecha_reserva'))
+                                    <div class="text-danger">{{ $errors->first('fecha_reserva') }}</div>
+                                @endif
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="hora_reserva" class="font-weight-bold">Hora de Reserva <span class="text-danger">*</span></label>
+                                <input type="time" class="form-control" id="hora_cita" name="hora_cita" value="{{ old('hora_cita') }}" required>
+                                @if ($errors->has('hora_reserva'))
+                                    <div class="text-danger">{{ $errors->first('hora_reserva') }}</div>
+                                @endif
+                            </div>
+                        </div>
+                        
+                    </div>
                     <!-- Botones de Acción -->
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
@@ -316,6 +421,7 @@
             </div>
         </div>
     </div>
+    
 </div>
 @stop
 
@@ -525,31 +631,6 @@ $(document).ready(function() {
 });
 
 
-document.addEventListener('DOMContentLoaded', function () {
-    function showAlert(message, icon, type) {
-        Swal.fire({
-            title: message,
-            icon: icon,
-            showCancelButton: false,
-            confirmButtonColor: '#3085d6',
-            confirmButtonText: 'Aceptar'
-        });
-    }
-
-    @if(session('info'))
-        showAlert('{{ session('info') }}', 'success', 'success');
-    @endif
-
-    @if(session('update'))
-        showAlert('{{ session('update') }}', 'info', 'info');
-    @endif
-
-    @if(session('delete'))
-        showAlert('{{ session('delete') }}', 'error', 'error');
-    @endif
-});
-
-
 $(document).ready(function() {
     // Función para cargar los pacientes
   
@@ -599,6 +680,130 @@ $(document).ready(function() {
 
 
 
+
+
+document.getElementById('fecha_cita').addEventListener('change', function() {
+        const doctorId = document.getElementById('doctor_id').value;
+        const fechaCita = document.getElementById('fecha_cita').value;
+
+        if (doctorId && fechaCita) {
+            fetch('/citas/obtener-horarios-disponibles', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+                body: JSON.stringify({ doctor_id: doctorId, fecha_cita: fechaCita })
+            })
+            .then(response => response.json())
+            .then(data => {
+                const horariosDiv = document.getElementById('horariosDisponibles');
+                horariosDiv.innerHTML = '';
+
+                if (data.horarios.length > 0) {
+                    data.horarios.forEach(horario => {
+                        const horarioItem = document.createElement('p');
+                        horarioItem.textContent = horario;
+                        horariosDiv.appendChild(horarioItem);
+                    });
+                } else {
+                    horariosDiv.innerHTML = '<p>No hay horarios disponibles para esta fecha.</p>';
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    });
+
+</script>
+   
+<script>
+    $('#consultorio_select').on('change', function () {
+         var consultorio_id = $('#consultorio_select').val();
+         //alert(consultorio_id);
+ 
+         var url = "{{ route('horarios-citas-consultorio', ':id') }}";
+         url = url.replace(':id', consultorio_id);
+ 
+         if (consultorio_id) {
+             $.ajax({
+                 url: url,
+                 type: 'GET',
+                 success: function (data) {
+                     $('#consultorio_info').html(data);
+                 },
+                 error: function () {
+                     alert('Error al obtener los datos del consultorio');
+                 }
+             });
+         } else {
+             $('#consultorio_info').html('');
+         }
+     });
+ 
+ </script>
+  <script>
+
+    document.addEventListener('DOMContentLoaded', function() {
+      var calendarEl = document.getElementById('calendar');
+      var calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+        locale: 'es',
+        events:[
+            {
+                
+            }
+        ]
+
+      });
+      calendar.render();
+    });
+
+  </script>
+
+<script>
+    document.addEventListener('DOMContentLoaded',function (){
+        const fechaReservaInput=document.getElementById('fecha_cita');
+
+        //Escuchar el evento de cambio en el campo de fecha reserva
+        fechaReservaInput.addEventListener('change',function (){
+            let selectedDate=this.value;//Obtener la Fecha seleccionada
+            //Obtener la fecha actual en formato ISO (yyyy-mm-dd)
+            let today=new Date().toISOString().slice(0,10);
+            //Verificar si la fecha seleccionada es anterior a la fecha actual
+            if (selectedDate < today){
+                //Si es así, establecer la fecha seleccionada en null
+                this.value=null;
+                alert ('No se puede reservar en una fecha pasada.');
+            }
+        });
+    });
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const horaReservaInput = document.getElementById('hora_cita');
+
+        horaReservaInput.addEventListener('change', function () {
+            let selectedTime = this.value; // Obtener el valor de la hora seleccionada
+
+            // Asegurar que solo se capture la parte de la hora
+            if (selectedTime) {
+                selectedTime = selectedTime.split(':'); // Dividir la cadena en horas y minutos
+                selectedTime = selectedTime[0] + ':00'; // Conservar solo la hora, ignorar los minutos
+                this.value = selectedTime; // Establecer la hora modificada en el campo de entrada
+            }
+
+            // Verificar si la hora seleccionada está fuera del rango permitido
+            if (selectedTime < '08:00' || selectedTime > '20:00') {
+                // Si es así, establecer la hora seleccionada en null
+                this.value = null;
+                alert('Por favor, seleccione una hora entre las 08:00 y las 20:00.');
+            }
+        });
+    });
+</script>
+
+<script>
+    
 $(document).ready(function() {
      $('#paciente_id').change(function() {
         var pacienteId = $(this).val();
@@ -776,11 +981,8 @@ $(document).ready(function() {
     }
 });
 
-
-
-
-
 </script>
+
 @stop
     
 </body>

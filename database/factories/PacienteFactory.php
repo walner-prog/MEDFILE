@@ -117,7 +117,7 @@ class PacienteFactory extends Factory
             'categoria' => $this->faker->randomElement($categorias),
             'no_inss' => $this->faker->unique()->numerify('##########'),
             'estado_civil' => $this->faker->randomElement($estados_civiles),
-         'escolaridad' => $this->faker->randomElement($escolaridad),
+            'escolaridad' => $this->faker->randomElement($escolaridad),
 
             'ocupacion' => $this->faker->word,
             'direccion_residencia' => $this->faker->randomElement($direccionOptions),

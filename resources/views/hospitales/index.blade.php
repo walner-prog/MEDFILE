@@ -65,7 +65,7 @@
      <div class="row">
       
       <div class="col-lg-4">
-        @can('crear-configuracion')
+        @can('crear-hospital')
         <button class="btn btn-info mb-3" data-toggle="modal" data-target="#createHospitalModal"> Configuración del Hospital</button>
         @endcan
       </div>
@@ -95,7 +95,10 @@
             </div>
         </div>
     </div>
-
+    
+    
+    @can('ver-hospital')
+    <!-- Código o vista para ver un hospital -->
     <div class="row">
         @foreach ($hospitales as $hospital)
         <div class="col-md-10 mb-4">
@@ -111,13 +114,15 @@
                     <p class="card-text text-dark"><strong>Número de Camas:</strong> {{ $hospital->numero_camas }}</p>
                     <p class="card-text text-dark"><strong>Nivel de Atención:</strong> {{ $hospital->nivel_atencion }}</p>
                 </div>
-                     @can('editar-configuracion')
+                     @can('editar-hospital')
                  <div class="row p-2">
                      <div class="col-2 p-2 ">
                        <button class="btn btn-info" data-toggle="modal" data-target="#editHospitalModal{{ $hospital->id }}">
                          Editar
                        </button>
                       </div>
+                      @endcan
+                      @can('borrar-hospital')
                      <div class="col-2 p-2 ">
                        <form action="{{ route('hospitales.destroy', $hospital->id) }}" method="POST" style="display: inline;">
                         @csrf
@@ -127,16 +132,19 @@
                          </button>
                        </form>
                     </div>
+                    @endcan
                  </div>
-                  @endcan
+              
             </div>
         </div>
         @endforeach
 
     </div>
+    @endcan
+
 
           <!-- Modal para Crear Configuración Hospitalaria -->
-        @can('crear-configuracion')
+        @can('crear-hospital')
        <div class="modal fade" id="createHospitalModal" tabindex="-1" role="dialog" aria-labelledby="createHospitalModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
@@ -209,9 +217,9 @@
        @endcan
 
        <!-- Modal para Editar Configuración Hospitalaria -->
-         @can('editar-configuracion')
+         @can('editar-hospital')
       @foreach ($hospitales as $hospital)
-    <div class="modal fade" id="editHospitalModal{{ $hospital->id }}" tabindex="-1" role="dialog" aria-labelledby="editHospitalModalLabel{{ $hospital->id }}" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+  <div class="modal fade" id="editHospitalModal{{ $hospital->id }}" tabindex="-1" role="dialog" aria-labelledby="editHospitalModalLabel{{ $hospital->id }}" aria-hidden="true" data-backdrop="static" data-keyboard="false">
         <div class="modal-dialog modal-xl" role="document">
          <div class="modal-content">
             <div class="modal-header btn-primary">
@@ -230,7 +238,7 @@
                     @method('PUT') <!-- Use PUT method for updating -->
 
                    <div class="row">
-    <div class="form-group col-4">
+      <div class="form-group col-4">
         <label for="nombre_hospital">Nombre del Hospital <span class="text-danger">*</span></label>
         <input type="text" class="form-control @error('nombre_hospital') is-invalid @enderror" name="nombre_hospital" value="{{ old('nombre_hospital', $hospital->nombre_hospital) }}" required>
         @error('nombre_hospital')
@@ -348,30 +356,6 @@
   <script>
 
    
-
-    document.addEventListener('DOMContentLoaded', function () {
-        function showAlert(message, icon, type) {
-            Swal.fire({
-                title: message,
-                icon: icon,
-                showCancelButton: false,
-                confirmButtonColor: '#3085d6',
-                confirmButtonText: 'Aceptar'
-            });
-        }
-
-        @if(session('info'))
-            showAlert('{{ session('info') }}', 'success', 'success');
-        @endif
-
-        @if(session('update'))
-            showAlert('{{ session('update') }}', 'info', 'info');
-        @endif
-
-        @if(session('delete'))
-            showAlert('{{ session('delete') }}', 'error', 'error');
-        @endif
-    });
 
   </script>
   @stop

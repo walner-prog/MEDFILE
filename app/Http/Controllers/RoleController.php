@@ -46,7 +46,10 @@ class RoleController extends Controller
     public function show($id)
     {
         $role = Role::with('permissions')->findOrFail($id);
-        return view('roles.show', compact('role'));
+        $totalPermissions = $role->permissions->count();
+        $totalPermissions = Permission::count(); // Contar todos los permisos disponibles
+        $assignedPermissionsCount = $role->permissions->count(); // Contar permisos asignados al rol
+        return view('roles.show', compact('role','totalPermissions','assignedPermissionsCount'));
     }
     
     public function edit($id)

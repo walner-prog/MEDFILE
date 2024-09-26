@@ -28,7 +28,7 @@ class DoctorSeeder extends Seeder
                 'foto' => 'public/images/carlos_gonzalez.jpg',
                 'fecha_nacimiento' => '1970-05-10',
                 'sexo' => 'M',
-                'usuario_id' => 31,
+                'usuario_id' => 1,
             ],
             [
                 'codigo' => '00002',

@@ -17,14 +17,15 @@ class SeederTablaPermisos extends Seeder
     {
         // Definimos los permisos correspondientes a las rutas
         $permisos = [
-            // Rutas para buscar usuario
-            'ver-buscar-usuario',
-            'ver-usuario-api',
+            
 
             // Rutas para el perfil del usuario
             'ver-perfil',
             'editar-perfil',
-
+             
+            // Rutas para buscar usuario
+            'ver-buscar-usuario',
+            'ver-usuario-api',
             // Permisos para UsuarioController (resource)
             'ver-usuario',
             'crear-usuario',
@@ -60,8 +61,8 @@ class SeederTablaPermisos extends Seeder
             'borrar-hospital',
 
             // Rutas para manejo de ventas y PDF
-            'ver-venta-pdf',
-            'imprimir-venta-pdf',
+            'ver-historia-clinica-pdf',
+            'imprimir-historia-clinica-pdf',
 
             // Permisos para PacienteController (resource)
             'ver-paciente',
@@ -150,7 +151,7 @@ class SeederTablaPermisos extends Seeder
             'ver-especialidades-con-doctores',
             'ver-departamentos-con-doctores',
             'ver-consulta-total-por-especialidad',
-            'ver-promedio-consultas-general',
+           // 'ver-promedio-consultas-general',
             'ver-doctores-con-promedio-consultas',
             'ver-promedio-consultas-por-especialidad',
             'buscar-doctor',
@@ -168,7 +169,26 @@ class SeederTablaPermisos extends Seeder
             'crear-departamento',
             'editar-departamento',
             'borrar-departamento',
-         ];
+
+              // Permisos para citas
+        'ver-cita',
+         'crear-cita',
+       'editar-cita',
+        'borrar-cita',
+       'verificar-disponibilidad-cita',
+         'obtener-horarios-disponibles',
+        'ver-horarios-citas-consultorio',
+
+        'ver-horarios-doctor-consultorio',
+        'crear-horarios-doctor-consultorio',
+        'editar-horarios-doctor-consultorio',
+        'borrar-horarios-doctor-consultorio',
+       
+         'ver-horarios',
+        'ver-horarios-disponibles-doctor'
+
+        ];
+         
         
 
         // Creamos cada permiso en la base de datos

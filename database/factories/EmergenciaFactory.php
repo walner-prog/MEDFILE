@@ -1,5 +1,4 @@
 <?php
-
 namespace Database\Factories;
 
 use App\Models\Emergencia;
@@ -12,18 +11,21 @@ class EmergenciaFactory extends Factory
 
     public function definition()
     {
+        // Seleccionar un paciente al azar
+        $paciente = Paciente::inRandomOrder()->first();
+
         return [
-            'paciente_id' => Paciente::inRandomOrder()->first()->id, // Relación con la tabla pacientes
+            'paciente_id' => $paciente->id, // Relación con la tabla pacientes 
             'fecha' => $this->faker->date,
             'hora' => $this->faker->time,
-            'no_expediente' => $this->faker->word,
+            'no_expediente' => $paciente->no_expediente, // Tomar el dato del paciente seleccionado
             'unidad_salud' => $this->faker->company,
-            'primer_nombre' => $this->faker->firstName,
-            'segundo_nombre' => $this->faker->firstName,
-            'primer_apellido' => $this->faker->lastName,
-            'segundo_apellido' => $this->faker->lastName,
-            'edad' => $this->faker->numberBetween(0, 100),
-            'sexo' => $this->faker->randomElement(['M', 'F']),
+            'primer_nombre' => $paciente->primer_nombre, // Tomar el dato del paciente seleccionado
+            'segundo_nombre' => $paciente->segundo_nombre, // Tomar el dato del paciente seleccionado
+            'primer_apellido' => $paciente->primer_apellido, // Tomar el dato del paciente seleccionado
+            'segundo_apellido' => $paciente->segundo_apellido, // Tomar el dato del paciente seleccionado
+            'edad' => $paciente->edad, // Tomar el dato del paciente seleccionado
+            'sexo' => $paciente->sexo, // Tomar el dato del paciente seleccionado
             'sala_servicio' => $this->faker->word,
             'cama' => $this->faker->word,
             'ocupacion' => $this->faker->word,
@@ -31,8 +33,8 @@ class EmergenciaFactory extends Factory
             'localidad' => $this->faker->word,
             'departamento' => $this->faker->word,
             'telefono' => $this->faker->phoneNumber,
-            'no_inss' => $this->faker->word,
-            'no_cedula' => $this->faker->unique()->numerify('#########'),
+            'no_inss' => $paciente->no_inss, // Tomar el dato del paciente seleccionado
+            'no_cedula' => $paciente->no_cedula, // Tomar el dato del paciente seleccionado
             'medio_llegada' => $this->faker->word,
             'causa_accidente_violencia' => $this->faker->word,
             'causa_tratamiento' => $this->faker->word,

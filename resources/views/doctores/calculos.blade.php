@@ -96,31 +96,31 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul id="data-nav" class="nav nav-pills">
                     <li class="nav-item">
-                        <a class="nav-link active" data-target="doctores_especialidad_con_mas_doctores">Especialidad con Más Doctores</a>
+                        <a class="nav-link active text-white" data-target="doctores_especialidad_con_mas_doctores">Especialidad con Más Doctores</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" data-target="doctores_recientes">Doctores Recientes</a>
+                        <a class="nav-link  text-white" data-target="doctores_recientes">Doctores Recientes</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" data-target="doctores-por-especialidad">Doctores por Especialidad</a>
+                        <a class="nav-link  text-white" data-target="doctores-por-especialidad">Doctores por Especialidad</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" data-target="especialidades_con_doctores">Especialidades con Doctores</a>
+                        <a class="nav-link  text-white" data-target="especialidades_con_doctores">Especialidades con Doctores</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" data-target="departamentos_con_doctores">Departamentos con Doctores</a>
+                        <a class="nav-link  text-white" data-target="departamentos_con_doctores">Departamentos con Doctores</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" data-target="consulta_total_por_especialidad">Consulta Total por Especialidad</a>
+                        <a class="nav-link  text-white" data-target="consulta_total_por_especialidad">Consulta Total por Especialidad</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" data-target="promedio_consultas_general">Promedio Consultas General</a>
+                        <a class="nav-link  text-white" data-target="promedio_consultas_general">Promedio Consultas General</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" data-target="doctores_con_promedio_consultas">Doctores con Promedio Consultas</a>
+                        <a class="nav-link  text-white" data-target="doctores_con_promedio_consultas">Doctores con Promedio Consultas</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" data-target="promedio_consultas_por_especialidad">Promedio Consultas por Especialidad</a>
+                        <a class="nav-link  text-white" data-target="promedio_consultas_por_especialidad">Promedio Consultas por Especialidad</a>
                     </li>
                 </ul>
             </div>
@@ -134,37 +134,6 @@
     </div>
 
 
-    <div class="container">
-        <h1>Doctores con Menos de {{ $maxPatients }} Pacientes</h1>
-
-        @if($doctores->count())
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Nombre</th>
-                        <th>Especialidad</th>
-                        <th>Pacientes Asociados</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($doctores as $doctor)
-                        <tr>
-                            <td>{{ $doctor->id }}</td>
-                            <td>{{ $doctor->primer_nombre }} {{ $doctor->segundo_nombre }} {{ $doctor->primer_apellido }} {{ $doctor->segundo_apellido }}</td>
-                            <td>{{ $doctor->especialidad->nombre ?? 'No asignada' }}</td>
-                            <td>{{ $doctor->pacientes_count }}</td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-
-            <!-- Paginación -->
-            {{ $doctores->links() }}
-        @else
-            <p>No hay doctores con menos de {{ $maxPatients }} pacientes.</p>
-        @endif
-    </div>
 </div>
 
 

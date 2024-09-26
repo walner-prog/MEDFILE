@@ -1,8 +1,8 @@
 <?php
-
 namespace Database\Factories;
 
 use App\Models\RegistroAdmisionEgresoHospitalario;
+use App\Models\Paciente;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class RegistroAdmisionEgresoHospitalarioFactory extends Factory
@@ -11,27 +11,30 @@ class RegistroAdmisionEgresoHospitalarioFactory extends Factory
 
     public function definition()
     {
+        // Selecciona un paciente existente de la tabla 'pacientes'
+        $paciente = Paciente::inRandomOrder()->first();
+
         return [
-            'paciente_id' => \App\Models\Paciente::factory(),
+            'paciente_id' => $paciente->id, // Tomar el paciente ya existente
             'establecimiento_salud' => $this->faker->company,
-            'primer_nombre' => $this->faker->firstName,
-            'segundo_nombre' => $this->faker->firstName,
-            'primer_apellido' => $this->faker->lastName,
-            'segundo_apellido' => $this->faker->lastName,
-            'no_expediente' => $this->faker->numerify('EXP####'),
+            'primer_nombre' => $paciente->primer_nombre, // Tomar el dato del paciente seleccionado
+            'segundo_nombre' => $paciente->segundo_nombre, // Tomar el dato del paciente seleccionado
+            'primer_apellido' => $paciente->primer_apellido, // Tomar el dato del paciente seleccionado
+            'segundo_apellido' => $paciente->segundo_apellido, // Tomar el dato del paciente seleccionado
+            'no_expediente' => $paciente->no_expediente, // Tomar el dato del paciente seleccionado
             'nacionalidad' => $this->faker->country,
-            'no_cedula' => $this->faker->unique()->numerify('###########'),
+            'no_cedula' => $paciente->no_cedula, // Tomar el dato del paciente seleccionado
             'estado_civil' => $this->faker->randomElement(['Soltero', 'Casado', 'Divorciado', 'Viudo']),
             'escolaridad' => $this->faker->randomElement(['Primaria', 'Secundaria', 'Universitaria']),
             'categoria_paciente' => $this->faker->randomElement(['Adulto', 'Niño', 'Anciano']),
-            'no_inss' => $this->faker->numerify('###########'),
-            'sexo' => $this->faker->randomElement(['M', 'F']),
+            'no_inss' => $paciente->no_inss, // Tomar el dato del paciente seleccionado
+            'sexo' => $paciente->sexo, // Tomar el dato del paciente seleccionado
             'direccion_residencia' => $this->faker->address,
             'municipio' => $this->faker->city,
             'localidad' => $this->faker->streetName,
             'departamento' => $this->faker->state,
             'raza_etnia' => $this->faker->randomElement(['Mestizo', 'Indígena', 'Afrodescendiente']),
-            'edad' => $this->faker->numberBetween(1, 100),
+            'edad' => $paciente->edad, // Tomar el dato del paciente seleccionado
             'ocupacion' => $this->faker->jobTitle,
             'nombre_madre' => $this->faker->firstNameFemale . ' ' . $this->faker->lastName,
             'nombre_padre' => $this->faker->firstNameMale . ' ' . $this->faker->lastName,

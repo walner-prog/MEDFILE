@@ -86,7 +86,7 @@ class DepartamentosController extends Controller
     public function update(Request $request, Departamento $departamento)
     {
         $validator = Validator::make($request->all(), [
-            'nombre' => 'required|string|max:100|unique:departamentos,nombre,'.$departamento->id,
+            'nombre' => 'required|string|max:100',
             'descripcion' => 'nullable|string|max:255',
         ]);
 

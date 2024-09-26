@@ -54,14 +54,11 @@ class DoctoresController extends Controller
     }
     
     public function calculosDoctores() {
-        $maxPatients = 50; // Número máximo de pacientes
-    // Consulta para obtener doctores con menos de $maxPatients pacientes
-    $doctores = Doctor::withCount('pacientes')
-                      ->having('pacientes_count', '<', $maxPatients)
-                      ->paginate(10);
-    
-        return view('doctores.calculos', compact('doctores','maxPatients'));
+       
+        
+        return view('doctores.calculos');
     }
+    
     
     
 

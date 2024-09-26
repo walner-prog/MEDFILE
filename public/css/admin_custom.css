@@ -378,6 +378,24 @@ background: -webkit-linear-gradient(to right, #0083B0, #00B4DB);  /* Chrome 10-2
 background: linear-gradient(to right, #0083B0, #00B4DB); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 
 }
+/* Estilo para el modo claro (por defecto) */
+.text-dark {
+  color: #000; /* Texto oscuro */
+}
+
+.icon-dark {
+  color: #000; /* Icono oscuro */
+}
+
+/* Estilo para el modo oscuro */
+.dark-mode .text-white {
+  color: #ffffff; /* Texto claro */
+}
+
+.dark-mode .icon-white {
+  color: #ffffff; /* Icono claro */
+}
+
 
 .dark-mode {
   background-color: #1f2936;
@@ -448,8 +466,8 @@ background: linear-gradient(to right, #1548ff, #0575E6); /* W3C, IE 10+/ Edge, F
 .dark-mode h5, 
 .dark-mode h6 {
   background: #F7F8F8;  /* fallback for old browsers */
-  background: -webkit-linear-gradient(to right, #ACBB78, #F7F8F8);  /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to right, #ACBB78, #F7F8F8); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: -webkit-linear-gradient(to right, #d4d8c3, #F7F8F8);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #ffffff, #F7F8F8); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
   
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -472,6 +490,40 @@ background: linear-gradient(to right, #1548ff, #0575E6); /* W3C, IE 10+/ Edge, F
   font-weight: bold; /* Opcional: Para hacer que el texto se vea más destacado */
 }
 
+.dark-mode .main-sidebar .nav-link {
+  color: #ecf0f1 !important; /* Cambia #ecf0f1 por el color del texto que desees en modo oscuro */
+}
+
+.dark-mode .main-sidebar .nav-link.active {
+  background-color: #0575E6 !important; /* Cambia #0575E6 por el color de fondo activo que desees en modo oscuro */
+  color: #ffffff !important; /* Cambia #ffffff por el color del texto activo que desees en modo oscuro */
+}
+
+.light-mode .main-sidebar .nav-link {
+  color: #222e8b !important; /* Cambia #ecf0f1 por el color del texto que desees en modo oscuro */
+}
+
+.light-mode .main-sidebar .nav-link.active {
+  background-color: #245c97 !important; /* Cambia #0575E6 por el color de fondo activo que desees en modo oscuro */
+  color: #222e8b !important; /* Cambia #ffffff por el color del texto activo que desees en modo oscuro */
+}
+
+.dark-mode .card .content {
+  background: #141E30;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #243B55, #335187);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #243B55, #3c588b); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+ /* Cambia #ecf0f1 por el color del texto que desees en modo oscuro */
+ color: whitesmoke;
+}
+
+
+.dark-mode .char-grafica  {
+  background: #426199;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #243B55, #335187);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #243B55, #354f7e); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+ /* Cambia #ecf0f1 por el color del texto que desees en modo oscuro */
+ color: whitesmoke;
+}
 
 
 .switch {
@@ -597,8 +649,8 @@ input:not(:checked) + .slider .fa-sun {
 /* Aplica un degradado a los iconos */
 th i {
   background: #F7F8F8;  /* fallback for old browsers */
-  background: -webkit-linear-gradient(to right, #ACBB78, #F7F8F8);  /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to right, #ACBB78, #F7F8F8); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: -webkit-linear-gradient(to right, #fafee9, #F7F8F8);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #f3f4f1, #F7F8F8); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
   
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -609,8 +661,8 @@ th i {
 /* Opcional: Aplica un degradado al texto de los encabezados */
 th {
   background: #F7F8F8;  /* fallback for old browsers */
-  background: -webkit-linear-gradient(to right, #ACBB78, #F7F8F8);  /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to right, #ACBB78, #F7F8F8); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: -webkit-linear-gradient(to right, #d5dcbc, #F7F8F8);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #ecf0de, #F7F8F8); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
   
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -644,3 +696,29 @@ background: linear-gradient(to right, #FFFFFF, #f8f8f8); /* W3C, IE 10+/ Edge, F
   background-color: #0071bc; /* Cyan 500 de Tailwind CSS */
   color: white;
 }
+
+/*
+Explicación:
+toast: true: Esto hace que la alerta se muestre en formato "toast", que es una pequeña notificación que aparece en la esquina.
+position: 'top-end': Hace que la alerta se muestre en la esquina superior derecha.
+customClass: { popup: 'custom-swal-toast' }: Define una clase personalizada para el diseño de la alerta.
+CSS: Estilos personalizados para cambiar el tamaño, forma, color y otros aspectos visuales.*/
+.custom-swal-toast {
+  min-width: 300px; /* Alargada */
+  padding: 18px 22px; /* Tamaño pequeño */
+  font-size: 15px; /* Fuente más pequeña */
+  background-color: rgba(0, 0, 0, 0.8); /* Fondo oscuro */
+  color: white; /* Texto blanco */
+  border-radius: 8px; /* Bordes redondeados */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Sombra */
+}
+
+.swal2-toast .swal2-title {
+  font-size: 14px; /* Tamaño del texto */
+}
+
+.swal2-toast {
+  width: 350px !important; /* Ancho alargado */
+  max-width: 100%;
+}
+

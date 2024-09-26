@@ -45,12 +45,13 @@ class UserSeeder extends Seeder
 
         foreach ($users as $user) {
             User::create([
-                'name' => $user['name'],
-                'email' => $user['email'],
-                'password' => Hash::make(str_replace(' ', '', $user['name']) . '12345'),
-                'Direccion' => $user['Direccion'],
-                'Contacto' => $user['Contacto'],
+                'name' => $user['name'], // Usar el campo 'name'
+                'email' => $user['email'], // Usar el campo 'email'
+                'password' => Hash::make(str_replace(' ', '', $user['name']) . '12345'), // Generar contraseña basada en el nombre
+                'Direccion' => $user['Direccion'], // Usar el campo 'Direccion'
+                'Contacto' => $user['Contacto'], // Usar el campo 'Contacto'
             ]);
+
         }
     }
 }

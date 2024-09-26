@@ -66,14 +66,15 @@
     </div>
       
                 <div class="card-header">
-                    @can('crear-rol')
+                     @can('crear-rol')
                          <a class="btn btn-indigo btn-sm" href="{{ route('roles.create') }}">
                          <i class="fas fa-plus-circle mr-2"></i>Crear Nuevo rol</a>
                         @endcan
                   </div>
                   
+                  @can('ver-rol')
                   <div class="table table-responsive">
-                    <table class="min-w-full border border-gray-300 shadow-md rounded-lg p-2 ">
+                    <table class="min-w-full w-100 border border-gray-300 shadow-md rounded-lg p-2 ">
                         <thead class="from-green-500 to-green-600 text-white">
                             <tr>
                                 <th class="px-4 py-3 text-left">Rol</th>
@@ -85,7 +86,7 @@
                                 <tr>
                                     <td class="px-4 py-3">{{ $role->name }}</td>
                                     <td class="px-4 py-3 text-right">
-                                        @can('editar-rol')
+                                        @can('ver-usuario-rol')
                                             <a href="{{ route('roles.show', $role->id) }}" class="btn btn-purple btn-sm font-bold py-2 px-4 rounded-full inline-block">
                                                 <i class="fas fa-eye"></i>
                                             </a>
@@ -118,6 +119,8 @@
                                 <ul class="pagination">
                                     {{ $roles->links("pagination::bootstrap-4") }}
                                 </ul>
+                  @endcan
+                 
             </div>
 
         
@@ -136,29 +139,6 @@
         <script>
             
 
-document.addEventListener('DOMContentLoaded', function () {
-        function showAlert(message, icon, type) {
-            Swal.fire({
-                title: message,
-                icon: icon,
-                showCancelButton: false,
-                confirmButtonColor: '#3085d6',
-                confirmButtonText: 'Aceptar'
-            });
-        }
-
-        @if(session('info'))
-            showAlert('{{ session('info') }}', 'success', 'success');
-        @endif
-
-        @if(session('update'))
-            showAlert('{{ session('update') }}', 'info', 'info');
-        @endif
-
-        @if(session('delete'))
-            showAlert('{{ session('delete') }}', 'error', 'error');
-        @endif
-    });
         </script>
     @stop
     </section>

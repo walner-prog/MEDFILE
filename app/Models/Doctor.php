@@ -69,25 +69,24 @@ class Doctor extends Model
     return $this->hasMany(HorarioDoctor::class);
    }
 
-    public function isAvailable($fecha_cita, $hora_cita)
+   
+   public function isAvailable($fecha, $hora, $duracion_cita)
   {
-    // Verificar si existe un horario disponible en esa fecha y hora
-    $horario = $this->horarios()
-        ->where('fecha', $fecha_cita)
-        ->where('hora_inicio', '<=', $hora_cita)
-        ->where('hora_fin', '>=', $hora_cita)
-        ->first();
-
+    $dia_semana = \Carbon\Carbon::parse($fecha)->format('l'); // Nombre del día en inglés
+    
+    $horario = $this->horarios()->where('dia_semana', strtolower($dia_semana))
+                                ->whereTime('hora_inicio', '<=', $hora)
+                                ->whereTime('hora_fin', '>=', $hora)
+                                ->first();
+    
     if (!$horario) {
-        return false; // No hay un horario disponible
+        return false;
     }
 
-    // Verificar si ya hay una cita agendada en esa fecha y hora
-    return !$this->citas()
-        ->where('fecha_cita', $fecha_cita)
-        ->where('hora_cita', $hora_cita)
-        ->exists();
-   }
+    // Verificar si la duración de la cita cabe en el horario disponible
+    $hora_fin_cita = \Carbon\Carbon::createFromFormat('H:i', $hora)->addMinutes($duracion_cita)->format('H:i');
+    return \Carbon\Carbon::createFromFormat('H:i', $hora_fin_cita)->lessThanOrEqualTo($horario->hora_fin);
+}
 
     
 }

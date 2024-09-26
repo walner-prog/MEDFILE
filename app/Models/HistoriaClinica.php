@@ -13,23 +13,18 @@ class HistoriaClinica extends Model
 
     protected $fillable = [
         'paciente_id',
-        'primer_nombre',
-        'segundo_nombre',
-        'primer_apellido',
-        'segundo_apellido',
+        
         'hora',
         'sala',
-        'no_expediente',
-        'no_cedula',
-        'no_inss',
+       
         'no_cama',
-        'edad',
+       
         'fecha_nacimiento',
         'lugar_nacimiento',
-        'sexo',
+       
         'procedencia',
         'religion',
-        'grupos_etnicos',
+       
         'escolaridad',
         'direccion_habitual',
         'nombre_padre',

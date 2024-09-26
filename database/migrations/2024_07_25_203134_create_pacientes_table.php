@@ -23,8 +23,9 @@ class CreatePacientesTable extends Migration
             $table->string('primer_apellido')->nullable();
             $table->string('segundo_apellido')->nullable();
 
-            $table->date('fecha_nacimiento')->nullable();
+           
             $table->integer('edad')->nullable();
+            $table->date('fecha_nacimiento')->nullable(); // por ajax 
             $table->enum('sexo', ['M', 'F'])->nullable();
             $table->string('establecimiento_salud')->nullable();
             $table->string('raza_etnia')->nullable();
@@ -42,6 +43,7 @@ class CreatePacientesTable extends Migration
             $table->string('localidad')->nullable();
             $table->string('municipio')->nullable();
             $table->string('departamento')->nullable();
+            $table->integer('pacientes_count')->default(0)->change();
             
             $table->string('responsable_emergencia')->nullable();
             $table->string('parentesco')->nullable();
@@ -49,7 +51,8 @@ class CreatePacientesTable extends Migration
             $table->string('direccion_responsable')->nullable();
             $table->string('empleador')->nullable();
             $table->string('direccion_empleador')->nullable();
-            $table->unsignedBigInteger('doctor_id')->after('id');
+            $table->unsignedBigInteger('doctor_id')->nullable();
+            $table->string('foto')->nullable();
 
             // Agregar una clave foránea si es necesario
             $table->foreign('doctor_id')->references('id')->on('doctores');

@@ -128,7 +128,7 @@
               
           </div>
           <div class="modal-body">
-            <form action="{{ route('pacientes.update', $paciente->id) }}" method="POST">
+            <form action="{{ route('pacientes.update', $paciente->id) }}" method="POST" >
                 @csrf
                 @method('PUT')
                 <div class="modal-body">
@@ -229,7 +229,8 @@
                         <div class="col-lg-3">
                             <div class="form-group">
                                 <label for="raza_etnia">Raza/Etnia</label>
-                                <select class="form-control" name="raza_etnia" required>
+                                <select class="form-control" name="raza_etnia" 
+                                >
                                     <option value="">Seleccione una raza/etnia</option>
                                     <option value="Mestizos" {{ old('raza_etnia', $paciente->raza_etnia) == 'Mestizos' ? 'selected' : '' }}>Mestizos</option>
                                     <option value="Miskitu (Miskitos)" {{ old('raza_etnia', $paciente->raza_etnia) == 'Miskitu (Miskitos)' ? 'selected' : '' }}>Miskitu (Miskitos)</option>
@@ -372,6 +373,21 @@
                                 @if ($errors->has('direccion_responsable'))
                                     <div class="text-danger">{{ $errors->first('direccion_responsable') }}</div>
                                 @endif
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label for="foto">Foto del Paciente</label>
+                                <input type="file" class="form-control-file" id="foto" name="foto" accept="image/*">
+                            </div>
+        
+                            <div class="col-sm-8">
+                            
+                                @if($paciente->foto)
+                                <img src="{{ asset('images/' . $paciente->foto) }}" alt="Foto de Paciente" width="150">
+                                 @else
+                                <p>No hay foto disponible</p>
+                               @endif
                             </div>
                         </div>
                         <div class="col-lg-12 text-right">

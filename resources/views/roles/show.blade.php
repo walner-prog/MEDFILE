@@ -64,40 +64,51 @@
     </div>
     <div class="card shadow-lg">
         <div class="card-header bg-gradient-primary text-white">
-            <h5 class="card-title">Detalles del Rol</h5>
+            <h5 class="card-title">Detalles del Rol</h5> <br>
+            <p class="text-dark">
+                <strong>Permisos Asignados:</strong> {{ $assignedPermissionsCount }} de {{ $totalPermissions }} disponibles.
+            </p>
         </div>
         <div class="card-body">
-            <p class=" text-dark"><strong>ID:</strong> {{ $role->id }}</p>
-            <p class=" text-dark"><strong>Nombre del Roll:</strong> {{ $role->name }}</p>
-    
-            <h6 class="mt-4">Permisos Asignados:</h6>
-            @if($role->permissions->isEmpty())
-                <p class="text-muted">No hay permisos asignados a este rol.</p>
-            @else
-                <ul class="list-group">
-                    @foreach($role->permissions as $permission)
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            {{ $permission->name }}
-                            <span class="badge bg-primary rounded-pill">Permiso</span>
-                        </li>
-                    @endforeach
-                </ul>
-            @endif
-              
             <div class="row">
-                <div class="col-lg-2">
-                    <a href="{{ route('roles.index') }}" class="btn btn-secondary mt-4">Volver a la lista de roles</a>
+                <!-- Dividir permisos en 3 grupos -->
+                @php
+                    $permissions = $role->permissions->chunk(10);
+                @endphp
+    
+                @foreach($permissions as $chunk)
+                    <div class="col-lg-4 mb-3">
+                        @if($chunk->isEmpty())
+                            <p class="text-muted">No hay permisos asignados a este rol.</p>
+                        @else
+                            <h6 class="mt-4">Permisos:</h6>
+                            <ul class="list-group">
+                                @foreach($chunk as $permission)
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        {{ $permission->name }}
+                                        <span class="badge bg-primary rounded-pill">Permiso</span>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        @endif
+                    </div>
+                @endforeach
+            </div>
+            
+            <div class="row mt-4">
+                <div class="col-lg-4">
+                    <a href="{{ route('roles.index') }}" class="btn btn-secondary">Volver a la lista de roles</a>
                 </div>
-                <div class="col-lg-10">
-                    <button type="button" class="btn btn-info mt-4 " data-toggle="modal" data-target="#rolesInfoModal">
+                <div class="col-lg-8">
+                    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#rolesInfoModal">
                         ¿Qué son los roles y permisos?
                     </button>
                 </div>
             </div>
-          
-           
         </div>
     </div>
+    
+    
 
     <div class="modal fade" id="rolesInfoModal" tabindex="-1" aria-labelledby="rolesInfoModalLabel" aria-hidden="true">
         <div class="modal-dialog">

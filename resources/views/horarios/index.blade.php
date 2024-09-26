@@ -87,115 +87,233 @@
                 <li>{{ $error }}</li>
             @endforeach
         </ul>
+         
+
     </div>
     @endif
 
-    <div class="table-responsive">
-        <table id="horariosTable" class="min-w-full border border-gray-300 shadow-md rounded-lg p-2">
-            <thead class="from-green-500 to-green-600 text-white">
-                <tr>
-                    <th class="px-6 py-3 text-left text-base font-medium tracking-wider border-b border-gray-200">ID</th>
-                    <th class="px-6 py-3 text-left text-base font-medium tracking-wider border-b border-gray-200">Doctor</th>
-                    <th class="px-6 py-3 text-left text-base font-medium tracking-wider border-b border-gray-200">Fecha</th>
-                    <th class="px-6 py-3 text-left text-base font-medium tracking-wider border-b border-gray-200">Hora Inicio</th>
-                    <th class="px-6 py-3 text-left text-base font-medium tracking-wider border-b border-gray-200">Hora Fin</th>
-                    <th class="px-6 py-3 text-left text-base font-medium tracking-wider border-b border-gray-200">Duaracion de las citas </th>
-                    <th class="px-6 py-3 text-left text-base font-medium tracking-wider border-b border-gray-200">Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($horarios as $horario)
-                <tr>
-                    <td class="px-6 py-4 border-b border-gray-200">{{ $horario->id }}</td>
-                    <td class="px-6 py-4 border-b border-gray-200">{{ $horario->doctor->primer_nombre }} {{ $horario->doctor->primer_apellido }}</td>
-
-                    <td class="px-6 py-4 border-b border-gray-200">{{ $horario->fecha }}</td>
-                    <td class="px-6 py-4 border-b border-gray-200">{{ $horario->hora_inicio }}</td>
-                    <td class="px-6 py-4 border-b border-gray-200">{{ $horario->hora_fin }}</td>
-                    <td class="px-6 py-4 border-b border-gray-200">{{ $horario->duracion_cita }}</td>
-                    <td class="px-6 py-4 border-b border-gray-200">
-                        <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#editHorarioForm{{ $horario->id }}">Editar</button>
-                        <form action="{{ route('horarios-doctor.destroy', $horario->id) }}" method="POST" style="display:inline;">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
-                        </form>
-                    </td>
-                </tr>
-
-                <!-- Modal para editar horario -->
-                <div class="modal fade" id="editHorarioForm{{ $horario->id }}" tabindex="-1" role="dialog" aria-labelledby="editHorarioFormModalLabel{{ $horario->id }}" aria-hidden="true">
-                    <div class="modal-dialog modal-lg" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header bg-primary">
-                                <h5 class="modal-title text-white" id="editHorarioFormModalLabel{{ $horario->id }}">Editar Horario</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <form action="{{ route('horarios-doctor.update', $horario->id) }}" method="POST">
-                                    @csrf
-                                    @method('PUT')
-                                    <div class="form-group">
-                                        <label for="doctor_id">Doctor</label>
-                                        <select class="form-control" id="doctor_id" name="doctor_id" required>
-                                            @foreach ($doctores as $doctor)
-                                                <option value="{{ $doctor->id }}" 
-                                                    {{ $horario->doctor_id == $doctor->id ? 'selected' : '' }}>
-                                                    {{ $doctor->primer_nombre }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                        @if ($errors->has('doctor_id'))
-                                            <div class="text-danger">{{ $errors->first('doctor_id') }}</div>
-                                        @endif
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="fecha">Fecha</label>
-                                        <input type="date" class="form-control" id="fecha" name="fecha" value="{{ $horario->fecha }}" required>
-                                        @if ($errors->has('fecha'))
-                                            <div class="text-danger">{{ $errors->first('fecha') }}</div>
-                                        @endif
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="hora_inicio">Hora Inicio</label>
-                                        <input type="time" class="form-control" id="hora_inicio" name="hora_inicio" value="{{ $horario->hora_inicio }}" required>
-                                        @if ($errors->has('hora_inicio'))
-                                            <div class="text-danger">{{ $errors->first('hora_inicio') }}</div>
-                                        @endif
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="duracion_cita">Duaracion de las citas </label>
-                                        <input type="number" class="form-control" id="duracion_cita" name="duracion_cita" value="{{ $horario->duracion_cita }}" required>
-                                        @if ($errors->has('duracion_cita'))
-                                            <div class="text-danger">{{ $errors->first('duracion_cita') }}</div>
-                                        @endif
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="hora_fin">Hora Fin</label>
-                                        <input type="time" class="form-control" id="hora_fin" name="hora_fin" value="{{ $horario->hora_fin }}" required>
-                                        @if ($errors->has('hora_fin'))
-                                            <div class="text-danger">{{ $errors->first('hora_fin') }}</div>
-                                        @endif
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                                        <button type="submit" class="btn btn-primary">Actualizar Horario</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                @endforeach
-            </tbody>
-        </table>
+    @if (session('error'))
+    <div class="alert alert-danger">
+     {{ session('error') }}
     </div>
+ @endif
 
-    <!-- Modal para crear horario -->
-    <div class="modal fade" id="createHorarioForm" tabindex="-1" role="dialog" aria-labelledby="createHorarioFormModalLabel" aria-hidden="true">
+    <div class="row">
+        <div class="col-lg-12">
+         
+            <div class="table-responsive">
+                <table id="horariosTable" class=" table-bordered w-100  p-2 min-w-full border border-gray-300 shadow-md rounded-lg p-2">
+                    <thead class="bg-gradient-to-r from-green-500 to-green-600 text-white p-2">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-base font-medium tracking-wider border-b border-gray-200">ID</th>
+                            <th class="px-6 py-3 text-left text-base font-medium tracking-wider border-b border-gray-200">Doctor</th>
+                            <th class="px-6 py-3 text-left text-base font-medium tracking-wider border-b border-gray-200">Especialidad</th>
+                            <th class="px-6 py-3 text-left text-base font-medium tracking-wider border-b border-gray-200">Consultorio</th>
+
+                            <th class="px-6 py-3 text-left text-base font-medium tracking-wider border-b border-gray-200">Hora Inicio</th>
+                            <th class="px-6 py-3 text-left text-base font-medium tracking-wider border-b border-gray-200">Hora Fin</th>
+                            <th class="px-6 py-3 text-left text-base font-medium tracking-wider border-b border-gray-200">Duración de Cita</th>
+                            <th class="px-6 py-3 text-left text-base font-medium tracking-wider border-b border-gray-200">Día de la Semana</th>
+                            <th class="px-6 py-3 text-left text-base font-medium tracking-wider border-b border-gray-200">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($horarios as $horario)
+                        <tr>
+                            <td class="px-6 py-4 border-b border-gray-200">{{ $horario->id }}</td>
+                            <td class="px-6 py-4 border-b border-gray-200">{{ $horario->doctor->primer_nombre }} {{ $horario->doctor->primer_apellido }}</td>
+                            <td class="px-6 py-4 border-b border-gray-200">{{ $horario->doctor->especialidad->nombre ?? 'Sin Especialidad' }}</td>
+                            <td class="px-6 py-4 border-b border-gray-200">{{ $horario->consultorio->nombre ?? 'Sin Consultorio' }}</td>
+                            
+                            <td class="px-6 py-4 border-b border-gray-200">{{ $horario->hora_inicio }}</td>
+                            <td class="px-6 py-4 border-b border-gray-200">{{ $horario->hora_fin }}</td>
+                            <td class="px-6 py-4 border-b border-gray-200">{{ $horario->duracion_cita }} minutos</td>
+                            <td class="px-6 py-4 border-b border-gray-200">{{ ucfirst($horario->dia_semana) }}</td>
+                            <td class="px-6 py-4 border-b border-gray-200">
+                                <!-- Botón para mostrar el detalle del horario -->
+                                <a href="{{ route('horarios-doctor.show', $horario->id) }}" class="btn btn-info btn-sm">Ver</a>
+                
+                                <!-- Botón para editar el horario (modal) -->
+                                <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#editHorarioForm{{ $horario->id }}">Editar</button>
+                
+                                <!-- Formulario para eliminar el horario -->
+                                <form action="{{ route('horarios-doctor.destroy', $horario->id) }}" method="POST" style="display:inline;">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                                </form>
+                            </td>
+                        </tr>
+                        
+                       <!-- Modal para editar horario -->
+                       <div class="modal fade" id="editHorarioForm{{ $horario->id }}" tabindex="-1" role="dialog" aria-labelledby="editHorarioFormModalLabel{{ $horario->id }}" aria-hidden="true">
+                           <div class="modal-dialog modal-lg" role="document">
+                               <div class="modal-content">
+                                   <div class="modal-header bg-primary">
+                                       <h5 class="modal-title text-white" id="editHorarioFormModalLabel{{ $horario->id }}">Editar Horario</h5>
+                                       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                           <span aria-hidden="true">&times;</span>
+                                       </button>
+                                   </div>
+                                   <div class="modal-body">
+                                       <form action="{{ route('horarios-doctor.update', $horario->id) }}" method="POST">
+                                           @csrf
+                                           @method('PUT') <!-- Usamos el método PUT para actualizar -->
+                                       
+                                           <div class="row">
+                                               <!-- Campo Día de la Semana -->
+                                               <div class="col-lg-3">
+                                                   <div class="form-group">
+                                                       <label for="dia_semana">Día de la Semana</label>
+                                                       <select name="dia_semana" id="dia_semana" class="form-control" required>
+                                                           <option value="">Selecciona un día</option>
+                                                           <option value="lunes" {{ old('dia_semana', $horario->dia_semana) == 'lunes' ? 'selected' : '' }}>Lunes</option>
+                                                           <option value="martes" {{ old('dia_semana', $horario->dia_semana) == 'martes' ? 'selected' : '' }}>Martes</option>
+                                                           <option value="miercoles" {{ old('dia_semana', $horario->dia_semana) == 'miercoles' ? 'selected' : '' }}>Miércoles</option>
+                                                           <option value="jueves" {{ old('dia_semana', $horario->dia_semana) == 'jueves' ? 'selected' : '' }}>Jueves</option>
+                                                           <option value="viernes" {{ old('dia_semana', $horario->dia_semana) == 'viernes' ? 'selected' : '' }}>Viernes</option>
+                                                           <option value="sabado" {{ old('dia_semana', $horario->dia_semana) == 'sabado' ? 'selected' : '' }}>Sábado</option>
+                                                           <option value="domingo" {{ old('dia_semana', $horario->dia_semana) == 'domingo' ? 'selected' : '' }}>Domingo</option>
+                                                       </select>
+                                                       @if ($errors->has('dia_semana'))
+                                                           <div class="text-danger">{{ $errors->first('dia_semana') }}</div>
+                                                       @endif
+                                                   </div>
+                                               </div>
+                                       
+                                               <!-- Campo Hora Inicio -->
+                                               <div class="col-lg-3">
+                                                   <div class="form-group">
+                                                       <label for="hora_inicio">Hora Inicio</label>
+                                                       <input type="time" name="hora_inicio" id="hora_inicio" class="form-control" value="{{ old('hora_inicio', $horario->hora_inicio) }}" required>
+                                                       @if ($errors->has('hora_inicio'))
+                                                           <div class="text-danger">{{ $errors->first('hora_inicio') }}</div>
+                                                       @endif
+                                                   </div>
+                                               </div>
+                                       
+                                               <!-- Campo Hora Fin -->
+                                               <div class="col-lg-3">
+                                                   <div class="form-group">
+                                                       <label for="hora_fin">Hora Fin</label>
+                                                       <input type="time" name="hora_fin" id="hora_fin" class="form-control" value="{{ old('hora_fin', $horario->hora_fin) }}" required>
+                                                       @if ($errors->has('hora_fin'))
+                                                           <div class="text-danger">{{ $errors->first('hora_fin') }}</div>
+                                                       @endif
+                                                   </div>
+                                               </div>
+                                       
+                                               <!-- Campo Duración de la Cita -->
+                                               <div class="col-lg-3">
+                                                   <div class="form-group">
+                                                       <label for="duracion_cita">Duración de la Cita (min)</label>
+                                                       <input type="number" name="duracion_cita" id="duracion_cita" class="form-control" value="{{ old('duracion_cita', $horario->duracion_cita) }}" required>
+                                                       @if ($errors->has('duracion_cita'))
+                                                           <div class="text-danger">{{ $errors->first('duracion_cita') }}</div>
+                                                       @endif
+                                                   </div>
+                                               </div>
+                                           </div>
+                                       
+                                           <!-- Campo Doctor -->
+                                           <div class="row">
+                                               <div class="col-lg-6">
+                                                   <div class="form-group">
+                                                       <label for="doctor_id">Doctor</label>
+                                                       <select class="form-control" id="doctor_id" name="doctor_id" required>
+                                                           <option value="">Selecciona un doctor</option>
+                                                           @foreach ($doctores as $doctor)
+                                                               <option value="{{ $doctor->id }}" {{ old('doctor_id', $horario->doctor_id) == $doctor->id ? 'selected' : '' }}>
+                                                                   {{ $doctor->primer_nombre }} {{ $doctor->segundo_nombre }} 
+                                                                   {{ $doctor->primer_apellido }} {{ $doctor->segundo_apellido }} - Especialidad: {{ $doctor->especialidad_id }}
+                                                               </option>
+                                                           @endforeach
+                                                       </select>
+                                                       @if ($errors->has('doctor_id'))
+                                                           <div class="text-danger">{{ $errors->first('doctor_id') }}</div>
+                                                       @endif
+                                                   </div>
+                                               </div>
+                                       
+                                               <!-- Campo Consultorio -->
+                                               <div class="col-lg-6">
+                                                   <div class="form-group">
+                                                       <label for="consultorio_id">Consultorio</label>
+                                                       <select class="form-control" id="consultorio_id" name="consultorio_id" required>
+                                                           <option value="">Selecciona un consultorio</option>
+                                                           @foreach ($consultorios as $consultorio)
+                                                               <option value="{{ $consultorio->id }}" {{ old('consultorio_id', $horario->consultorio_id) == $consultorio->id ? 'selected' : '' }}>
+                                                                   {{ $consultorio->nombre }} - Ubicación: {{ $consultorio->ubicacion }}
+                                                               </option>
+                                                           @endforeach
+                                                       </select>
+                                                       @if ($errors->has('consultorio_id'))
+                                                           <div class="text-danger">{{ $errors->first('consultorio_id') }}</div>
+                                                       @endif
+                                                   </div>
+                                               </div>
+                                           </div>
+                                       
+                                           <!-- Botones de acción -->
+                                           <div class="modal-footer">
+                                               <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                               <button type="submit" class="btn btn-primary">Actualizar Horario</button>
+                                           </div>
+                                       </form>
+                                       
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+       
+                       @endforeach
+                   </tbody>
+                </table>
+             </div>
+
+        </div>
+        <br>
+        <div class="col-lg-12 mt-5">
+
+            <div class="card">
+                <div class=" card-header from-green-500 to-green-600 text-white text-center  p-2">
+                    <h3 class="text-lg font-semibold card-title ">Calendario de Atención de Doctores</h3>
+                </div>
+                <div class="card-body">
+                    <div class="col-lg-4">
+                        <div class="form-group">
+                            <label for="consultorio_id">Consultorio</label>
+                            <select class="form-control" id="consultorio_select" name="consultorio_id" required>
+                                <option value="">Selecciona un consultorio</option>
+                                @foreach ($consultorios as $consultorio)
+                                    <option value="{{ $consultorio->id }}">
+                                        {{  $consultorio->nombre . "- Ubicacion: ". $consultorio->ubicacion }} 
+                                    </option>
+                                @endforeach
+                            </select>
+                            @if ($errors->has('consultorio_id'))
+                                <div class="text-danger">{{ $errors->first('consultorio_id') }}</div>
+                            @endif
+                        </div>
+                       
+                    </div>
+                        
+                    <div class=" text-white" id="consultorio_info"></div>
+                   
+                    <hr>
+                    <div class="overflow-x-auto">
+                        
+                    </div>
+                    
+                </div>
+            </div>
+            
+
+        </div>
+    </div>
+      
+        <!-- Modal para crear horario -->
+        <div class="modal fade" id="createHorarioForm" tabindex="-1" role="dialog" aria-labelledby="createHorarioFormModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header bg-primary">
@@ -207,55 +325,114 @@
                 <div class="modal-body">
                     <form action="{{ route('horarios-doctor.store') }}" method="POST">
                         @csrf
-                        <div class="form-group">
-                            <label for="doctor_id">Doctor</label>
-                            <select class="form-control" id="doctor_id" name="doctor_id" required>
-                                @foreach ($doctores as $doctor)
-                                    <option value="{{ $doctor->id }}">{{ $doctor->nombre }}</option>
-                                @endforeach
-                            </select>
-                            @if ($errors->has('doctor_id'))
-                                <div class="text-danger">{{ $errors->first('doctor_id') }}</div>
-                            @endif
-                        </div>
-                        <div class="form-group">
-                            <label for="fecha">Fecha</label>
-                            <input type="date" class="form-control" id="fecha" name="fecha" required>
-                            @if ($errors->has('fecha'))
-                                <div class="text-danger">{{ $errors->first('fecha') }}</div>
-                            @endif
-                        </div>
-                        <div class="form-group">
-                            <label for="hora_inicio">Hora Inicio</label>
-                            <input type="time" class="form-control" id="hora_inicio" name="hora_inicio" required>
-                            @if ($errors->has('hora_inicio'))
-                                <div class="text-danger">{{ $errors->first('hora_inicio') }}</div>
-                            @endif
-                        </div>
-                        <div class="form-group">
-                            <label for="hora_fin">Hora Fin</label>
-                           <input type="time" class="form-control" id="hora_fin" name="hora_fin" required>
-                            @if ($errors->has('hora_fin'))
-                            <div class="text-danger">{{ $errors->first('hora_fin') }}</div>
-                            @endif
-                        </div>
+                        <div class="row">
+                            <!-- Campo Día de la Semana -->
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label for="dia_semana">Día de la Semana</label>
+                                    <select name="dia_semana" id="dia_semana" class="form-control" required>
+                                        <option value="">Selecciona un día</option>
+                                        <option value="lunes">Lunes</option>
+                                        <option value="martes">Martes</option>
+                                        <option value="miercoles">Miércoles</option>
+                                        <option value="jueves">Jueves</option>
+                                        <option value="viernes">Viernes</option>
+                                        <option value="sabado">Sábado</option>
+                                        <option value="domingo">Domingo</option>
+                                    </select>
+                                    @if ($errors->has('dia_semana'))
+                                        <div class="text-danger">{{ $errors->first('dia_semana') }}</div>
+                                    @endif
+                                </div>
+                            </div>
 
-                        <div class="form-group">
-                            <label for=" duarcion_cita  ">Duaracion de las citas </label>
-                             <input type="number" class="form-control" id=" duarcion_cita  " name=" duarcion_cita" required>
-                              @if ($errors->has(' duarcion_cita  '))
-                            <div class="text-danger">{{ $errors->first(' duarcion_cita  ') }}</div>
-                            @endif
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    <label for="consultorio_id">Consultorio</label>
+                                    <select class="form-control" id="consultorio_select" name="consultorio_id" required>
+                                        <option value="">Selecciona un consultorio</option>
+                                        @foreach ($consultorios as $consultorio)
+                                            <option value="{{ $consultorio->id }}">
+                                                {{  $consultorio->nombre . "- Ubicacion: ". $consultorio->ubicacion }} 
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    @if ($errors->has('consultorio_id'))
+                                        <div class="text-danger">{{ $errors->first('consultorio_id') }}</div>
+                                    @endif
+                                </div>
+                               
+                            </div>
+                    
+                            <!-- Campo Hora Inicio -->
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label for="hora_inicio">Hora Inicio</label>
+                                    <input type="time" name="hora_inicio" id="hora_inicio" class="form-control" value="{{ old('hora_inicio') }}" required>
+                                    @if ($errors->has('hora_inicio'))
+                                        <div class="text-danger">{{ $errors->first('hora_inicio') }}</div>
+                                    @endif
+                                </div>
+                            </div>
+                    
+                            <!-- Campo Hora Fin -->
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label for="hora_fin">Hora Fin</label>
+                                    <input type="time" name="hora_fin" id="hora_fin" class="form-control" value="{{ old('hora_fin') }}" required>
+                                    @if ($errors->has('hora_fin'))
+                                        <div class="text-danger">{{ $errors->first('hora_fin') }}</div>
+                                    @endif
+                                </div>
+                            </div>
+                    
+                            <!-- Campo Duración de la Cita -->
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label for="duracion_cita">Duración de la Cita (min)</label>
+                                    <input type="number" name="duracion_cita" id="duracion_cita" class="form-control" value="{{ old('duracion_cita', 30) }}" required>
+                                    @if ($errors->has('duracion_cita'))
+                                        <div class="text-danger">{{ $errors->first('duracion_cita') }}</div>
+                                    @endif
+                                </div>
+                            </div>
                         </div>
+                    
+                        <!-- Campo Doctor -->
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label for="doctor_id">Doctor</label>
+                                    <select class="form-control" id="doctor_id" name="doctor_id" required>
+                                        <option value="">Selecciona un doctor</option>
+                                        @foreach ($doctores as $doctor)
+                                            <option value="{{ $doctor->id }}">
+                                                {{ $doctor->primer_nombre }} {{ $doctor->segundo_nombre }} 
+                                                {{ $doctor->primer_apellido }} {{ $doctor->segundo_apellido }}
+                                                {{ $doctor->especialidad_id }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    @if ($errors->has('doctor_id'))
+                                        <div class="text-danger">{{ $errors->first('doctor_id') }}</div>
+                                    @endif
+                                </div>
+                            </div>
+
+                           
+                        </div>
+                    
+                        <!-- Botones de acción -->
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                             <button type="submit" class="btn btn-primary">Crear Horario</button>
                         </div>
                     </form>
+                    
                 </div>
             </div>
         </div>
-    </div>
+        </div>
 
 </div>
 @endsection
@@ -464,30 +641,6 @@ $(document).ready(function() {
     });
 });
 
-
-document.addEventListener('DOMContentLoaded', function () {
-    function showAlert(message, icon, type) {
-        Swal.fire({
-            title: message,
-            icon: icon,
-            showCancelButton: false,
-            confirmButtonColor: '#3085d6',
-            confirmButtonText: 'Aceptar'
-        });
-    }
-
-    @if(session('info'))
-        showAlert('{{ session('info') }}', 'success', 'success');
-    @endif
-
-    @if(session('update'))
-        showAlert('{{ session('update') }}', 'info', 'info');
-    @endif
-
-    @if(session('delete'))
-        showAlert('{{ session('delete') }}', 'error', 'error');
-    @endif
-});
 
 
 $(document).ready(function() {
@@ -715,6 +868,34 @@ $(document).ready(function() {
         });
     }
 });
+
+
+
+
+</script>
+<script>
+   $('#consultorio_select').on('change', function () {
+        var consultorio_id = $('#consultorio_select').val();
+        //alert(consultorio_id);
+
+        var url = "{{ route('horarios-doctor-consultorio', ':id') }}";
+        url = url.replace(':id', consultorio_id);
+
+        if (consultorio_id) {
+            $.ajax({
+                url: url,
+                type: 'GET',
+                success: function (data) {
+                    $('#consultorio_info').html(data);
+                },
+                error: function () {
+                    alert('Error al obtener los datos del consultorio');
+                }
+            });
+        } else {
+            $('#consultorio_info').html('');
+        }
+    });
 
 </script>
 @stop

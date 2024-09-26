@@ -110,7 +110,7 @@
       @endif
   
        <div class="table-responsive">
-        <table id="informesTable" class="min-w-full border border-gray-300 shadow-md rounded-lg p-2">
+        <table id="informesTable" class="min-w-full w-100 border border-gray-300 shadow-md rounded-lg p-2">
             <thead class="from-green-500 to-green-600 text-white">
                 <tr>
                     <th class="px-6 py-3 text-left text-base font-medium tracking-wider border-b border-gray-200">ID</th>
@@ -140,7 +140,7 @@
                 <div class="modal-header bg-primary">
                     <div class="row">
                         <div class="col-lg-8">
-                            <h5 class="modal-title text-white" id="createInformeCondicionFormModalLabel">Crear Informe de Condición Diaria para el Paciente</h5>
+                            <h5 class="modal-title text-white" id="createInformeCondicionFormModalLabel"></h5>
                         </div>
                         <div id="datos-paciente" class="mb-3">
                             <h4>Datos del Paciente</h4>
@@ -506,31 +506,6 @@ $(document).ready(function() {
 
 
 
-
-
-    document.addEventListener('DOMContentLoaded', function () {
-        function showAlert(message, icon, type) {
-            Swal.fire({
-                title: message,
-                icon: icon,
-                showCancelButton: false,
-                confirmButtonColor: '#3085d6',
-                confirmButtonText: 'Aceptar'
-            });
-        }
-
-        @if(session('info'))
-            showAlert('{{ session('info') }}', 'success', 'success');
-        @endif
-
-        @if(session('update'))
-            showAlert('{{ session('update') }}', 'info', 'info');
-        @endif
-
-        @if(session('delete'))
-            showAlert('{{ session('delete') }}', 'error', 'error');
-        @endif
-    });
 
 
 

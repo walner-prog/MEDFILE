@@ -38,7 +38,7 @@ class CreateDoctoresTable extends Migration
             // Relaciones
             $table->foreign('especialidad_id')->references('id')->on('especialidades')->onDelete('set null');
             $table->foreign('departamento_id')->references('id')->on('departamentos')->onDelete('set null');
-            $table->foreign('usuario_id')->references('id')->on('users')->onDelete('set null');
+            $table->foreign('usuario_id')->references('id')->on('users');
         });
     }
 

@@ -28,6 +28,15 @@
     <div class="card">
         <div class="card-header bg-primary text-white">
             <h4><i class="fa-solid fa-id-card-clip fa-2x mb-1 mr-2"></i>Registro  de la Historia Clínica </h4>
+            
+           @can('ver-historia-clinica-pdf')
+            <!-- Código o vista para ver la historia clínica en PDF -->
+            <a href="{{ route('historias_clinicas.pdf', $historiaClinica->id) }}" class="btn btn-primary" target="_blank">
+                Generar PDF
+            </a>
+           @endcan
+           
+            
         </div>
         <div class="card-body " >
             <div class="row text-dark">
@@ -36,17 +45,20 @@
                     <hr>
                     <div class="row mb-2">
                        
-                        <div class="col-sm-8 ">
-                            @if($historiaClinica->foto_paciente)
-                                <img src="{{ asset('storage/' . $historiaClinica->foto_paciente) }}" alt="Foto del Paciente" class="img-thumbnail" style="width: 100px; height: 100px;">
-                            @else
-                             
-                                <i class="fa-solid fa-hospital-user fa-2x mb-1 font-weight-bold" style="font-size: 100px;"></i>
-                            @endif
-                        </div>
+                        
+                            <div class="col-sm-8">
+                                @if($historiaClinica->paciente && $historiaClinica->paciente->foto)
+                                    <img src="{{ asset('images/' . $historiaClinica->paciente->foto) }}" alt="Foto de Paciente" width="150">
+                                @else
+                                    <i class="fa-solid fa-hospital-user fa-2x mb-1 font-weight-bold" style="font-size: 100px;"></i>
+                                @endif
+                            </div>
+                            
+                         
+                        
                         <div class="mr-4 mt-2">
                           
-                            <strong>    <i class="fa-solid fa-receipt fa-2x mb-1 mr-2 "></i> No. Expediente:</strong> <span class=" text-danger">{{ $historiaClinica->no_expediente }}</span> 
+                            <strong>    <i class="fa-solid fa-receipt fa-2x mb-1 mr-2 "></i> No. Expediente:</strong> <span class=" text-danger">{{ $historiaClinica->paciente->no_expediente }}</span> 
                            <strong class=" mr-2"><i class="fa-solid fa-file-waveform fa-2x mb-1 mr-2"></i></strong> 
                         </div>
                     </div>
@@ -57,27 +69,25 @@
                         <div class="col-sm-12 p-2 border border-1 border-info">
                             <div class="d-flex flex-wrap">
                                 <div class="mr-4">
-                                    <strong> Paciente ID:</strong> <span>{{ $historiaClinica->paciente_id }}</span> 
+                                    <strong>Paciente ID:</strong> <span>{{ $historiaClinica->paciente->id }}</span>
                                 </div>
                                 <div class="mr-4">
-                                    <strong>Nombres y Apellidos :</strong>
-                                     <span class=" mr-3">
-                                        {{ $historiaClinica->primer_nombre }} 
-                                        {{ $historiaClinica->segundo_nombre }} 
-                                        {{ $historiaClinica->primer_apellido }} 
-                                        {{ $historiaClinica->segundo_apellido }} 
+                                    <strong>Nombres y Apellidos:</strong>
+                                    <span class="mr-3">
+                                        {{ $historiaClinica->paciente->primer_nombre }} 
+                                        {{ $historiaClinica->paciente->segundo_nombre }} 
+                                        {{ $historiaClinica->paciente->primer_apellido }} 
+                                        {{ $historiaClinica->paciente->segundo_apellido }}
                                     </span>
-                                     <strong>Edad:</strong> <span class=" mr-3">{{ $historiaClinica->edad }} </span> 
-                                     <strong>NO. Cedula:</strong> <span class=" mr-3">
-                                        {{ $historiaClinica->no_cedula}}
-                                     </span>
+                                    <strong>Edad:</strong> <span class="mr-3">{{ $historiaClinica->paciente->edad }}</span>
+                                    <strong>No. Cédula:</strong> <span class="mr-3">{{ $historiaClinica->paciente->no_cedula }}</span>
                                 </div>
-                               
-
                                 <div class="mr-4">
-                                    <strong>Sexo:</strong> <span>{{ $historiaClinica->sexo == 'M' ? 'Masculino' : ($historiaClinica->sexo == 'F' ? 'Femenino' : 'No especificado') }}</span> 
+                                    <strong>Sexo:</strong> 
+                                    <span>{{ $historiaClinica->paciente->sexo == 'M' ? 'Masculino' : ($historiaClinica->paciente->sexo == 'F' ? 'Femenino' : 'No especificado') }}</span>
                                 </div>
                             </div>
+                            
                         </div>
 
 
@@ -89,12 +99,12 @@
                         
                     <div class="row mb-2">
                         <div class="col-sm-4 font-weight-bold">Teléfono:</div>
-                        <div class="col-sm-8">{{ $historiaClinica->telefono ?? 'No disponible' }}</div>
+                        <div class="col-sm-8">{{ $historiaClinica->paciente->telefono ?? 'No disponible' }}</div>
                     </div>
                    
                     <div class="row mb-2">
                         <div class="col-sm-4 font-weight-bold">No. INSS:</div>
-                        <div class="col-sm-8">{{ $historiaClinica->no_inss ?? 'No disponible' }}</div>
+                        <div class="col-sm-8">{{ $historiaClinica->paciente->no_inss ?? 'No disponible' }}</div>
                     </div>
                     <div class="row mb-2">
                         <div class="col-sm-4 font-weight-bold">Sala:</div>
@@ -116,7 +126,7 @@
                     </div>
                     <div class="row mb-2">
                         <div class="col-sm-4 font-weight-bold">Grupos Étnicos:</div>
-                        <div class="col-sm-8">{{ $historiaClinica->grupos_etnicos ?? 'No disponible' }}</div>
+                        <div class="col-sm-8">{{ $historiaClinica->paciente->raza_etnia ?? 'No disponible' }}</div>
                     </div>
 
                   </div>

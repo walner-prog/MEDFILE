@@ -89,6 +89,16 @@
         </div>
         
     </div>
+
+    <div class="row">
+        <div class="col-lg-12  text-center mr-auto">
+            <img 
+            src="{{ asset('storage/medfile3.jpeg') }}" 
+            alt="logo" 
+            class="img-fluid mb-4" 
+            style="max-width: 1080px; height: auto;">
+        </div>
+    </div>
     
      <div class="row">
         <div class="col-lg-2">

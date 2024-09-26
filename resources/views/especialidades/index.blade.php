@@ -1,3 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+       
+        @section('css')
+        <link rel="stylesheet" href="{{ asset('css/admin_custom.css') }}">
+          <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
+        
+       
+          <link rel="stylesheet" href="https://cdn.datatables.net/select/1.4.0/css/select.dataTables.min.css">
+         
+          @livewireStyles
+        <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap5.min.css">
+        <link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.bootstrap5.css">
+      
+      @stop
+          <!-- Otros elementos del encabezado... -->
+          <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+          <head>
+            <script>
+              (function() {
+                const currentTheme = localStorage.getItem('theme');
+                if (currentTheme === 'dark') {
+                  document.documentElement.classList.add('dark-mode');
+                  document.documentElement.classList.remove('light-mode');
+                } else if (currentTheme === 'light') {
+                  document.documentElement.classList.add('light-mode');
+                  document.documentElement.classList.remove('dark-mode');
+                } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                  document.documentElement.classList.add('dark-mode');
+                } else {
+                  document.documentElement.classList.add('light-mode');
+                }
+              })();
+            </script>
+            <!-- Resto de tu <head> -->
+          </head>
+      </head>
+<body>
+    
 <section>
     <head>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-" crossorigin="anonymous" />
@@ -52,15 +93,7 @@
        
       
         <div class="col-lg-10 d-flex justify-content-end align-items-center">
-            <div class="datetime badge badge-info p-2 mr-2" id="datetime"></div>
-            <label class="switch mb-0">
-                <input type="checkbox" id="theme-toggle">
-                <span class="slider round">
-                    <i class="fas fa-sun icon-light"></i>
-                    <i class="fas fa-moon icon-dark"></i>
-                </span>
-                <span id="mode-text"></span>
-            </label>
+           
         </div>
         
      </div>
@@ -103,13 +136,14 @@
      
     
     <div class="table-responsive">
-        <table class="table table-striped table-bordered shadow-lg" id="especialidadesTable">
-            <thead class="card-green">
+        <table id="especialidadesTable" class="min-w-full w-100 border border-gray-300 shadow-md rounded-lg p-2">
+            <thead class="from-green-500 to-green-600 text-white">
+         
                 <tr>
-                    <th>ID</th>
-                    <th>Nombre</th>
-                    <th>Descripción</th>
-                    <th>Acciones</th>
+                    <th class="px-6 py-3 text-left text-base font-medium tracking-wider border-b border-gray-200">ID</th>
+                    <th class="px-6 py-3 text-left text-base font-medium tracking-wider border-b border-gray-200">Nombre</th>
+                    <th class="px-6 py-3 text-left text-base font-medium tracking-wider border-b border-gray-200">Descripción</th>
+                    <th class="px-6 py-3 text-left text-base font-medium tracking-wider border-b border-gray-200">Acciones</th>
                 </tr>
             </thead>
             <tbody>
@@ -364,110 +398,6 @@ $(document).ready(function() {
 });
 
 
-document.addEventListener('DOMContentLoaded', function () {
-        function showAlert(message, icon, type) {
-            Swal.fire({
-                title: message,
-                icon: icon,
-                showCancelButton: false,
-                confirmButtonColor: '#3085d6',
-                confirmButtonText: 'Aceptar'
-            });
-        }
-
-        @if(session('info'))
-            showAlert('{{ session('info') }}', 'success', 'success');
-        @endif
-
-        @if(session('update'))
-            showAlert('{{ session('update') }}', 'info', 'info');
-        @endif
-
-        @if(session('delete'))
-            showAlert('{{ session('delete') }}', 'error', 'error');
-        @endif
-    });
-
-document.addEventListener("DOMContentLoaded", function () {
-  const toggleSwitch = document.getElementById('theme-toggle');
-  const modeText = document.getElementById('mode-text');
-  const breadcrumb = document.getElementById('breadcrumb');
-
-  function switchTheme(e) {
-    if (e.target.checked) {
-      // Tema oscuro
-      document.body.classList.add('dark-mode');
-      document.body.classList.remove('light-mode');
-      modeText.textContent = 'modo claro';
-      breadcrumb.classList.remove('bg-white', 'text-light');
-      breadcrumb.classList.add('bg-dark', 'text-white');
-      localStorage.setItem('theme', 'dark'); // Guardar la preferencia en localStorage
-    } else {
-      // Tema claro
-      document.body.classList.add('light-mode');
-      document.body.classList.remove('dark-mode');
-      modeText.textContent = 'modo oscuro';
-      breadcrumb.classList.remove('bg-dark', 'text-white');
-      breadcrumb.classList.add('bg-white', 'text-light');
-      localStorage.setItem('theme', 'light'); // Guardar la preferencia en localStorage
-    }
-  }
-
-  // Aplicar el tema guardado en localStorage al cargar la página
-  const currentTheme = localStorage.getItem('theme');
-
-  if (currentTheme === 'dark') {
-    toggleSwitch.checked = true;
-    document.body.classList.add('dark-mode');
-    document.body.classList.remove('light-mode');
-    modeText.textContent = 'modo claro';
-    breadcrumb.classList.remove('bg-white', 'text-light');
-    breadcrumb.classList.add('bg-dark', 'text-white');
-  } else if (currentTheme === 'light') {
-    toggleSwitch.checked = false;
-    document.body.classList.add('light-mode');
-    document.body.classList.remove('dark-mode');
-    modeText.textContent = 'modo oscuro';
-    breadcrumb.classList.remove('bg-dark', 'text-white');
-    breadcrumb.classList.add('bg-white', 'text-light');
-  } else {
-    // Si no hay tema guardado, aplicar el tema basado en la preferencia del sistema
-    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      toggleSwitch.checked = true;
-      document.body.classList.add('dark-mode');
-      breadcrumb.classList.remove('bg-white', 'text-light');
-      breadcrumb.classList.add('bg-dark', 'text-white');
-      modeText.textContent = 'modo claro';
-    } else {
-      toggleSwitch.checked = false;
-      document.body.classList.add('light-mode');
-      breadcrumb.classList.remove('bg-dark', 'text-white');
-      breadcrumb.classList.add('bg-white', 'text-light');
-      modeText.textContent = 'modo oscuro';
-    }
-  }
-
-  // Event listener para el cambio de tema
-  toggleSwitch.addEventListener('change', switchTheme);
-});
-
-
-
-
-
-// Function to update date and time
-function updateDateTime() {
-    const now = new Date();
-    const datetimeString = now.toLocaleString();
-    document.getElementById('datetime').textContent = datetimeString;
-}
-
-// Initial call to set the date and time
-updateDateTime();
-
-// Update date and time every second
-setInterval(updateDateTime, 1000);
-
 
   </script>
   @stop
@@ -475,3 +405,6 @@ setInterval(updateDateTime, 1000);
 
 
 
+
+</body>
+</html>

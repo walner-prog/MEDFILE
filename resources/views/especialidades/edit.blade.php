@@ -1,6 +1,72 @@
  
-{{-- @extends('layouts.app') --}}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+       
+        @section('css')
+        <link rel="stylesheet" href="{{ asset('css/admin_custom.css') }}">
+          <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
+        
+       
+          <link rel="stylesheet" href="https://cdn.datatables.net/select/1.4.0/css/select.dataTables.min.css">
+         
+          @livewireStyles
+        <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap5.min.css">
+        <link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.bootstrap5.css">
+      
+      @stop
+          <!-- Otros elementos del encabezado... -->
+          <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+          <head>
+            <script>
+              (function() {
+                const currentTheme = localStorage.getItem('theme');
+                if (currentTheme === 'dark') {
+                  document.documentElement.classList.add('dark-mode');
+                  document.documentElement.classList.remove('light-mode');
+                } else if (currentTheme === 'light') {
+                  document.documentElement.classList.add('light-mode');
+                  document.documentElement.classList.remove('dark-mode');
+                } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                  document.documentElement.classList.add('dark-mode');
+                } else {
+                  document.documentElement.classList.add('light-mode');
+                }
+              })();
+            </script>
+            <!-- Resto de tu <head> -->
+          </head>
+      </head>
+<body>
+    
+<section>
+    <head>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-" crossorigin="anonymous" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-" crossorigin="anonymous" />
+         <!-- Agrega esto en la sección head de tu HTML -->
+           <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" integrity="sha512-TCJ6FYD6dMj4wsiWZz6swnVMqB5RW2MaebusGM1h8zE3DlX5C4sG5ndooMU2t7pLzYl5GmMKa9oB/njpy5Ul9w==" crossorigin="anonymous" />
+              <!-- Otros encabezados -->
+    
+    @section('css')
+      <link rel="stylesheet" href="{{ asset('css/admin_custom.css') }}">
+      <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
+    
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+      <link rel="stylesheet" href="https://cdn.datatables.net/select/1.4.0/css/select.dataTables.min.css">
+     
+      @livewireStyles
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap5.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.bootstrap5.css">
+  @stop
+      <!-- Otros elementos del encabezado... -->
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+  </head>
+ 
+<body>
+     
 <section>
     <head>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-" crossorigin="anonymous" />
@@ -36,11 +102,22 @@
 
 
 @section('content')
-<div class="container">
+<div class="container mt-4 toggle-container">
     <br>
+    <div class="row">
+        <div class="col">
+            <nav aria-label="breadcrumb" class="rounded-3 p-3 mb-4">
+                <ol id="breadcrumb" class="breadcrumb mb-0 text-light">
+                    <li class="breadcrumb-item">Inicio</li>
+                    <li class="breadcrumb-item active" aria-current="page">Gestión de Citas</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
      <div class="row">
         <div class="col-lg-2 ">
-            <a class="text-white" href="{{ route('doctores.index') }}">
+            <a class="text-white" href="{{ route('especialidades.index') }}">
                 <button class="btn btn-info ">
                     <i class="fas fa-house-medical-circle-check"></i> Regresar
                 </button>
@@ -48,14 +125,7 @@
            
         </div>
         <div class="col-lg-10 text-right">
-           <label class="switch">
-                <input type="checkbox" id="theme-toggle">
-                <span class="slider round">
-                  <i class="fas fa-sun icon-light"></i>
-                  <i class="fas fa-moon icon-dark"></i>
-                </span>
-                <span id="mode-text"></span>
-              </label>
+         
              
         </div>
      </div>
@@ -122,35 +192,7 @@
 
  
 
-<script>
-// Check for saved user theme preference
-const currentTheme = localStorage.getItem('theme') || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
-if (currentTheme) {
-    document.body.classList.add(currentTheme + '-mode');
-    document.getElementById('theme-toggle').checked = currentTheme === 'dark';
-}
-
-const toggleSwitch = document.getElementById('theme-toggle');
-
-function switchTheme(e) {
-    if (e.target.checked) {
-        document.body.classList.add('dark-mode');
-        document.body.classList.remove('light-mode');
-        localStorage.setItem('theme', 'dark');
-    } else {
-        document.body.classList.add('light-mode');
-        document.body.classList.remove('dark-mode');
-        localStorage.setItem('theme', 'light');
-    }
-}
-
-toggleSwitch.addEventListener('change', switchTheme);
-
-
-
-
-
-
-</script>
 @stop
 </section>
+</body>
+</html>

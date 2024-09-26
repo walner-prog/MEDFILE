@@ -88,7 +88,10 @@
                                         {{ session('success') }}
                                     </div>
                                 @endif
-                                <form method="POST" action="{{ route('change_password') }}">
+                                
+                             @can('cambiar-password')
+                                 <!-- Código o acción para cambiar la contraseña -->
+                                 <form method="POST" action="{{ route('change_password') }}">
                                     @csrf
                                     <div class="form-group">
                                         <label for="current_password" class="form-label">Contraseña Actual</label>
@@ -118,6 +121,9 @@
                                         </button>
                                     </div>
                                 </form>
+                              @endcan
+ 
+                                
                                 
                             </div>
                         </div>

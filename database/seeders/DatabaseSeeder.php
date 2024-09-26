@@ -31,9 +31,11 @@ class DatabaseSeeder extends Seeder
             EspecialidadSeeder::class,
             DepartamentoSeeder::class,
             UserSeeder::class,
-            DoctorSeeder::class,
             DepartamentosHospitalSeeder::class,
-            EspecialidadesSeeder::class
+            EspecialidadesSeeder::class,
+            DoctorSeeder::class,
+           
+            ConsultorioSeeder::class
         ]);
     }
 }

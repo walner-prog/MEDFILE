@@ -51,8 +51,8 @@
                           
                            
                                 <div class="text-center">
-                                    <img src="{{ asset('storage/logo-sin-fondo.png') }}" style="width: 300px;" alt="logo">
-                                    <h1 class="h4 text-gray font-weight-bold text-center">Registrate</h1>
+                                    <img src="{{ asset('storage/logo-icon.png') }}" style="width: 300px;" alt="logo">
+                                    <h3 class=" text-gray font-weight-bold text-center">Registrate</h3>
                                 </div>
                                 <form method="POST" action="{{ route('register') }}">
                                     @csrf
@@ -61,7 +61,7 @@
                                      <div class="form-group font-weight-bold">
                                         <div class="row mb-3">
                                             <label for="name" class="col-form-label text-gray">{{ __('Nombre') }}</label>
-                                            <input id="name" type="text" placeholder="Escribe tu nombre" class="form-control edit_imput @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
+                                            <input id="name" width="50px" type="text" placeholder="Escribe tu nombre" class="form-control edit_imput @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
                                             @error('name')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
@@ -71,7 +71,7 @@
                                     </div>
 
                                     <!-- Email input -->
-                                    <div class="row mb-3 font-weight-bold">
+                                    <div class=" mb-3 font-weight-bold">
                                         <label for="email" class="form-label text-gray">{{ __('Email o Correo') }}</label>
                                         <input id="email" type="email" placeholder="Ingresa tu correo" class="form-control edit_imput @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email">
                                         @error('email')

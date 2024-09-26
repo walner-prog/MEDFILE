@@ -11,10 +11,13 @@ class CreateHorariosDoctorTable extends Migration
         Schema::create('horarios_doctor', function (Blueprint $table) {
             $table->id();
             $table->foreignId('doctor_id')->constrained('doctores');
-            $table->date('fecha');
+            $table->foreignId('consultorio_id')->constrained('consultorios');
+            $table->date('fecha')->nullable();
             $table->time('hora_inicio');
             $table->time('hora_fin');
             $table->integer('duracion_cita')->default(30);
+            $table->enum('dia_semana', ['lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado', 'domingo']);
+        
             $table->timestamps();
         });
     }

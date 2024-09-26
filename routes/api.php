@@ -7,7 +7,7 @@ use App\Models\Paciente;
 use App\Models\Emergencia;
 use App\Models\HistoriaClinica;
 use Yajra\DataTables\Facades\DataTables;
-
+use App\Models\Doctor;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -22,6 +22,7 @@ use Yajra\DataTables\Facades\DataTables;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
 Route::get('pacientes', function () {
     $query = Paciente::query()
         ->select([
@@ -32,13 +33,13 @@ Route::get('pacientes', function () {
             'primer_apellido',
             'segundo_apellido',
             'no_cedula',
-            'edad'
+            'edad',
+            'foto' // Incluimos la foto del paciente
         ]);
 
     return DataTables::of($query)
-        ->addColumn('btn','actions')
-       
-        ->rawColumns(['no_expediente', 'primer_nombre', 'no_cedula', 'edad', 'btn'])
+        ->addColumn('btn', 'actions')
+        ->rawColumns(['foto', 'btn']) // Aseguramos que 'foto' también se trate como HTML
         ->toJson();
 });
 
@@ -64,13 +65,62 @@ Route::get('emergencias', function () {
         ->toJson();
 });
 
-Route::get('historias_clinicas', function () {
+
+Route::get('historias_clinicas', function (Request $request) {
+    $query = HistoriaClinica::with('paciente'); // Carga la relación paciente
+ 
+    // Filtro global de búsqueda
+    if ($request->has('search') && $request->search['value'] !== '') {
+        $searchValue = $request->search['value'];
+
+        // Aplica el filtro sobre los campos de la relación paciente
+        $query->whereHas('paciente', function($q) use ($searchValue) {
+            $q->where('no_expediente', 'like', "%{$searchValue}%")
+              ->orWhere('primer_nombre', 'like', "%{$searchValue}%")
+              ->orWhere('segundo_nombre', 'like', "%{$searchValue}%")
+              ->orWhere('primer_apellido', 'like', "%{$searchValue}%")
+              ->orWhere('segundo_apellido', 'like', "%{$searchValue}%")
+              ->orWhere('no_cedula', 'like', "%{$searchValue}%");
+        });
+    }
+
     return datatables()
-        ->eloquent(App\Models\HistoriaClinica::select(['id', 'no_expediente', 'primer_nombre', 'segundo_nombre', 'primer_apellido', 'segundo_apellido', 'no_cedula','sexo','no_inss','edad'])) // Ajusta las columnas según lo que necesites
+        ->eloquent($query)
+        ->addColumn('no_expediente', function ($historiaClinica) {
+            return $historiaClinica->paciente->no_expediente ?? 'No disponible';
+        })
+        ->addColumn('primer_nombre', function ($historiaClinica) {
+            return $historiaClinica->paciente->primer_nombre ?? 'No disponible';
+        })
+        ->addColumn('segundo_nombre', function ($historiaClinica) {
+            return $historiaClinica->paciente->segundo_nombre ?? 'No disponible';
+        })
+        ->addColumn('primer_apellido', function ($historiaClinica) {
+            return $historiaClinica->paciente->primer_apellido ?? 'No disponible';
+        })
+        ->addColumn('segundo_apellido', function ($historiaClinica) {
+            return $historiaClinica->paciente->segundo_apellido ?? 'No disponible';
+        })
+        ->addColumn('no_cedula', function ($historiaClinica) {
+            return $historiaClinica->paciente->no_cedula ?? 'No disponible';
+        })
+        ->addColumn('edad', function ($historiaClinica) {
+            return $historiaClinica->paciente->edad ?? 'No disponible';
+        })
+        ->addColumn('sexo', function ($historiaClinica) {
+            return $historiaClinica->paciente->sexo == 'M' ? 'Masculino' : 'Femenino';
+        })
+        ->addColumn('no_inss', function ($historiaClinica) {
+            return $historiaClinica->paciente->no_inss ?? 'No disponible';
+        })
         ->addColumn('btn', 'actions-historiaclinica')
         ->rawColumns(['btn'])
         ->toJson();
 });
+
+
+
+
 
 
 
@@ -121,7 +171,7 @@ Route::get('registro_admision_hospitalario', function () {
     ->rawColumns(['btn'])
     ->toJson();
 });
-use App\Models\Doctor;
+
 
 
 Route::get('doctores', function () {
@@ -167,6 +217,17 @@ Route::get('citas', function () {
     ->rawColumns(['btn'])
     ->toJson();
 });
+
+
+Route::get('excepciones', function () {
+    
+    return datatables()
+    ->eloquent( App\Models\Excepcion::query())
+    ->addColumn('btn','actions-excepciones')
+    ->rawColumns(['btn'])
+    ->toJson();
+});
+
 
 
 

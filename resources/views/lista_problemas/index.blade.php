@@ -109,7 +109,7 @@
  
       <div class="table-responsive">
         <!-- HTML -->
-<table id="listaProblemasTable" class="min-w-full border border-gray-300 shadow-md rounded-lg p-2">
+<table id="listaProblemasTable" class="min-w-full w-100 border border-gray-300 shadow-md rounded-lg p-2">
     <thead class="bg-gradient-to-r from-green-500 to-green-600 text-white">
         <tr>
             <th class="px-6 py-3 text-left text-base font-medium tracking-wider border-b border-gray-200">ID</th>
@@ -551,30 +551,6 @@ $(document).ready(function() {
 
 
 
-
-    document.addEventListener('DOMContentLoaded', function () {
-        function showAlert(message, icon, type) {
-            Swal.fire({
-                title: message,
-                icon: icon,
-                showCancelButton: false,
-                confirmButtonColor: '#3085d6',
-                confirmButtonText: 'Aceptar'
-            });
-        }
-
-        @if(session('info'))
-            showAlert('{{ session('info') }}', 'success', 'success');
-        @endif
-
-        @if(session('update'))
-            showAlert('{{ session('update') }}', 'info', 'info');
-        @endif
-
-        @if(session('delete'))
-            showAlert('{{ session('delete') }}', 'error', 'error');
-        @endif
-    });
 
 
 

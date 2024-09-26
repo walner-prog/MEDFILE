@@ -75,8 +75,8 @@
         }
 </style>
 @endsection
-<body class="bg-gray-100 p-4" style="width: 300px">
-    <div class="btn-wrapper">
+<body class="bg-gray-100 p-4" >
+    <div class="btn-wrapper" style="width: 200px">
         <a href="{{ route('notas_evolucion_tratamiento.show', $id) }}" target="_blank" class="btn btn-purple">
             <i class="fas fa-eye"></i>
             <span class="tooltip">Ver</span>
@@ -86,12 +86,12 @@
             <span class="tooltip">Editar</span>
         </a>
 
-        @can('borrar-usuario')
+       
         <button type="button" class="btn btn-orange delete-btn" data-id="{{ $id }}">
             <i class="fas fa-trash"></i>
             <span class="tooltip">Eliminar</span>
         </button>
-        @endcan
+      
     </div>
 
     <!-- FontAwesome CDN -->

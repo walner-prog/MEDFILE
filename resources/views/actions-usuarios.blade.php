@@ -80,7 +80,11 @@
         @can('editar-usuario')
                             <button class="btn btn btn-green btn-sm" data-toggle="modal" data-target="#editUsuarioModal{{ $usuario->id }}">    <i class="fas fa-edit"></i></button>
          @endcan
-        <a href="{{ route('pacientes.edit', $id) }}" class="btn btn-green">
+         <a href="{{ route('usuarios.show', $id) }}" class="btn btn-green">
+            <i class="fas fa-edit"></i>
+            <span class="tooltip">Editar</span>
+        </a>
+        <a href="{{ route('usuarios.edit', $id) }}" class="btn btn-green">
             <i class="fas fa-edit"></i>
             <span class="tooltip">Editar</span>
         </a>

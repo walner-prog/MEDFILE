@@ -38,4 +38,44 @@ class Handler extends ExceptionHandler
             //
         });
     }
+
+   /* public function render($request, Throwable $exception)
+{
+    if ($exception instanceof \Spatie\Permission\Exceptions\UnauthorizedException) {
+        // Obtenemos la URL solicitada
+        $urlIntentada = $request->url();
+
+        // Redirigir con un mensaje de error que incluye la URL
+        return redirect()->back()->with('error', "No tienes los permisos necesarios para acceder a la sección: $urlIntentada.");
+    }
+
+    return parent::render($request, $exception);
+}
+*/
+/// personalizado el metodoo 
+public function render($request, Throwable $exception)
+{
+    if ($exception instanceof \Spatie\Permission\Exceptions\UnauthorizedException) {
+        $urlIntentada = $request->url();
+        $metodo = $request->method();
+        $nombreRuta = $request->route()->getName();
+        $parametrosRuta = $request->route()->parameters();
+        $ipUsuario = $request->ip();
+        $urlReferer = $request->headers->get('referer');
+
+        // Puedes concatenar toda la información en un solo mensaje
+        $mensaje = "No tienes los permisos necesarios para acceder a la sección: $urlIntentada. ";
+        $mensaje .= "Método HTTP: $metodo. ";
+        $mensaje .= "Ruta: $nombreRuta. ";
+        $mensaje .= "Parámetros: " . json_encode($parametrosRuta) . ". ";
+        $mensaje .= "IP: $ipUsuario. ";
+        $mensaje .= "URL previa: $urlReferer.";
+
+        return redirect()->back()->with('error', $mensaje);
+    }
+
+    return parent::render($request, $exception);
+}
+
+    
 }

@@ -11,21 +11,22 @@
 <body>
     <style>
         .bt-teal {
-  background-color: #14b8a6; /* Teal 500 de Tailwind CSS para boton crear */
-  color: white;
+         background-color: #147cb8; /* Teal 500 de Tailwind CSS para boton crear */
+          color: white;
 
-}
+        }
     </style>
     <div class="container  ">
         <div class="row">
-            <div class="col-md-12">
+         
                 <div class="card">
                     <div class="card-header bt-teal text-dark">
-                        <h4>Detalles del Paciente {{ $paciente->nombre }} {{ $paciente->primer_apellido }}</h4>
+                        <h6><strong>Identificacion del Paciente:</strong> <span>{{ $paciente->primer_nombre }} {{ $paciente->segundo_nombre }} 
+                            {{ $paciente->primer_apellido }} {{ $paciente->segundo_apellido }} </span> </h6>
                     </div>
                     <div class="card-body ">
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-12">
                                 <h5>Información Básica</h5>
                                 <div class="row mb-2">
                                     <div class="col-sm-4 font-weight-bold">No. Expediente:</div>
@@ -57,7 +58,7 @@
                                 </div>
                             </div>
     
-                            <div class="col-md-6">
+                            <div class="col-md-12">
                                 <h5>Información de Contacto</h5>
                                 <div class="row mb-2">
                                     <div class="col-sm-4 font-weight-bold">Teléfono:</div>
@@ -76,7 +77,7 @@
     
                         <h5 class="mt-4">Información Adicional</h5>
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-12">
                                 <div class="row mb-2">
                                     <div class="col-sm-4 font-weight-bold">Establecimiento de Salud:</div>
                                     <div class="col-sm-8">{{ $paciente->establecimiento_salud }}</div>
@@ -99,7 +100,7 @@
                                 </div>
                             </div>
     
-                            <div class="col-md-6">
+                            <div class="col-md-12">
                                 <div class="row mb-2">
                                     <div class="col-sm-4 font-weight-bold">Escolaridad:</div>
                                     <div class="col-sm-8">{{ $paciente->escolaridad }}</div>
@@ -129,7 +130,7 @@
     
                         <h5 class="mt-4">Información del Responsable</h5>
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-12">
                                 <div class="row mb-2">
                                     <div class="col-sm-4 font-weight-bold">Responsable de Emergencia:</div>
                                     <div class="col-sm-8">{{ $paciente->responsable_emergencia }}</div>
@@ -148,7 +149,7 @@
                                 </div>
                             </div>
     
-                            <div class="col-md-6">
+                            <div class="col-md-12">
                                 <div class="row mb-2">
                                     <div class="col-sm-4 font-weight-bold">Empleador:</div>
                                     <div class="col-sm-8">{{ $paciente->empleador }}</div>
@@ -162,7 +163,7 @@
                     </div>
                    
                 </div>
-            </div>
+          
         </div>
     </div>
 

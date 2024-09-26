@@ -53,9 +53,7 @@
     
   @section('title', 'MEDFILE')
   
-  
-  
-  
+
 
   @section('content')
   <div class="container  mt-4 mb-5  toggle-container">
@@ -74,7 +72,7 @@
     
      <div class="row">
        <div class="col-lg-2">
-           @can('create', App\Models\HistoriaClinica::class)
+           @can('crear-historia-clinica', App\Models\HistoriaClinica::class)
            <button class="btn btn-indigo mb-3" data-toggle="modal" data-target="#createhistoriaForm">
                <i class="fas fa-plus"></i> Crear 
            </button>
@@ -117,30 +115,38 @@
          </div>
      @endif
  
-   <div class="table-responsive">
-    <table id="historiaclinicaTable" class="min-w-full border border-gray-300 shadow-md rounded-lg p-2">
-        <thead class="from-green-500 to-green-600 text-white">
-            <tr>
-                <th class="px-6 py-3 text-left text-base font-medium tracking-wider border-b border-gray-200">ID</th>
-                <th class="px-6 py-3 text-left text-base font-medium tracking-wider border-b border-gray-200">No. Expediente</th>
-                <th class="px-6 py-3 text-left text-base font-medium tracking-wider border-b border-gray-200">Nombre #1</th>
-                <th class="px-6 py-3 text-left text-base font-medium tracking-wider border-b border-gray-200">Nombre #2</th>
-                <th class="px-6 py-3 text-left text-base font-medium tracking-wider border-b border-gray-200">Apellido #1</th>
-                <th class="px-6 py-3 text-left text-base font-medium tracking-wider border-b border-gray-200">Apellido #2</th>
-                <th class="px-6 py-3 text-left text-base font-medium tracking-wider border-b border-gray-200">No. Cédula</th>
-                <th class="px-6 py-3 text-left text-base font-medium tracking-wider border-b border-gray-200">Edad</th>
-                <th class="px-6 py-3 text-left text-base font-medium tracking-wider border-b border-gray-200">Sexo</th>
-                <th class="px-6 py-3 text-left text-base font-medium tracking-wider border-b border-gray-200">No. INSS</th>
-                <th class="px-6 py-3 text-left text-base font-medium tracking-wider border-b border-gray-200">Acciones</th>
-            </tr>
-        </thead>
-        <hr>
-        <tbody class="divide-y divide-gray-200">
-            {{-- Los datos se cargan acá dinámicamente por datatable server-side --}}
-        </tbody>
-    </table>
+     
+   
+     @can('ver-historia-clinica')
+
+         <!-- Código o vista para ver la historia clínica de un paciente -->
+         <div class="table-responsive">
+            <table id="historiaclinicaTable" class="min-w-full border border-gray-300 shadow-md rounded-lg p-2">
+                <thead class="from-green-500 to-green-600 text-white">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-base font-medium tracking-wider border-b border-gray-200">ID</th>
+                        <th class="px-6 py-3 text-left text-base font-medium tracking-wider border-b border-gray-200">No. Expediente</th>
+                        <th class="px-6 py-3 text-left text-base font-medium tracking-wider border-b border-gray-200">Nombre #1</th>
+                        <th class="px-6 py-3 text-left text-base font-medium tracking-wider border-b border-gray-200">Nombre #2</th>
+                        <th class="px-6 py-3 text-left text-base font-medium tracking-wider border-b border-gray-200">Apellido #1</th>
+                        <th class="px-6 py-3 text-left text-base font-medium tracking-wider border-b border-gray-200">Apellido #2</th>
+                        <th class="px-6 py-3 text-left text-base font-medium tracking-wider border-b border-gray-200">No. Cédula</th>
+                        <th class="px-6 py-3 text-left text-base font-medium tracking-wider border-b border-gray-200">Edad</th>
+                        <th class="px-6 py-3 text-left text-base font-medium tracking-wider border-b border-gray-200">Sexo</th>
+                        <th class="px-6 py-3 text-left text-base font-medium tracking-wider border-b border-gray-200">No. INSS</th>
+                        <th class="px-6 py-3 text-left text-base font-medium tracking-wider border-b border-gray-200">Acciones</th>
+                    </tr>
+                </thead>
+                <hr>
+                <tbody class="divide-y divide-gray-200">
+                    {{-- Los datos se cargan acá dinámicamente por datatable server-side --}}
+                </tbody>
+            </table>
+            
+           </div>
+     @endcan
     
-   </div>
+ 
 
 
    @if ($errors->any())
@@ -160,10 +166,10 @@
         <div class="modal-content">
            <div class="modal-header bg-primary">
                <div class="row">
-                   <div class="col-lg-8">
-                       <h5 class="modal-title text-white" id="createhistoriaFormModalLabel">Crear Historia Clinica al Paciente  </h5>
+                   <div class="col-lg-12 ">
+                       
                    </div>
-                   <div id="datos-paciente" class="mb-3" >
+                   <div id="datos-paciente" class="mb-3 " >
                        <h4>Datos del Paciente</h4>
                       
                        <div class="p-3 mb-2  border rounded  datos-pacientes bg-white ">
@@ -250,103 +256,7 @@
 
                   
                        <div class="row">
-                           <div class="col-3 form-group" hidden>
-                               <label for="primer_nombre">Primer Nombre</label>
-                               <input type="text" class="form-control text-dark" id="primer_nombre" name="primer_nombre" value="{{ old('primer_nombre') }}" readonly>
-                               @if ($errors->has('primer_nombre'))
-                                   <div class="text-danger">{{ $errors->first('primer_nombre') }}</div>
-                               @endif
-                           </div>
-                       
-                           <div class="col-3 form-group" hidden>
-                               <label for="segundo_nombre">Segundo Nombre</label>
-                               <input type="text" class="form-control text-dark" id="segundo_nombre" name="segundo_nombre" value="{{ old('segundo_nombre') }}" readonly>
-                               @if ($errors->has('segundo_nombre'))
-                                   <div class="text-danger">{{ $errors->first('segundo_nombre') }}</div>
-                               @endif
-                           </div>
-                       
-                           <div class="col-3 form-group" hidden>
-                               <label for="primer_apellido">Primer Apellido</label>
-                               <input type="text" class="form-control text-dark" id="primer_apellido" name="primer_apellido" value="{{ old('primer_apellido') }}" readonly>
-                               @if ($errors->has('primer_apellido'))
-                                   <div class="text-danger">{{ $errors->first('primer_apellido') }}</div>
-                               @endif
-                           </div>
-                       
-                           <div class="col-3 form-group" hidden>
-                               <label for="segundo_apellido">Segundo Apellido</label>
-                               <input type="text" class="form-control text-dark" id="segundo_apellido" name="segundo_apellido" value="{{ old('segundo_apellido') }}" readonly>
-                               @if ($errors->has('segundo_apellido'))
-                                   <div class="text-danger">{{ $errors->first('segundo_apellido') }}</div>
-                               @endif
-                           </div>
-                   
-                       
-                       <div class="col-lg-3 ml-1">
-                           <div class="form-group">
-                               <label for="no_expediente">No. expediente <span class=" text-danger">*</span></label>
-                               <input type="text" class="form-control edit_imput text-dark" id="no_expediente" name="no_expediente" value="{{ old('no_expediente') }}" required>
-                               @if ($errors->has('no_expediente'))
-                                   <div class="text-danger">{{ $errors->first('no_expediente') }}</div>
-                               @endif
-                           </div>
-                       </div>
-
-                       <div class="col-lg-3">
-                           <div class="form-group">
-                               <label for="edad">Edad <span class=" text-danger">*</span></label>
-                               <input type="number" class="form-control edit_imput text-dark" id="edad" name="edad" value="{{ old('edad') }}" required>
-                               @if ($errors->has('edad'))
-                                   <div class="text-danger">{{ $errors->first('edad') }}</div>
-                               @endif
-                           </div>
-                       </div>
-                       
-                       <div class="col-lg-3">
-                           <div class="form-group">
-                               <label for="fecha_nacimiento">Fecha de Nacimiento <span class=" text-danger">*</span></label>
-                               <input type="date" class="form-control edit_imput text-dark" id="fecha_nacimiento" name="fecha_nacimiento" value="{{ old('fecha_nacimiento') }}" required>
-                               @if ($errors->has('fecha_nacimiento'))
-                                   <div class="text-danger">{{ $errors->first('fecha_nacimiento') }}</div>
-                               @endif
-                           </div>
-                       </div>
-                       
-                       <div class="col-lg-3">
-                           <div class="form-group">
-                               <label for="sexo">Sexo <span class=" text-danger">*</span></label>
-                               <select class="form-control edit_imput text-dark" id="sexo" name="sexo" required>
-                                   <option value="">Seleccione</option>
-                                   <option value="M" {{ old('sexo') == 'M' ? 'selected' : '' }}>Masculino</option>
-                                   <option value="F" {{ old('sexo') == 'F' ? 'selected' : '' }}>Femenino</option>
-                               </select>
-                               @if ($errors->has('sexo'))
-                                   <div class="text-danger">{{ $errors->first('sexo') }}</div>
-                               @endif
-                           </div>
-                       </div>
-                       
-                       <div class="col-lg-3">
-                           <div class="form-group">
-                               <label for="no_cedula">No. Cédula <span class=" text-danger">*</span></label>
-                               <input type="text" class="form-control edit_imput text-dark" id="no_cedula" name="no_cedula" value="{{ old('no_cedula') }}" required>
-                               @if ($errors->has('no_cedula'))
-                                   <div class="text-danger">{{ $errors->first('no_cedula') }}</div>
-                               @endif
-                           </div>
-                       </div>
-                       
-                       <div class="col-lg-3">
-                           <div class="form-group">
-                               <label for="no_inss">No. INSS <span class=" text-danger">*</span></label>
-                               <input type="text" class="form-control edit_imput text-dark" id="no_inss" name="no_inss" value="{{ old('no_inss') }}" required>
-                               @if ($errors->has('no_inss'))
-                                   <div class="text-danger">{{ $errors->first('no_inss') }}</div>
-                               @endif
-                           </div>
-                       </div>
-                       
+                     
                        <div class="col-lg-3">
                            <div class="form-group">
                                <label for="escolaridad">Escolaridad <span class=" text-danger">*</span></label>
@@ -435,15 +345,7 @@
                            </div>
                        </div>
                        
-                       <div class="col-lg-3">
-                           <div class="form-group">
-                               <label for="grupos_etnicos">Grupos Étnicos <span class=" text-danger">*</span></label>
-                               <input type="text" class="form-control edit_imput text-dark" id="grupos_etnicos" name="grupos_etnicos" value="{{ old('grupos_etnicos') }}">
-                               @if ($errors->has('grupos_etnicos'))
-                                   <div class="text-danger">{{ $errors->first('grupos_etnicos') }}</div>
-                               @endif
-                           </div>
-                       </div>
+                       
                        <div class="col-lg-3">
                            <div class="form-group">
                                <label for="nombre_padre">Nombre del Padre <span class=" text-danger">*</span></label>
@@ -504,8 +406,8 @@
                         
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label for="editor">Motivo de Consulta <span class="text-danger">*</span></label>
-                                <textarea id="editor" name="motivo_consulta">{{ old('motivo_consulta') }}</textarea>
+                                <label for="motivo_consulta">Motivo de Consulta <span class="text-danger">*</span></label>
+                                <textarea id="motivo_consulta" name="motivo_consulta">{{ old('motivo_consulta') }}</textarea>
                                 @if ($errors->has('motivo_consulta'))
                                     <div class="text-danger">{{ $errors->first('motivo_consulta') }}</div>
                                 @endif
@@ -1626,28 +1528,34 @@ $(document).ready(function() {
         serverSide: true,
         ajax: "{{ url('api/historias_clinicas') }}", // hace una llamada ajax 
         columns: [
-            { data: 'id' },
-           
-            { data: 'no_expediente',
-                render: function (data, type, row) {
-                 return `<span class="text-primary font-weight-bold">${data}</span> <span class="badge badge-info">EXP</span>`;
-               },
-            },
-            { data: 'primer_nombre' },
-            { data: 'segundo_nombre' }, 
-            { data: 'primer_apellido' },
-            { data: 'segundo_apellido' },
-             
-             { data: 'no_cedula',
-                render: function (data, type, row) {
-                 return `<span class="text-danger font-weight-bold">${data}</span> <span class="badge badge-info">Cedula</span>`;
-               },
-            },
-            { data: 'edad' },
-            { data: 'sexo' },
-            { data: 'no_inss' },
-            { data: 'btn', orderable: false, searchable: false }
-        ],
+        { data: 'id' },
+        { data: 'no_expediente', searchable: true,
+            render: function (data, type, row) {
+                return `<span class="text-primary font-weight-bold">${data}</span> `;
+            }
+        },
+        { data: 'primer_nombre', searchable: true,
+            render: function (data, type, row) {
+                return `<span class="font-weight-bold">${data}</span>`;
+            }
+        },
+        { data: 'segundo_nombre', searchable: true },
+        { data: 'primer_apellido', searchable: true },
+        { data: 'segundo_apellido', searchable: true },
+        { data: 'no_cedula', searchable: true,
+            render: function (data, type, row) {
+                return `<span class="text-danger font-weight-bold">${data}</span>`;
+            }
+        },
+        { data: 'edad', searchable: true },
+        { data: 'sexo', searchable: true },
+        { data: 'no_inss', searchable: true,
+            render: function (data, type, row) {
+                return `<span class="text-indigo font-weight-bold">${data}</span>`;
+            }
+        },
+        { data: 'btn', orderable: false, searchable: false }
+    ],
         language: {
             search: "Buscar ",
             lengthMenu: "Mostrar _MENU_ registros por página",
@@ -1792,31 +1700,6 @@ $(document).ready(function() {
     });
 });
 
-
-    document.addEventListener('DOMContentLoaded', function () {
-        function showAlert(message, icon, type) {
-            Swal.fire({
-                title: message,
-                icon: icon,
-                showCancelButton: false,
-                confirmButtonColor: '#3085d6',
-                confirmButtonText: 'Aceptar'
-            });
-        }
-
-        @if(session('info'))
-            showAlert('{{ session('info') }}', 'success', 'success');
-        @endif
-
-        @if(session('update'))
-            showAlert('{{ session('update') }}', 'info', 'info');
-        @endif
-
-        @if(session('delete'))
-            showAlert('{{ session('delete') }}', 'error', 'error');
-        @endif
-    });
-       
 
 
 $(document).ready(function() {

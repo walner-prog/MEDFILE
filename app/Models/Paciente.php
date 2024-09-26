@@ -43,7 +43,8 @@ class Paciente extends Model
         'telefono_responsable',
         'direccion_responsable',
         'empleador',
-        'direccion_empleador'
+        'direccion_empleador',
+        'foto'
     ];
 
   
@@ -98,5 +99,15 @@ class Paciente extends Model
     {
         return $this->hasMany(Consulta::class);
     }
+
+    public function citas()
+    {
+        return $this->hasMany(Cita::class);
+    }
+
+    public function getRouteKeyName()
+{
+    return 'no_expediente';  // Usar el no_expediente en las rutas
+}
     
 }

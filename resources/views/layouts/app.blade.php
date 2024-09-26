@@ -87,7 +87,110 @@
                     </ul>
                 </div>
             </div>
-        </nav> --}}
+        </nav> 
+        
+        
+         <div class="card">
+            <div class="card-body bt-secunadrio">
+                <div class="row justify-content-center">
+                    <div class="col-auto text-center">
+                        <i class="fa-sharp fa-solid fa-notes-medical fa-2x mb-1"></i>
+                        <div>Notas Médicas</div>
+                    </div>
+                    <div class="col-auto text-center">
+                        <i class="fa-solid fa-flask fa-2x mb-1"></i>
+                        <div>Laboratorio</div>
+                    </div>
+                    <div class="col-auto text-center">
+                        <i class="fa-solid fa-user-nurse fa-2x mb-1"></i>
+                        <div>Enfermera</div>
+                    </div>
+                    <div class="col-auto text-center">
+                        <i class="fa-solid fa-vials fa-2x mb-1"></i>
+                        <div>Viales</div>
+                    </div>
+                    <div class="col-auto text-center">
+                        <i class="fa-solid fa-users-medical fa-2x mb-1"></i>
+                        <div>Equipo Médico</div>
+                    </div>
+                    <div class="col-auto text-center">
+                        <i class="fa-solid fa-x-ray fa-2x mb-1"></i>
+                        <div>Rayos X</div>
+                    </div>
+                    <div class="col-auto text-center">
+                        <i class="fa-solid fa-wheelchair-move fa-2x mb-1"></i>
+                        <div>Wheelchair</div>
+                    </div>
+                    <div class="col-auto text-center">
+                        <i class="fa-solid fa-weight-scale fa-2x mb-1"></i>
+                        <div>Balanza</div>
+                    </div>
+                    <div class="col-auto text-center">
+                        <i class="fa-solid fa-wave-pulse fa-2x mb-1"></i>
+                        <div>Frecuencia</div>
+                    </div>
+                    <div class="col-auto text-center">
+                        <i class="fa-solid fa-vial-circle-check fa-2x mb-1"></i>
+                        <div>Pruebas</div>
+                    </div>
+                    <div class="col-auto text-center">
+                        <i class="fa-solid fa-thermometer fa-2x mb-1"></i>
+                        <div>Termómetro</div>
+                    </div>
+                    <div class="col-auto text-center">
+                        <i class="fa-solid fa-syringe fa-2x mb-1"></i>
+                        <div>Jeringa</div>
+                    </div>
+                    <div class="col-auto text-center">
+                        <i class="fa-solid fa-suitcase-medical fa-2x mb-1"></i>
+                        <div>Kit Médico</div>
+                    </div>
+                    <div class="col-auto text-center">
+                        <i class="fa-solid fa-stretcher fa-2x mb-1"></i>
+                        <div>Camilla</div>
+                    </div>
+                    <div class="col-auto text-center">
+                        <i class="fa-solid fa-staff-snake fa-2x mb-1"></i>
+                        <div>Esculapio</div>
+                    </div>
+                    <div class="col-auto text-center">
+                        <i class="fa-solid fa-prescription-bottle-medical fa-2x mb-1"></i>
+                        <div>Recetas</div>
+                    </div>
+                    <div class="col-auto text-center">
+                        <i class="fa-solid fa-pills fa-2x mb-1"></i>
+                        <div>Medicamentos</div>
+                    </div>
+                    <div class="col-auto text-center">
+                        <i class="fa-solid fa-microscope fa-2x mb-1"></i>
+                        <div>Microscopio</div>
+                    </div>
+                    <div class="col-auto text-center">
+                        <i class="fa-solid fa-house-medical-circle-check fa-2x mb-1"></i>
+                        <div>Centro Médico</div>
+                    </div>
+                    <div class="col-auto text-center">
+                        <i class="fa-solid fa-hospital-user fa-2x mb-1"></i>
+                        <div>Paciente</div>
+                    </div>
+                    <div class="col-auto text-center">
+                        <i class="fa-solid fa-heart-pulse fa-2x mb-1"></i>
+                        <div>Cardiología</div>
+                    </div>
+                    <div class="col-auto text-center">
+                        <i class="fa-solid fa-folder-medical fa-2x mb-1"></i>
+                        <div>Historia Clínica</div>
+                    </div>
+                    <div class="col-auto text-center">
+                        <i class="fa-solid fa-comment-medical fa-2x mb-1"></i>
+                        <div>Consulta</div>
+                    </div>
+                </div>
+            </div>
+              <br>
+            
+            
+       </div>--}}
 
         <main class="py-4">
             @yield('content')

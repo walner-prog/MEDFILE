@@ -1,5 +1,5 @@
 <div class="container">
-    <h1 class="mb-4">Pacientes Filtrados</h1>
+    <h4 class="mb-4">Pacientes Filtrados</h4>
 
     @if($pacientes->isEmpty())
         <div class="alert alert-info" role="alert">
@@ -7,28 +7,28 @@
         </div>
     @else
         <div class="table-responsive">
-            <table class="table table-striped table-bordered">
-                <thead class="table-dark">
+            <table class="min-w-full w-100 border border-gray-300 shadow-md rounded-lg p-2 table-bordered p-4">
+                <thead class="from-green-500 to-green-600 text-white ">
                     <tr>
-                        <th>No. Expediente</th>
-                        <th>Nombre</th>
-                        <th>Edad</th>
-                        <th>Sexo</th>
-                        <th>Dirección</th>
-                        <th>Ciudad</th>
-                        <th>Enfermedad</th>
+                        <th class="px-6 py-3 p-2 text-left text-base font-medium tracking-wider border-b border-gray-200">No. Expediente</th>
+                        <th class="px-6 py-3 p-2 text-left text-base font-medium tracking-wider border-b border-gray-200">Nombre</th>
+                        <th class="px-6 py-3 p-2 text-left text-base font-medium tracking-wider border-b border-gray-200">Edad</th>
+                        <th class="px-6 py-3 p-2 text-left text-base font-medium tracking-wider border-b border-gray-200">Sexo</th>
+                        <th class="px-6 py-3 p-2 text-left text-base font-medium tracking-wider border-b border-gray-200">Dirección</th>
+                        <th class="px-6 py-3 p-2 text-left text-base font-medium tracking-wider border-b border-gray-200">Ciudad</th>
+                        <th class="px-6 py-3 p-2 text-left text-base font-medium tracking-wider border-b border-gray-200">Enfermedad</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach($pacientes as $paciente)
                         <tr>
-                            <td>{{ $paciente->no_expediente }}</td>
-                            <td>{{ $paciente->primer_nombre }} {{ $paciente->primer_apellido }}</td>
-                            <td>{{ $paciente->edad }}</td>
-                            <td>{{ $paciente->sexo }}</td>
-                            <td>{{ $paciente->direccion_residencia }}</td>
-                            <td>{{ $paciente->municipio }}</td>
-                            <td>
+                            <td class=" p-2">{{ $paciente->no_expediente }}</td>
+                            <td class=" p-2">{{ $paciente->primer_nombre }} {{ $paciente->primer_apellido }}</td>
+                            <td class=" p-2">{{ $paciente->edad }}</td>
+                            <td class=" p-2">{{ $paciente->sexo }}</td>
+                            <td class=" p-2">{{ $paciente->direccion_residencia }}</td>
+                            <td class=" p-2">{{ $paciente->municipio }}</td>
+                            <td class=" p-2">
                                 @foreach($paciente->historiasClinicas as $historia)
                                     {{ $historia->enfermedades_cronicas }}<br>
                                 @endforeach

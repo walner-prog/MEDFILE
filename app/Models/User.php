@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -7,31 +6,19 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
-//use Spatie\Permission\Traits\HasRoles;
+use Spatie\Permission\Traits\HasRoles; // Importa el trait
 
-
-// referencie spatie
-use Spatie\Permission\Traits\HasRoles;
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, HasRoles; // Usa el trait HasRoles
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
-    use HasRoles;
     protected $fillable = ['name', 'email', 'password', 'Direccion', 'Contacto'];
-    
-    
-    public function rol(){
 
-        return $this->belongsTo(Rol::class, 'RolID');
-       }
-    
-       
-    
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -51,6 +38,8 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-  
-
+    public function rol()
+    {
+        return $this->belongsTo(Rol::class, 'RolID');
+    }
 }

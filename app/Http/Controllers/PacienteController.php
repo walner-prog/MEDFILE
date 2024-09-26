@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Validator; // Importa la clase Validator de Larav
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 use Illuminate\Support\Facades\Cache;
 
@@ -93,11 +94,17 @@ class PacienteController extends Controller
     
 
      // En PacienteController.php
-public function edit($id)
-{
-    $paciente = Paciente::find($id);
-    return view('pacientes.edit', compact( 'paciente'));
-}
+     public function edit($id)
+     {
+         $paciente = Paciente::find($id);
+     
+         // Asegurarse de que se encuentra el paciente
+         if (!$paciente) {
+             return redirect()->route('pacientes.index')->with('error', 'Paciente no encontrado.');
+         }
+     
+         return view('pacientes.edit', compact('paciente'));
+     }
  
 
     /**
@@ -107,49 +114,68 @@ public function edit($id)
      * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'no_expediente' => 'nullable|string|max:15|unique:pacientes,no_expediente',
-            'fecha' => 'nullable|date',
-            'establecimiento_salud' => 'nullable|string|max:255',
-            'primer_nombre' => 'nullable|string|max:255',
-            'segundo_nombre' => 'nullable|string|max:255',
-            'primer_apellido' => 'nullable|string|max:255',
-            'segundo_apellido' => 'nullable|string|max:255',
-            'fecha_nacimiento' => 'nullable|date',
-            'edad' => 'nullable|integer',
-            'sexo' => 'nullable|in:M,F',
-            'raza_etnia' => 'nullable|string|max:255',
-            'telefono'  => 'nullable|string|max:255',
-            'correo'    => 'nullable|string|max:255|unique:pacientes,correo',
-            'direccion' => 'nullable|string|max:255',
-            'nombre_responsable' => 'nullable|string|max:255',
-            'no_cedula' => 'nullable|string|max:255|unique:pacientes,no_cedula',
-            'categoria' => 'nullable|string|max:255',
-            'no_inss' => 'nullable|string|max:255',
-            'estado_civil' => 'nullable|string|max:255',
-            'escolaridad' => 'nullable|string|max:255',
-            'ocupacion' => 'nullable|string|max:255',
-            'direccion_residencia' => 'nullable|string|max:255',
-            'localidad' => 'nullable|string|max:255',
-            'municipio' => 'nullable|string|max:255',
-            'departamento' => 'nullable|string|max:255',
-            'responsable_emergencia' => 'nullable|string|max:255',
-            'parentesco' => 'nullable|string|max:255',
-            'telefono_responsable' => 'nullable|string|max:255',
-            'direccion_responsable' => 'nullable|string|max:255',
-            'empleador' => 'nullable|string|max:255',
-            'direccion_empleador' => 'nullable|string|max:255',
-        ]);
+{
+    // Validaciones
+    $validator = Validator::make($request->all(), [
+        'no_expediente' => 'nullable|string|max:15|unique:pacientes,no_expediente',
+        'fecha' => 'nullable|date',
+        'establecimiento_salud' => 'nullable|string|max:255',
+        'primer_nombre' => 'nullable|string|max:255',
+        'segundo_nombre' => 'nullable|string|max:255',
+        'primer_apellido' => 'nullable|string|max:255',
+        'segundo_apellido' => 'nullable|string|max:255',
+        'fecha_nacimiento' => 'nullable|date',
+        'edad' => 'nullable|integer',
+        'sexo' => 'nullable|in:M,F',
+        'raza_etnia' => 'nullable|string|max:255',
+        'telefono'  => 'nullable|string|max:255',
+        'correo'    => 'nullable|string|max:255|unique:pacientes,correo',
+        'direccion' => 'nullable|string|max:255',
+        'nombre_responsable' => 'nullable|string|max:255',
+        'no_cedula' => 'nullable|string|max:255|unique:pacientes,no_cedula',
+        'categoria' => 'nullable|string|max:255',
+        'no_inss' => 'nullable|string|max:255',
+        'estado_civil' => 'nullable|string|max:255',
+        'escolaridad' => 'nullable|string|max:255',
+        'ocupacion' => 'nullable|string|max:255',
+        'direccion_residencia' => 'nullable|string|max:255',
+        'localidad' => 'nullable|string|max:255',
+        'municipio' => 'nullable|string|max:255',
+        'departamento' => 'nullable|string|max:255',
+        'responsable_emergencia' => 'nullable|string|max:255',
+        'parentesco' => 'nullable|string|max:255',
+        'telefono_responsable' => 'nullable|string|max:255',
+        'direccion_responsable' => 'nullable|string|max:255',
+        'empleador' => 'nullable|string|max:255',
+        'direccion_empleador' => 'nullable|string|max:255',
+        'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:512', // Máximo 500KB
+    ]);
 
-        $paciente = Paciente::create($validator->validated());
+    // Validar los datos
+    $validatedData = $validator->validated();
 
-        if ($paciente) {
-            return redirect()->route('pacientes.index')->with('info', 'Paciente creado exitosamente.');
-        } else {
-            return back()->with('error', 'Ocurrió un error al crear el paciente.');
-        }
+    // Crear el paciente
+    $paciente = Paciente::create($validatedData);
+
+    // Si se subió una foto, procesarla
+    if ($request->hasFile('foto')) {
+        $file = $request->file('foto');
+        $filename = time() . '.' . $file->getClientOriginalExtension();
+        $file->move(public_path('images'), $filename);
+
+        // Guardar el nombre de archivo en el paciente
+        $paciente->foto = $filename;
+        $paciente->save();
     }
+
+    // Verificar si el paciente fue creado exitosamente
+    if ($paciente) {
+        return redirect()->route('pacientes.index')->with('info', 'Paciente creado exitosamente.');
+    } else {
+        return back()->with('error', 'Ocurrió un error al crear el paciente.');
+    }
+}
+
 
     /**
      * Muestra los detalles de un paciente específico.
@@ -161,7 +187,7 @@ public function edit($id)
     public function show($id)
     {
         $paciente = Paciente::findOrFail($id);
-        
+        $paciente = Paciente::findOrFail($id);
             // Formatea la fecha de nacimiento
               $paciente->fecha_nacimiento = $paciente->fecha_nacimiento ?
                 Carbon::parse($paciente->fecha_nacimiento)->format('d/m/Y') : 'N/A';
@@ -177,6 +203,7 @@ public function edit($id)
         $registroMasReciente = $registrosAdmisionEgreso->first();
         $historiaMasReciente = $historiasClinicas->first();
         $paciente_num_consulta = Paciente::withCount('consultas')->findOrFail($id);
+
         return view('pacientes.show', [
             'paciente' => $paciente,
             'registrosAdmisionEgreso' => $registrosAdmisionEgreso,
@@ -189,11 +216,6 @@ public function edit($id)
     }
     
 
-   /** public function show($id)
-    {
-        $Paciente = Paciente::findOrFail($id);
-        return view('pacientes.show', compact('Paciente'));
-    } */
 
     /**
      * Muestra el formulario para editar un paciente existente.
@@ -215,6 +237,7 @@ public function edit($id)
      */
     public function update(Request $request, Paciente $paciente)
     {
+        // Validación de los datos incluyendo la foto
         $validator = Validator::make($request->all(), [
             'no_expediente' => 'nullable|string|max:12',
             'fecha' => 'nullable|date',
@@ -233,7 +256,6 @@ public function edit($id)
             'correo'    => 'nullable|string|max:255',
             'direccion' => 'nullable|string|max:255',
             'nombre_responsable' => 'nullable|string|max:255',
-            
             'no_inss' => 'nullable|string|max:255',
             'estado_civil' => 'nullable|string|max:255',
             'escolaridad' => 'nullable|string|max:255',
@@ -248,24 +270,54 @@ public function edit($id)
             'direccion_responsable' => 'nullable|string|max:255',
             'empleador' => 'nullable|string|max:255',
             'direccion_empleador' => 'nullable|string|max:255',
+            'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:512', // Máximo 512KB
         ]);
-
+    
+        // Validar los datos
         if ($validator->fails()) {
             return back()
                 ->withErrors($validator)
                 ->withInput()
                 ->with('error', 'Por favor corrige los errores.');
         }
-
-        $paciente->update($validator->validated());
-
-        if ($paciente) {
+    
+        // Usamos una transacción para asegurar la atomicidad de las operaciones
+        DB::beginTransaction();
+    
+        try {
+            // Actualizar los datos del paciente
+            $paciente->update($validator->validated());
+    
+            // Si se subió una nueva foto, procesarla
+            if ($request->hasFile('foto')) {
+                // Eliminar la foto anterior si existe
+                if ($paciente->foto && file_exists(public_path('images/' . $paciente->foto))) {
+                    unlink(public_path('images/' . $paciente->foto));
+                }
+    
+                // Guardar la nueva foto
+                $file = $request->file('foto');
+                $filename = time() . '.' . $file->getClientOriginalExtension();
+                $file->move(public_path('images'), $filename);
+    
+                // Actualizar el registro con la nueva foto
+                $paciente->foto = $filename;
+                $paciente->save();
+            }
+    
+            // Confirmar la transacción
+            DB::commit();
+    
             return redirect()->route('pacientes.index')->with('update', 'Paciente editado exitosamente.');
-        } else {
+        } catch (\Exception $e) {
+            // En caso de error, revertir la transacción
+            DB::rollBack();
             return back()->with('error', 'Ocurrió un error al actualizar el paciente.');
         }
     }
-
+    
+    
+    
     /**
      * Elimina un paciente de la base de datos.
      *

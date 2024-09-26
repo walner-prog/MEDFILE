@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
+use Barryvdh\DomPDF\Facade\Pdf;
+
 class HistoriaClinicaController extends Controller
 {
     /**
@@ -51,19 +53,17 @@ class HistoriaClinicaController extends Controller
             'paciente_id' => 'required|exists:pacientes,id',
             'hora' => 'nullable',
             'sala' => 'nullable|string|max:255',
-            'no_expediente' => 'required|string|max:255',
-            'no_cedula' => 'required|string|max:255',
-            'no_inss' => 'nullable|string|max:255',
+            
          
            'no_cama' => $request->has('is_ingresado') ? 'required|string|max:255' : 'nullable|string|max:255',
 
-            'edad' => 'nullable|integer|min:0',
+           // 'edad' => 'nullable|integer|min:0',
             'fecha_nacimiento' => 'nullable|date',
             'lugar_nacimiento' => 'nullable|string|max:255',
-            'sexo' => 'nullable|in:M,F',
+           // 'sexo' => 'nullable|in:M,F',
             'procedencia' => 'nullable|string|max:255',
             'religion' => 'nullable|string|max:255',
-            'grupos_etnicos' => 'nullable|string|max:255',
+           // 'grupos_etnicos' => 'nullable|string|max:255',
             'escolaridad' => 'nullable|string|max:255',
             'direccion_habitual' => 'nullable|string|max:255',
             'nombre_padre' => 'nullable|string|max:255',
@@ -223,10 +223,12 @@ class HistoriaClinicaController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id)
-    {
-        
-        $historiaClinica = HistoriaClinica::find($id);
-       // dd($historiaClinica); // Esto debería mostrar los datos del registro si existe.
+    { $historiaClinica = HistoriaClinica::with('paciente')->find($id);
+    
+        if (!$historiaClinica) {
+            return redirect()->route('historias_clinicas.index')->with('error', 'Historia Clínica no encontrada.');
+        }
+    
           // Convertir la fecha de nacimiento a un objeto Carbon
     $historiaClinica->fecha_nacimiento = Carbon::parse($historiaClinica->fecha_nacimiento);
      // Formatea las fechas
@@ -268,23 +270,18 @@ class HistoriaClinicaController extends Controller
         $validator = Validator::make($request->all(), [
            
             'paciente_id' => 'required|exists:pacientes,id',
-            'primer_nombre' => 'nullable|string|max:255',
-            'segundo_nombre' => 'nullable|string|max:255',
-            'primer_apellido' => 'nullable|string|max:255',
-            'segundo_apellido' => 'nullable|string|max:255',
+           
             'hora' => 'nullable',
             'sala' => 'nullable|string|max:255',
-            'no_expediente' => 'nullable|string|max:255',
-            'no_cedula' => 'nullable|string|max:255',
-            'no_inss' => 'nullable|string|max:255',
+           
             'no_cama' => 'nullable|string|max:255',
-            'edad' => 'nullable|integer|min:0',
+            
             'fecha_nacimiento' => 'nullable|date',
             'lugar_nacimiento' => 'nullable|string|max:255',
-            'sexo' => 'nullable|in:M,F',
+          
             'procedencia' => 'nullable|string|max:255',
             'religion' => 'nullable|string|max:255',
-            'grupos_etnicos' => 'nullable|string|max:255',
+           
             'escolaridad' => 'nullable|string|max:255',
             'direccion_habitual' => 'nullable|string|max:255',
             'nombre_padre' => 'nullable|string|max:255',
@@ -458,5 +455,22 @@ class HistoriaClinicaController extends Controller
     }
 
     
+
+public function generatePdf($id)
+{
+    $historiaClinica = HistoriaClinica::with('paciente')->find($id);
+
+    if (!$historiaClinica) {
+        return redirect()->route('historias_clinicas.index')->with('error', 'Historia Clínica no encontrada.');
+    }
+
+    // Generar el PDF y visualizarlo en el navegador
+    $pdf = PDF::loadView('historias_clinicas.pdf', compact('historiaClinica'));
+
+   // return $pdf->download('historia_clinica_' . $historiaClinica->id . '.pdf');
+    
+    // Mostrar el PDF en el navegador
+    return $pdf->stream('historia_clinica_' . $historiaClinica->id . '.pdf');
+}
 
 }

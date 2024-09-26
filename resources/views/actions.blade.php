@@ -1,10 +1,14 @@
 
-
-@section('css')
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    @section('css')
     
 
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-DyZv9x6q5PzW0T3S/RhvE4Fh8Nq9wZZlI12PjHwAo/nL2/zqYk77J8k9tJ4qROxr" crossorigin="anonymous">
+
 <style>
     .btn-wrapper {
         position: relative;
@@ -75,22 +79,49 @@
         }
 </style>
 @endsection
-<body class="bg-gray-100 p-4" style="width: 270px">
-    <div class="btn-wrapper">
-        <a href="{{ route('pacientes.show', $id) }}" target="_blank" class="btn btn-purple">
+</head>
+
+<body class="bg-gray-100 p-4" >
+    <div class="btn-wrapper" style="width: 300px">
+        <a href="{{ route('pacientes.show', $id) }}" target="_blank" class="btn btn-purple" title="Ver">
             <i class="fas fa-eye"></i>
-            <span class="tooltip">Ver</span>
         </a>
-        <a href="{{ route('pacientes.edit', $id) }}" class="btn btn-green">
+        <a href="{{ route('pacientes.edit', $id) }}" class="btn btn-green" title="Editar">
             <i class="fas fa-edit"></i>
-            <span class="tooltip">Editar</span>
         </a>
-        <button type="button" class="btn btn-orange delete-btn" data-id="{{ $id }}">
+        <button type="button" class="btn btn-orange delete-btn" data-id="{{ $id }}" title="Eliminar">
             <i class="fas fa-trash"></i>
-            <span class="tooltip">Eliminar</span>
         </button>
+        @php
+        $historiaClinica = \App\Models\HistoriaClinica::where('paciente_id', $id)->first();
+          @endphp
+    
+    @if($historiaClinica)
+        <a href="{{ route('historias_clinicas.show', $historiaClinica->id) }}" target="_blank" class="btn btn-indigo" title="Historia Clínica">
+            <i class="fas fa-comment-medical"></i>
+        </a>
+    @else
+    
+        <p class=" text-success">No hay historia clínica disponible.</p> <!-- Para verificar que entra en el else -->
+    @endif
+    
+    
+    
     </div>
+    
 
     <!-- FontAwesome CDN -->
-    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+  
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js" integrity="sha384-ZVP8CjFOTvYpsgU4w3p1MxMi/6hE4D/t/biDZKj6voZpZk+EVFBl3W3fSS6HZO/7" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-pzjw8f+ua7Kw1TIq2zB5U0BB+RhdJ4Z+W4F3X1OVFsI6s4wvE9ZmX2EfbpP09/TP" crossorigin="anonymous"></script>
+
+    <script>
+        // Activar tooltips de Bootstrap
+$(function () {
+  $('[title]').tooltip();
+});
+
+    </script>
 </body>
+</html>

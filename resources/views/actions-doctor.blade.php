@@ -76,7 +76,7 @@
 </style>
 @endsection
 <body class="bg-gray-100 p-4">
-    <div class="btn-wrapper">
+    <div class="btn-wrapper" style="width: 250px">
         <a href="{{ route('doctores.show', $id) }}" target="_blank" class="btn btn-purple">
             <i class="fas fa-eye"></i>
             <span class="tooltip">Ver</span>

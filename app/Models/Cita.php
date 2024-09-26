@@ -19,8 +19,15 @@ class Cita extends Model
         'hora_cita',
         'tipo_cita',
         'descripcion_cita',
-        'estado'
+        'estado',
+        'title',
+        'consultorio_id',
+        'start', 
+        'end',
+        'color',
+        
     ];
+  
 
     public function paciente()
     {
@@ -30,6 +37,11 @@ class Cita extends Model
     public function doctor()
     {
         return $this->belongsTo(Doctor::class);
+    }
+
+    public function consultorio()
+    {
+        return $this->belongsTo(Consultorio::class);
     }
 
     public function especialidad()

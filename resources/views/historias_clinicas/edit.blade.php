@@ -95,28 +95,28 @@
                       
                        <div class="p-3 mb-2  border rounded  datos-pacientes  bg-white ">
                            <div class="mb-2">
-                          <strong class="color-primario"> <i class="fa-sharp fa-solid fa-notes-medical color-primario"></i> No. Expediente:</strong> <span id="info_no_expediente" class="text-danger">{{ $historiasClinica->no_expediente }}</span>
+                          <strong class="color-primario"> <i class="fa-sharp fa-solid fa-notes-medical color-primario"></i> No. Expediente:</strong> <span id="info_no_expediente" class="text-danger">{{ $historiasClinica->paciente->no_expediente }}</span>
                            </div>
                            <div class="mb-2">
                                <strong class="text-primary ml-2">
                                    <i class="fa-solid fa-hospital-user"></i> Nombres y Apellidos:
                                </strong> 
-                               <span id="info_primer_nombre" class="text-secondary">{{ $historiasClinica->primer_nombre }}</span>
-                               <span id="info_segundo_nombre" class="text-secondary">{{ $historiasClinica->segundo_nombre }}</span>
-                               <span id="info_primer_apellido" class="text-secondary">{{ $historiasClinica->primer_apellido }}</span>
-                               <span id="info_segundo_apellido" class="text-secondary">{{ $historiasClinica->segundo_apellido }}</span>
+                               <span id="info_primer_nombre" class="text-secondary">{{ $historiasClinica->paciente->primer_nombre }}</span>
+                               <span id="info_segundo_nombre" class="text-secondary">{{ $historiasClinica->paciente->segundo_nombre }}</span>
+                               <span id="info_primer_apellido" class="text-secondary">{{ $historiasClinica->paciente->primer_apellido }}</span>
+                               <span id="info_segundo_apellido" class="text-secondary">{{ $historiasClinica->paciente->segundo_apellido }}</span>
                            
                                <strong class="text-primary ml-2">Edad:</strong> 
-                               <span id="info_edad" class="text-secondary">{{ $historiasClinica->edad }}</span>
+                               <span id="info_edad" class="text-secondary">{{ $historiasClinica->paciente->edad }}</span>
                            
                                <strong class="text-primary ml-2">Sexo:</strong> 
-                               <span id="info_sexo" class="text-secondary">{{ $historiasClinica->sexo }}</span>
+                               <span id="info_sexo" class="text-secondary">{{ $historiasClinica->paciente->sexo }}</span>
                            
                                <strong class="text-primary ml-2">No. Cédula:</strong> 
-                               <span id="info_no_cedula" class="text-secondary">{{ $historiasClinica->no_cedula }}</span>
+                               <span id="info_no_cedula" class="text-secondary">{{ $historiasClinica->paciente->no_cedula }}</span>
                            
                                <strong class="text-primary ml-2">No. INSS:</strong> 
-                               <span id="info_no_inss" class="text-secondary">{{ $historiasClinica->no_inss }}</span>
+                               <span id="info_no_inss" class="text-secondary">{{ $historiasClinica->paciente->no_inss }}</span>
                            </div>
                           
                          
@@ -144,105 +144,7 @@
                       
                       
                        <div class="row">
-                           <div class="col-3 form-group">
-                               <label for="primer_nombre">Primer Nombre</label>
-                               <input type="text" class="form-control text-dark" id="primer_nombre" name="primer_nombre" value="{{ old('primer_nombre', $historiasClinica->primer_nombre) }}" readonly>
-                               @if ($errors->has('primer_nombre'))
-                                   <div class="text-danger">{{ $errors->first('primer_nombre') }}</div>
-                               @endif
-                           </div>
-           
-                           <div class="col-3 form-group">
-                               <label for="segundo_nombre">Segundo Nombre</label>
-                               <input type="text" class="form-control text-dark" id="segundo_nombre" name="segundo_nombre" value="{{ old('segundo_nombre', $historiasClinica->segundo_nombre) }}" readonly>
-                               @if ($errors->has('segundo_nombre'))
-                                   <div class="text-danger">{{ $errors->first('segundo_nombre') }}</div>
-                               @endif
-                           </div>
-           
-                           <div class="col-3 form-group">
-                               <label for="primer_apellido">Primer Apellido</label>
-                               <input type="text" class="form-control text-dark" id="primer_apellido" name="primer_apellido" value="{{ old('primer_apellido', $historiasClinica->primer_apellido) }}" readonly>
-                               @if ($errors->has('primer_apellido'))
-                                   <div class="text-danger">{{ $errors->first('primer_apellido') }}</div>
-                               @endif
-                           </div>
-           
-                           <div class="col-3 form-group">
-                               <label for="segundo_apellido">Segundo Apellido</label>
-                               <input type="text" class="form-control text-dark" id="segundo_apellido" name="segundo_apellido" value="{{ old('segundo_apellido', $historiasClinica->segundo_apellido) }}" readonly>
-                               @if ($errors->has('segundo_apellido'))
-                                   <div class="text-danger">{{ $errors->first('segundo_apellido') }}</div>
-                               @endif
-                           </div>
-
-
-                       </div>
-                       <div class="row">
-                           <div class="col-lg-3 ml-1">
-                               <div class="form-group">
-                                   <label for="no_expediente">No. expediente <span class="text-danger">*</span></label>
-                                   <input type="text" class="form-control edit_imput text-dark" id="no_expediente" name="no_expediente" value="{{ old('no_expediente', $historiasClinica->no_expediente) }}" required>
-                                   @if ($errors->has('no_expediente'))
-                                       <div class="text-danger">{{ $errors->first('no_expediente') }}</div>
-                                   @endif
-                               </div>
-                           </div>
-                       
-                           <div class="col-lg-3">
-                               <div class="form-group">
-                                   <label for="edad">Edad <span class="text-danger">*</span></label>
-                                   <input type="number" class="form-control edit_imput text-dark" id="edad" name="edad" value="{{ old('edad', $historiasClinica->edad) }}" required>
-                                   @if ($errors->has('edad'))
-                                       <div class="text-danger">{{ $errors->first('edad') }}</div>
-                                   @endif
-                               </div>
-                           </div>
-                           
-                           <div class="col-lg-3">
-                               <div class="form-group">
-                                   <label for="fecha_nacimiento">Fecha de Nacimiento <span class="text-danger">*</span></label>
-                                   <input type="date" class="form-control edit_imput text-dark" id="fecha_nacimiento" name="fecha_nacimiento" value="{{ old('fecha_nacimiento', $historiasClinica->fecha_nacimiento) }}" required>
-                                   @if ($errors->has('fecha_nacimiento'))
-                                       <div class="text-danger">{{ $errors->first('fecha_nacimiento') }}</div>
-                                   @endif
-                               </div>
-                           </div>
-                           
-                           <div class="col-lg-3">
-                               <div class="form-group">
-                                   <label for="sexo">Sexo <span class="text-danger">*</span></label>
-                                   <select class="form-control edit_imput text-dark" id="sexo" name="sexo" required>
-                                       <option value="">Seleccione</option>
-                                       <option value="M" {{ old('sexo', $historiasClinica->sexo) == 'M' ? 'selected' : '' }}>Masculino</option>
-                                       <option value="F" {{ old('sexo', $historiasClinica->sexo) == 'F' ? 'selected' : '' }}>Femenino</option>
-                                   </select>
-                                   @if ($errors->has('sexo'))
-                                       <div class="text-danger">{{ $errors->first('sexo') }}</div>
-                                   @endif
-                               </div>
-                           </div>
-                           
-                           <div class="col-lg-3">
-                               <div class="form-group">
-                                   <label for="no_cedula">No. Cédula <span class="text-danger">*</span></label>
-                                   <input type="text" class="form-control edit_imput text-dark" id="no_cedula" name="no_cedula" value="{{ old('no_cedula', $historiasClinica->no_cedula) }}" required>
-                                   @if ($errors->has('no_cedula'))
-                                       <div class="text-danger">{{ $errors->first('no_cedula') }}</div>
-                                   @endif
-                               </div>
-                           </div>
-                           
-                           <div class="col-lg-3">
-                               <div class="form-group">
-                                   <label for="no_inss">No. INSS <span class="text-danger">*</span></label>
-                                   <input type="text" class="form-control edit_imput text-dark" id="no_inss" name="no_inss" value="{{ old('no_inss', $historiasClinica->no_inss) }}" required>
-                                   @if ($errors->has('no_inss'))
-                                       <div class="text-danger">{{ $errors->first('no_inss') }}</div>
-                                   @endif
-                               </div>
-                           </div>
-                           
+                         
                            <div class="col-lg-3">
                                <div class="form-group">
                                    <label for="escolaridad">Escolaridad <span class="text-danger">*</span></label>
@@ -329,16 +231,7 @@
                                </div>
                            </div>
                            
-                           <div class="col-lg-3">
-                               <div class="form-group">
-                                   <label for="grupos_etnicos">Grupos Étnicos <span class="text-danger">*</span></label>
-                                   <input type="text" class="form-control edit_imput text-dark" id="grupos_etnicos" name="grupos_etnicos" value="{{ old('grupos_etnicos', $historiasClinica->grupos_etnicos) }}">
-                                   @if ($errors->has('grupos_etnicos'))
-                                       <div class="text-danger">{{ $errors->first('grupos_etnicos') }}</div>
-                                   @endif
-                               </div>
-                           </div>
-                           
+                          
                            <div class="col-lg-3">
                                <div class="form-group">
                                    <label for="nombre_padre">Nombre del Padre <span class="text-danger">*</span></label>

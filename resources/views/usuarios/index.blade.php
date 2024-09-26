@@ -77,115 +77,121 @@
         {{ session('error') }}
     </div>
     @endif
-    
-        <div class="table-responsive">
-            <table id="usuariosTable" class="min-w-full border border-gray-300 shadow-md rounded-lg p-2">
-                <thead class="from-green-500 to-green-600 text-white">
-                    <tr>
-                        <th class="px-6 py-3 text-left text-base font-medium tracking-wider border-b border-gray-200">ID</th>
-                        <th class="px-6 py-3 text-left text-base font-medium tracking-wider border-b border-gray-200">Nombre</th>
-                        <th class="px-6 py-3 text-left text-base font-medium tracking-wider border-b border-gray-200">Email</th>
-
-                        <th class="px-6 py-3 text-left text-base font-medium tracking-wider border-b border-gray-200">Rol</th>
-                        <th class="px-6 py-3 text-left text-base font-medium tracking-wider border-b border-gray-200" >Acciones</th>
-
-                        
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-gray-200">
-                    @foreach($usuarios as $usuario)
-                    <tr>
-                        <td class="px-6 py-3 whitespace-nowrap">{{ $usuario->id }}</td>
-                        <td class="px-6 py-3 whitespace-nowrap">{{ $usuario->name }}</td>
-                        <td class="px-6 py-3 whitespace-nowrap">{{ $usuario->email }}</td>
-                      
-                        <td class="px-6 py-3 whitespace-nowrap">
-                            @if (!empty($usuario->getRoleNames()))
-                                @foreach($usuario->getRoleNames() as $rolname)
-                                    <span class="mr-4 badge bagge-datetime text-white">{{ $rolname }}</span>
-                                @endforeach
-                            @else
-                                <span class="text-gray-500">Sin roles asignados</span>
-                            @endif
-                        </td>
-                        
-                        <td class="px-6 py-3 whitespace-nowrap" >
-                            @can('editar-usuario')
-                                <button class="btn btn btn-green btn-sm" data-toggle="modal" data-target="#editUsuarioModal{{ $usuario->id }}">    <i class="fas fa-edit"></i></button>
-                            @endcan
-                        
-    
-                     
-                            @can('borrar-usuario')
-                                <form action="{{ route('usuarios.destroy', $usuario->id) }}" method="POST" style="display:inline-block;">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-orange btn-sm"><i class="fas fa-trash"></i></button>
-                                </form>
-                            @endcan
-                        </td>
-                    </tr>
             
-                    <!-- Modal para Editar Usuario -->
-                    <div class="modal fade" id="editUsuarioModal{{ $usuario->id }}" tabindex="-1" role="dialog" aria-labelledby="editUsuarioModalLabel{{ $usuario->id }}" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="editUsuarioModalLabel{{ $usuario->id }}">Editar Usuario</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
+         @can('ver-usuario')
+            <!-- Código o vista para ver un usuario -->
+            <div class="table-responsive">
+                <table id="usuariosTable" class="min-w-full w-100 border border-gray-300 shadow-md rounded-lg p-2">
+                    <thead class="from-green-500 to-green-600 text-white">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-base font-medium tracking-wider border-b border-gray-200">ID</th>
+                            <th class="px-6 py-3 text-left text-base font-medium tracking-wider border-b border-gray-200">Nombre</th>
+                            <th class="px-6 py-3 text-left text-base font-medium tracking-wider border-b border-gray-200">Email</th>
+    
+                            <th class="px-6 py-3 text-left text-base font-medium tracking-wider border-b border-gray-200">Rol</th>
+                            <th class="px-6 py-3 text-left text-base font-medium tracking-wider border-b border-gray-200" >Acciones</th>
+    
+                            
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200">
+                        @foreach($usuarios as $usuario)
+                        <tr>
+                            <td class="px-6 py-3 whitespace-nowrap">{{ $usuario->id }}</td>
+                            <td class="px-6 py-3 whitespace-nowrap">{{ $usuario->name }}</td>
+                            <td class="px-6 py-3 whitespace-nowrap">{{ $usuario->email }}</td>
+                          
+                            <td class="px-6 py-3 whitespace-nowrap">
+                                @if (!empty($usuario->getRoleNames()))
+                                    @foreach($usuario->getRoleNames() as $rolname)
+                                        <span class="mr-4 badge bagge-datetime text-white">{{ $rolname }}</span>
+                                    @endforeach
+                                @else
+                                    <span class="text-gray-500">Sin roles asignados</span>
+                                @endif
+                            </td>
+                            
+                            <td class="px-6 py-3 whitespace-nowrap" >
+                                @can('editar-usuario')
+                                <button class="btn btn btn-green btn-sm" data-toggle="modal" data-target="#editUsuarioModal{{ $usuario->id }}">    <i class="fas fa-edit"></i></button>
+                                @endcan
+
+                            
+        
+                         
+                                @can('borrar-usuario')
+                                    <form action="{{ route('usuarios.destroy', $usuario->id) }}" method="POST" style="display:inline-block;">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-orange btn-sm"><i class="fas fa-trash"></i></button>
+                                    </form>
+                                @endcan
+                            </td>
+                        </tr>
+                
+                        <!-- Modal para Editar Usuario -->
+                        <div class="modal fade" id="editUsuarioModal{{ $usuario->id }}" tabindex="-1" role="dialog" aria-labelledby="editUsuarioModalLabel{{ $usuario->id }}" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="editUsuarioModalLabel{{ $usuario->id }}">Editar Usuario</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <form action="{{ route('usuarios.update', $usuario->id) }}" method="POST">
+                                        @csrf
+                                        @method('PUT')
+                                        <div class="modal-body">
+                                            <div class="form-group">
+                                                <label for="name">Nombre</label>
+                                                <input type="text" class="form-control" name="name" value="{{ $usuario->name }}" required>
+                                                @error('name')
+                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                        
+                                            <div class="form-group">
+                                                <label for="email">Email</label>
+                                                <input type="email" class="form-control" name="email" value="{{ $usuario->email }}">
+                                                @error('email')
+                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                        
+                                            <div class="form-group">
+                                                <label for="password">Password</label>
+                                                <input type="password" class="form-control" name="password" placeholder="Ingrese la password">
+                                                @error('password')
+                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                        
+                                            <div class="form-group">
+                                                <label for="roles">Roles</label>
+                                                {!! Form::select('roles[]', $roles, $usuario->roles->pluck('id')->toArray(), ['class' => 'form-control', 'multiple' => 'multiple']) !!}
+                                                @error('roles')
+                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                            <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                                        </div>
+                                    </form>
                                 </div>
-                                <form action="{{ route('usuarios.update', $usuario->id) }}" method="POST">
-                                    @csrf
-                                    @method('PUT')
-                                    <div class="modal-body">
-                                        <div class="form-group">
-                                            <label for="name">Nombre</label>
-                                            <input type="text" class="form-control" name="name" value="{{ $usuario->name }}" required>
-                                            @error('name')
-                                                <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                    
-                                        <div class="form-group">
-                                            <label for="email">Email</label>
-                                            <input type="email" class="form-control" name="email" value="{{ $usuario->email }}">
-                                            @error('email')
-                                                <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                    
-                                        <div class="form-group">
-                                            <label for="password">Password</label>
-                                            <input type="password" class="form-control" name="password" placeholder="Ingrese la password">
-                                            @error('password')
-                                                <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                    
-                                        <div class="form-group">
-                                            <label for="roles">Roles</label>
-                                            {!! Form::select('roles[]', $roles, $usuario->roles->pluck('id')->toArray(), ['class' => 'form-control', 'multiple' => 'multiple']) !!}
-                                            @error('roles')
-                                                <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                                        <button type="submit" class="btn btn-primary">Guardar cambios</button>
-                                    </div>
-                                </form>
                             </div>
                         </div>
-                    </div>
-                    
-                    @endforeach
-                </tbody>
-            </table>
-            
-        </div>
+                        
+                        @endforeach
+                    </tbody>
+                </table>
+                
+            </div>
+         @endcan
+ 
+       
         
         
         
@@ -392,30 +398,6 @@ $(document).ready(function() {
     });
 });
 
-
-    document.addEventListener('DOMContentLoaded', function () {
-        function showAlert(message, icon, type) {
-            Swal.fire({
-                title: message,
-                icon: icon,
-                showCancelButton: false,
-                confirmButtonColor: '#3085d6',
-                confirmButtonText: 'Aceptar'
-            });
-        }
-
-        @if(session('info'))
-            showAlert('{{ session('info') }}', 'success', 'success');
-        @endif
-
-        @if(session('update'))
-            showAlert('{{ session('update') }}', 'info', 'info');
-        @endif
-
-        @if(session('delete'))
-            showAlert('{{ session('delete') }}', 'error', 'error');
-        @endif
-    });
 
 
   </script>

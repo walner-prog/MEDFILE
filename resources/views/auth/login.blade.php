@@ -10,11 +10,22 @@
 
 <body>
   
-@section('content')
+  @section('content')
 
-<body >
+
 
   <style>
+     body {
+        /*background-image: url("{{ asset('storage/about.jpg') }}");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        height: 100vh; */ 
+        background: #16222A;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to right, #3A6073, #16222A);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to right, #3A6073, #16222A); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+color: white;
+      }
     .bg{
       background: #16222A;  /* fallback for old browsers */
 background: -webkit-linear-gradient(to right, #3A6073, #16222A);  /* Chrome 10-25, Safari 5.1-6 */
@@ -57,7 +68,7 @@ color: white;
         class="img-fluid mb-4" 
         style="max-width: 270px; height: auto;">
         
-      <p class="mb-4">Por favor ingresa a tu cuenta</p>
+  
 
       <form method="POST" action="{{ route('login') }}">
         @csrf
@@ -118,7 +129,7 @@ color: white;
             type="submit">
             Ingresar
           </button>
-          <a class="text-muted d-block mt-2" href="#!">¿Olvidaste tu contraseña?</a>
+          <a class="text-muted d-block mt-2" href="{{ url('/register') }}">¿No tienes cuenta ?</a>
         </div>
 
        
