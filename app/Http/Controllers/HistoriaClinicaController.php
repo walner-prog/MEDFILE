@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Doctor;
 use App\Models\HistoriaClinica;
 use App\Models\Paciente;
 use Illuminate\Http\Request;
@@ -9,6 +10,8 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
 use Barryvdh\DomPDF\Facade\Pdf;
+use GuzzleHttp\Client;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class HistoriaClinicaController extends Controller
 {
@@ -20,14 +23,14 @@ class HistoriaClinicaController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth'); // Middleware de autenticación requerido para todas las funciones del controlador
+        $this->middleware('auth'); 
     }
     public function index()
     {   
 
         $total_historias= HistoriaClinica::count();
-         
-        return view('historias_clinicas.index', compact('total_historias'));
+         $doctores = Doctor::all();
+        return view('historias_clinicas.index', compact('total_historias','doctores'));
     }
 
     /**
@@ -53,17 +56,11 @@ class HistoriaClinicaController extends Controller
             'paciente_id' => 'required|exists:pacientes,id',
             'hora' => 'nullable',
             'sala' => 'nullable|string|max:255',
-            
-         
            'no_cama' => $request->has('is_ingresado') ? 'required|string|max:255' : 'nullable|string|max:255',
-
-           // 'edad' => 'nullable|integer|min:0',
             'fecha_nacimiento' => 'nullable|date',
             'lugar_nacimiento' => 'nullable|string|max:255',
-           // 'sexo' => 'nullable|in:M,F',
             'procedencia' => 'nullable|string|max:255',
             'religion' => 'nullable|string|max:255',
-           // 'grupos_etnicos' => 'nullable|string|max:255',
             'escolaridad' => 'nullable|string|max:255',
             'direccion_habitual' => 'nullable|string|max:255',
             'nombre_padre' => 'nullable|string|max:255',
@@ -223,23 +220,27 @@ class HistoriaClinicaController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id)
-    { $historiaClinica = HistoriaClinica::with('paciente')->find($id);
+
+    {
+         $historiaClinica = HistoriaClinica::with('paciente')->find($id);
     
         if (!$historiaClinica) {
             return redirect()->route('historias_clinicas.index')->with('error', 'Historia Clínica no encontrada.');
         }
     
           // Convertir la fecha de nacimiento a un objeto Carbon
-    $historiaClinica->fecha_nacimiento = Carbon::parse($historiaClinica->fecha_nacimiento);
-     // Formatea las fechas
-     $historiaClinica = HistoriaClinica::find($id);
-    if ($historiaClinica->fecha_menopausia) {
-        $historiaClinica->fecha_menopausia = Carbon::parse($historiaClinica->fecha_menopausia);
-    }
+         $historiaClinica->fecha_nacimiento = Carbon::parse($historiaClinica->fecha_nacimiento);
+         // Formatea las fechas
+         $historiaClinica = HistoriaClinica::find($id);
 
-     $historiaClinica->fecha_inicio = $historiaClinica->fecha_inicio ? Carbon::parse($historiaClinica->fecha_inicio)->format('d/m/Y') : 'No disponible';
-     $historiaClinica->fecha_conclusion = $historiaClinica->fecha_conclusion ? Carbon::parse($historiaClinica->fecha_conclusion)->format('d/m/Y') : 'No disponible';
-     $modo = auth()->user()->modo; // O cualquier lógica para determinar el modo
+        if ($historiaClinica->fecha_menopausia)
+        {
+           $historiaClinica->fecha_menopausia = Carbon::parse($historiaClinica->fecha_menopausia);
+        }
+
+           $historiaClinica->fecha_inicio = $historiaClinica->fecha_inicio ? Carbon::parse($historiaClinica->fecha_inicio)->format('d/m/Y') : 'No disponible';
+           $historiaClinica->fecha_conclusion = $historiaClinica->fecha_conclusion ? Carbon::parse($historiaClinica->fecha_conclusion)->format('d/m/Y') : 'No disponible';
+           $modo = auth()->user()->modo; // O cualquier lógica para determinar el modo
         return view('historias_clinicas.show', compact('historiaClinica','modo'));
     }
                                               
@@ -270,18 +271,13 @@ class HistoriaClinicaController extends Controller
         $validator = Validator::make($request->all(), [
            
             'paciente_id' => 'required|exists:pacientes,id',
-           
             'hora' => 'nullable',
             'sala' => 'nullable|string|max:255',
-           
             'no_cama' => 'nullable|string|max:255',
-            
             'fecha_nacimiento' => 'nullable|date',
             'lugar_nacimiento' => 'nullable|string|max:255',
-          
             'procedencia' => 'nullable|string|max:255',
             'religion' => 'nullable|string|max:255',
-           
             'escolaridad' => 'nullable|string|max:255',
             'direccion_habitual' => 'nullable|string|max:255',
             'nombre_padre' => 'nullable|string|max:255',
@@ -292,11 +288,8 @@ class HistoriaClinicaController extends Controller
             'motivo_consulta' => 'nullable|string',
             'historia_enfermedad_actual' => 'nullable|string',
             'interrogatorio_aparatos_sistemas' => 'nullable|string',
-           
             'enfermedades_hereditarias' => 'nullable|string|max:255',
             'enfermedades_infecto_contagiosas' => 'nullable|string|max:255',
-          
-
             'inmunizaciones_completas' => 'nullable|boolean',
             'horas_sueno' => 'nullable|integer|min:0',
             'horas_laborales' => 'nullable|integer|min:0',
@@ -307,30 +300,25 @@ class HistoriaClinicaController extends Controller
             'cantidad_frecuencia_tabaco' => 'nullable|integer|min:0',
             'edad_abandono_tabaco' => 'nullable|integer|min:0',
             'duracion_habito_tabaco' => 'nullable|integer|min:0',
-
             'alcohol' => 'nullable|boolean',
             'tipo_alcohol' => 'nullable|string|max:255',
             'cantidad_frecuencia_alcohol' => 'nullable|integer|min:0',
             'edad_inicio_alcohol' => 'nullable|integer|min:0',
             'edad_abandono_alcohol' => 'nullable|integer|min:0',
             'duracion_habito_alcohol' => 'nullable|integer|min:0',
-
             'drogas_ilegales' => 'nullable|boolean',
             'tipo_drogas' => 'nullable|string|max:255',
             'cantidad_frecuencia_drogas' => 'nullable|integer|min:0',
             'edad_inicio_drogas' => 'nullable|integer|min:0',
             'edad_abandono_drogas' => 'nullable|integer|min:0',
             'duracion_habito_drogas' => 'nullable|integer|min:0',
-
             'farmacos' => 'nullable|boolean',
             'edad_abandono_farmacos' => 'nullable|integer|min:0',
             'cantidad_frecuencia_farmacos' => 'nullable|integer|min:0',
             'duracion_habito_farmacos' => 'nullable|integer|min:0',
             'num_medicamentos_actuales' => 'nullable|integer|min:0',
             'nombre_posologia_farmacos' => 'nullable|string',
-
             'otros_habitos' => 'nullable|string',
-
             'enfermedades_cronicas' => 'nullable|string',
             'cirugias_previas' => 'nullable|string',
             'hospitalizaciones' => 'nullable|string',
@@ -415,8 +403,6 @@ class HistoriaClinicaController extends Controller
                 ->with('error', 'Por favor corrige los errores.');
         }
     
-       // $result = $historiasClinica->update($validator->validated());
-        //dd($result, $historiasClinica);
 
         // Actualizar la historia clínica con los datos validados
         $historiasClinica->update($validator->validated());
@@ -456,21 +442,344 @@ class HistoriaClinicaController extends Controller
 
     
 
-public function generatePdf($id)
+     public function generatePdf($id)
+    {
+        $historiaClinica = HistoriaClinica::with('paciente')->find($id);
+
+        if (!$historiaClinica) {
+          return redirect()->route('historias_clinicas.index')->with('error', 'Historia Clínica no encontrada.');
+        }
+
+         // Generar el PDF y visualizarlo en el navegador
+          $pdf = PDF::loadView('historias_clinicas.pdf', compact('historiaClinica'));
+           // Mostrar el PDF en el navegador
+          return $pdf->stream('historia_clinica_' . $historiaClinica->id . '.pdf');
+     }
+
+      
+    public function analizarHistoriaClinica(Request $request, $id)
+    {
+
+      try {
+        // Obtén la historia clínica del paciente
+        $historiaClinica = HistoriaClinica::findOrFail($id);
+      } catch (ModelNotFoundException $e) {
+        return response()->json(['error' => 'Historia clínica no encontrada.'], 404);
+      } catch (\Exception $e) {
+        return response()->json(['error' => 'Error al obtener la historia clínica.'], 500);
+      }
+
+       // Crea el cliente de Guzzle para las solicitudes a la API de OpenAI
+      $client = new Client();
+
+       // Lógica de análisis con OpenAI (Resumen)
+       try {
+        $inputResumen = "Analiza la historia clínica del paciente y proporciona un resumen detallado de los síntomas y diagnósticos con el objetivo de ayudar al medico. " .
+                        "Motivo de consulta: " . $historiaClinica->motivo_consulta . 
+                        ". Historia de enfermedad actual: " . $historiaClinica->historia_enfermedad_actual . 
+                        ". Diagnósticos: " . $historiaClinica->diagnosticos_problemas;
+
+        $responseResumen = $client->post('https://api.openai.com/v1/chat/completions', [
+            'headers' => [
+                'Authorization' => 'Bearer ' . env('OPENAI_API_KEY'),
+                'Content-Type' => 'application/json',
+            ],
+            'json' => [
+                'model' => 'gpt-4',
+                'messages' => [
+                    ['role' => 'user', 'content' => $inputResumen],
+                ],
+            ],
+        ]);
+
+         $resumen = json_decode($responseResumen->getBody(), true);
+         $resumenContenido = $resumen['choices'][0]['message']['content'] ?? 'No se obtuvo respuesta';
+
+        } catch (\GuzzleHttp\Exception\RequestException $e) {
+        return response()->json(['error' => 'Error en la comunicación con la API de OpenAI.'], 500);
+       } catch (\Exception $e) {
+        return response()->json(['error' => 'Error al procesar el resumen.'], 500);
+       }
+
+        // Lógica de análisis con OpenAI (Recomendaciones)
+       try {
+        $inputRecomendaciones = "Proporciona recomendaciones personalizadas sobre salud y bienestar basadas en la siguiente historia clínica: " . json_encode($historiaClinica);
+
+        $responseRecomendaciones = $client->post('https://api.openai.com/v1/chat/completions', [
+            'headers' => [
+                'Authorization' => 'Bearer ' . env('OPENAI_API_KEY'),
+                'Content-Type' => 'application/json',
+            ],
+            'json' => [
+                'model' => 'gpt-4',
+                'messages' => [
+                    ['role' => 'user', 'content' => $inputRecomendaciones],
+                ],
+            ],
+         ]);
+
+          $recomendaciones = json_decode($responseRecomendaciones->getBody(), true);
+          $recomendacionesContenido = $recomendaciones['choices'][0]['message']['content'] ?? 'No se obtuvo respuesta';
+
+       } catch (\GuzzleHttp\Exception\RequestException $e) {
+        return response()->json(['error' => 'Error en la comunicación con la API de OpenAI.'], 500);
+       } catch (\Exception $e) {
+        return response()->json(['error' => 'Error al procesar las recomendaciones.'], 500);
+       }
+
+    // Detección de patrones y anomalías
+     try {
+        $resultadosPatronesAnomalias = $this->detectarPatronesYAnomalias($historiaClinica->paciente_id);
+
+        if (isset($resultadosPatronesAnomalias['error'])) {
+            return response()->json(['error' => $resultadosPatronesAnomalias['error']], 500);
+        }
+
+        } catch (\Exception $e) {
+        return response()->json(['error' => 'Error al detectar patrones y anomalías.'], 500);
+        }
+
+       // Devuelve la respuesta como JSON (para ser usada con AJAX)
+        return response()->json([
+        'resumen' => $resumenContenido,
+        'recomendaciones' => $recomendacionesContenido,
+        'patrones' => $resultadosPatronesAnomalias['patrones'] ?? [],
+        'anomalías' => $resultadosPatronesAnomalias['anomalías'] ?? [],
+        ]);
+   }
+
+
+    public function showHistoriaClinica($id)
+   {
+       // Obtener la historia clínica por su ID junto con la información del paciente
+      $historiaClinica = HistoriaClinica::with('paciente')->findOrFail($id);
+
+      // Retornar la vista con los datos de la historia clínica y del paciente
+      return view('analisis-IA-HCP.analizar_historia', compact('historiaClinica'));
+   }
+   public function mostraPacientesParaanalisIA()
+  {
+    // Obtener todas las historias clínicas junto con la información del paciente
+   // $historiasClinicas = HistoriaClinica::with('paciente')->get();
+
+    // Retornar la vista con los datos de las historias clínicas y de los pacientes
+    return view('analisis-IA-HCP.mostrar_pacientes_ia');
+  }
+
+
+
+public function detectarPatronesYAnomalias($pacienteId)
 {
-    $historiaClinica = HistoriaClinica::with('paciente')->find($id);
-
-    if (!$historiaClinica) {
-        return redirect()->route('historias_clinicas.index')->with('error', 'Historia Clínica no encontrada.');
-    }
-
-    // Generar el PDF y visualizarlo en el navegador
-    $pdf = PDF::loadView('historias_clinicas.pdf', compact('historiaClinica'));
-
-   // return $pdf->download('historia_clinica_' . $historiaClinica->id . '.pdf');
+    try {
+        $paciente = Paciente::findOrFail($pacienteId);
+        $sexo = $paciente->sexo;
+        // Obtener todas las historias clínicas del paciente
+        $historias = HistoriaClinica::where('paciente_id', $pacienteId)->get();
     
-    // Mostrar el PDF en el navegador
-    return $pdf->stream('historia_clinica_' . $historiaClinica->id . '.pdf');
-}
+        // Validar si hay historias clínicas
+        if ($historias->isEmpty()) {
+            return ['error' => 'No se encontraron historias clínicas para este paciente.'];
+        }
+
+        $resultados = [
+            'patrones' => [],
+            'anomalías' => [],
+        ];
+
+        // Análisis de signos vitales y otros datos
+        foreach ($historias as $historia) {
+            // 1. Patrones en la frecuencia cardíaca (FC)
+            if ($historia->fc < 60 || $historia->fc > 100) {
+                $resultados['anomalías'][] = [
+                    'historia_id' => $historia->id,
+                    'mensaje' => 'Frecuencia cardíaca anormal: ' . $historia->fc,
+                ];
+            } else {
+                $resultados['patrones'][] = [
+                    'historia_id' => $historia->id,
+                    'mensaje' => 'Frecuencia cardíaca normal: ' . $historia->fc,
+                ];
+            }
+
+            // 2. Patrones en el peso
+            if ($historia->peso < 50 || $historia->peso > 100) {
+                $resultados['anomalías'][] = [
+                    'historia_id' => $historia->id,
+                    'mensaje' => 'Peso anormal: ' . $historia->peso,
+                ];
+            } else {
+                $resultados['patrones'][] = [
+                    'historia_id' => $historia->id,
+                    'mensaje' => 'Peso dentro del rango normal: ' . $historia->peso,
+                ];
+            }
+              
+            if ($historia->imc < 18.5) {
+                $resultados['anomalías'][] = [
+                    'historia_id' => $historia->id,
+                    'mensaje' => 'IMC indica bajo peso: ' . $historia->imc,
+                ];
+            } elseif ($historia->imc >= 18.5 && $historia->imc <= 24.9) {
+                $resultados['patrones'][] = [
+                    'historia_id' => $historia->id,
+                    'mensaje' => 'IMC dentro de rango normal: ' . $historia->imc,
+                ];
+            } elseif ($historia->imc >= 25 && $historia->imc <= 29.9) {
+                $resultados['anomalías'][] = [
+                    'historia_id' => $historia->id,
+                    'mensaje' => 'IMC indica sobrepeso: ' . $historia->imc,
+                ];
+            } else {
+                // IMC mayor a 30
+                $resultados['anomalías'][] = [
+                    'historia_id' => $historia->id,
+                    'mensaje' => 'IMC indica obesidad: ' . $historia->imc,
+                ];
+            }
+         
+                                                
+           
+            if (!empty($historia->ta)) {
+                // Dividir la presión arterial en sistólica y diastólica
+                list($sistolica, $diastolica) = explode('/', $historia->ta);
+            
+                // Asegurarse de que ambos valores son números
+                $sistolica = (int) $sistolica;
+                $diastolica = (int) $diastolica;
+            
+                // Comprobar si la presión arterial está fuera de los límites
+                if ($sistolica < 90 || $diastolica < 60 || $sistolica > 140 || $diastolica > 90) {
+                    $resultados['anomalías'][] = [
+                        'historia_id' => $historia->id,
+                        'mensaje' => 'Presión arterial anormal: ' . $historia->ta,
+                    ];
+                } else {
+                    $resultados['patrones'][] = [
+                        'historia_id' => $historia->id,
+                        'mensaje' => 'Presión arterial dentro de rango normal: ' . $historia->ta,
+                    ];
+                }
+            }
+
+            // 5. Patrones en la temperatura corporal
+            if ($historia->temperatura < 36.0 || $historia->temperatura > 37.5) {
+                $resultados['anomalías'][] = [
+                    'historia_id' => $historia->id,
+                    'mensaje' => 'Temperatura corporal anormal: ' . $historia->temperatura,
+                ];
+            } else {
+                $resultados['patrones'][] = [
+                    'historia_id' => $historia->id,
+                    'mensaje' => 'Temperatura corporal normal: ' . $historia->temperatura,
+                ];
+            }
+
+            // 6. Patrones en el consumo de tabaco
+            if ($historia->tabaco) {
+                $resultados['patrones'][] = [
+                    'historia_id' => $historia->id,
+                    'mensaje' => 'Paciente consume tabaco: ' . $historia->tipo_tabaco,
+                ];
+            } else {
+                $resultados['patrones'][] = [
+                    'historia_id' => $historia->id,
+                    'mensaje' => 'Paciente no consume tabaco.',
+                ];
+            }
+
+            // 7. Patrones en el consumo de alcohol
+            if ($historia->alcohol) {
+                $resultados['patrones'][] = [
+                    'historia_id' => $historia->id,
+                    'mensaje' => 'Paciente consume alcohol: ' . $historia->tipo_alcohol,
+                ];
+            } else {
+                $resultados['patrones'][] = [
+                    'historia_id' => $historia->id,
+                    'mensaje' => 'Paciente no consume alcohol.',
+                ];
+            }
+
+            // 8. Patrones en el consumo de drogas ilegales
+            if ($historia->drogas_ilegales) {
+                $resultados['patrones'][] = [
+                    'historia_id' => $historia->id,
+                    'mensaje' => 'Paciente consume drogas: ' . $historia->tipo_drogas,
+                ];
+            }
+
+            // 9. Patrones en horas de sueño
+            if ($historia->horas_sueno < 6 || $historia->horas_sueno > 9) {
+                $resultados['anomalías'][] = [
+                    'historia_id' => $historia->id,
+                    'mensaje' => 'Horas de sueño anormales: ' . $historia->horas_sueno,
+                ];
+            } else {
+                $resultados['patrones'][] = [
+                    'historia_id' => $historia->id,
+                    'mensaje' => 'Horas de sueño dentro del rango normal: ' . $historia->horas_sueno,
+                ];
+            }
+
+            // 10. Patrones en horas laborales
+            if ($historia->horas_laborales > 50) {
+                $resultados['anomalías'][] = [
+                    'historia_id' => $historia->id,
+                    'mensaje' => 'Exceso de horas laborales: ' . $historia->horas_laborales,
+                ];
+            }
+
+            // 11. Patrones en inmunizaciones
+            if (!$historia->inmunizaciones_completas) {
+                $resultados['anomalías'][] = [
+                    'historia_id' => $historia->id,
+                    'mensaje' => 'Inmunizaciones incompletas.',
+                ];
+            }
+
+            // 12. Patrones en enfermedades hereditarias
+            if ($historia->enfermedades_hereditarias) {
+                $resultados['patrones'][] = [
+                    'historia_id' => $historia->id,
+                    'mensaje' => 'Paciente tiene antecedentes de enfermedades hereditarias.',
+                ];
+            }
+
+            // 13. Patrones en cirugías previas
+            if ($historia->cirugias_previas) {
+                $resultados['patrones'][] = [
+                    'historia_id' => $historia->id,
+                    'mensaje' => 'Paciente ha tenido cirugías previas.',
+                ];
+            }
+
+            // 14. Patrones en hospitalizaciones previas
+            if ($historia->hospitalizaciones) {
+                $resultados['patrones'][] = [
+                    'historia_id' => $historia->id,
+                    'mensaje' => 'Paciente ha tenido hospitalizaciones previas.',
+                ];
+            }
+
+            // 15. Patrones en enfermedades crónicas
+            if ($historia->enfermedades_cronicas) {
+                $resultados['patrones'][] = [
+                    'historia_id' => $historia->id,
+                    'mensaje' => 'Paciente tiene enfermedades crónicas: ' . $historia->enfermedades_cronicas,
+                ];
+            }
+            
+        }
+        
+
+        return $resultados;
+
+        
+    } catch (\Exception $e) {
+        return ['error' => 'Error al detectar patrones y anomalías: ' . $e->getMessage()];
+    }
+ }
+
+
 
 }

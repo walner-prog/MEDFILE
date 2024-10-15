@@ -14,7 +14,7 @@ class EmergenciaController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth'); // Middleware de autenticación requerido para todas las funciones del controlador
+        $this->middleware('auth'); 
     }
 
     /**
@@ -24,8 +24,7 @@ class EmergenciaController extends Controller
      */
     public function index()
     {
-       // $pacientes = Paciente::get();
-      //  $emergencias = Emergencia::get(); 
+        
         return view('emergencias.index');
     }
 

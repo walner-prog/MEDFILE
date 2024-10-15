@@ -210,12 +210,12 @@ Route::get('departamentos', function () {
 
 
 Route::get('citas', function () {
-    
     return datatables()
-    ->eloquent( App\Models\Cita::query())
-    ->addColumn('btn','actions-departamento')
-    ->rawColumns(['btn'])
-    ->toJson();
+    ->eloquent( App\Models\cita::query())
+        ->addColumn('btn', 'actions-citas') // Asegúrate de que 'actions-citas' sea la vista que contiene los botones de acción
+       
+        ->rawColumns(['btn']) // Permitir el uso de HTML en la columna de botones
+        ->toJson();
 });
 
 

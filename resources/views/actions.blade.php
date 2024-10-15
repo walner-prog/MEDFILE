@@ -96,14 +96,14 @@
         $historiaClinica = \App\Models\HistoriaClinica::where('paciente_id', $id)->first();
           @endphp
     
-    @if($historiaClinica)
-        <a href="{{ route('historias_clinicas.show', $historiaClinica->id) }}" target="_blank" class="btn btn-indigo" title="Historia Clínica">
+        @if($historiaClinica)
+         <a href="{{ route('historias_clinicas.show', $historiaClinica->id) }}" target="_blank" class="btn btn-indigo" title="Historia Clínica">
             <i class="fas fa-comment-medical"></i>
         </a>
-    @else
+        @else
     
         <p class=" text-success">No hay historia clínica disponible.</p> <!-- Para verificar que entra en el else -->
-    @endif
+       @endif
     
     
     

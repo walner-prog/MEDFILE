@@ -7,9 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Response;
+
 use Illuminate\Support\Facades\Validator;
 
 class UsuarioController extends Controller
@@ -81,11 +79,12 @@ class UsuarioController extends Controller
     }
 
     public function edit($id)
-{
-    $usuario = User::with('roles')->findOrFail($id); // Obtener el usuario con roles
-    $roles = Role::pluck('name', 'id')->toArray(); // Obtener todos los roles disponibles
-    return view('usuarios.edit', compact('usuario', 'roles'));
-}
+     
+    {
+        $usuario = User::with('roles')->findOrFail($id); // Obtener el usuario con roles
+        $roles = Role::pluck('name', 'id')->toArray(); // Obtener todos los roles disponibles
+        return view('usuarios.edit', compact('usuario', 'roles'));
+    }
 
     public function update(Request $request, $id)
     {

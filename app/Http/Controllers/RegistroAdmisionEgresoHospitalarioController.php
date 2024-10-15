@@ -50,22 +50,18 @@ class RegistroAdmisionEgresoHospitalarioController extends Controller
             'localidad' => 'nullable|string|max:255',
             'municipio' => 'nullable|string|max:255',
             'departamento' => 'nullable|string|max:255',
-
-         
             'raza_etnia' => 'nullable|string|max:255', // Nombre alternativo para 'raza_etnia'
             'edad' => 'nullable|integer', // Nombre alternativo para 'edad'
             'ocupacion' => 'nullable|string|max:255',
             'empleador' => 'nullable|string|max:255',
             'nombre_madre' => 'nullable|string|max:255',
             'nombre_padre' => 'nullable|string|max:255',
-
             'urgencia_avisar' => 'nullable|string|max:255',
             'direccion_telefono_avisar' => 'nullable|string|max:255',
             'ingreso' => 'nullable|string|max:255',
             'empleador' => 'nullable|string|max:255',
             'direccion_empleador' => 'nullable|string|max:255',
             'municipio_distrito' => 'nullable|string|max:255',
-            
             'parentesco' => 'nullable|string|max:255',
             'diagnostico_ingreso' => 'nullable|string|max:255',
             'forma_llegada_hospital' => 'nullable|string|max:255',

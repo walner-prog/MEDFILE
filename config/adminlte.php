@@ -385,13 +385,22 @@ return [
         'active'     => ['doctores'],
         'submenu'    => [
             [
-                'text'       => 'Registro Doctores',
+                'text'       => 'Buscar Doctores',
                 'icon_color' => 'white',
                 'text_color' => 'dark',
                 'route'      => 'doctores.mostrar',
                 'icon'       => 'fas fa-fw fa-stethoscope',
                 'active'     => ['doctores.mostrar'],
             ],
+            [
+                'text'       => 'Registro Doctores',
+                'icon_color' => 'white',
+                'text_color' => 'dark',
+                'route'      => 'doctores.index',
+                'icon'       => 'fas fa-fw fa-stethoscope',
+                'active'     => ['doctores'],
+            ],
+            
             [
                 'text'       => 'Estadisticas  Doctores',
                 'icon_color' => 'white',
@@ -445,14 +454,7 @@ return [
                 'icon'       => 'fas fa-fw  fa-clock',
                 'active'     => ['horarios-doctor.index'],
             ],
-            [
-                'text'       => 'Crear horarios  ',
-                'icon_color' => 'white',
-                'text_color' => 'dark',
-                'route'      => 'horarios-doctor.create',
-                'icon'       => 'fas fa-fw fa-stethoscope',
-                'active'     => ['horarios-doctor.create'],
-            ],
+           
         ],
     ],
 

@@ -82,6 +82,23 @@
        <div class="col-lg-10 text-right">
          
             
+      @if (session('error'))
+      <div class="alert alert-danger">
+          {{ session('error') }}
+      </div>
+  @endif
+  @if (session('info'))
+      <div class="alert alert-success">
+          {{ session('info') }}
+      </div>
+  @endif
+ 
+  @if (session('delete'))
+      <div class="alert alert-warning">
+          {{ session('delete') }}
+      </div>
+  @endif
+
        </div>
     </div>
      
@@ -128,7 +145,8 @@
               
           </div>
           <div class="modal-body">
-            <form action="{{ route('pacientes.update', $paciente->id) }}" method="POST" >
+            <form action="{{ route('pacientes.update', $paciente->id) }}" method="POST" enctype="multipart/form-data">
+
                 @csrf
                 @method('PUT')
                 <div class="modal-body">
@@ -142,6 +160,29 @@
                                 @endif
                             </div>
                         </div>
+                        
+                            <div class="col-lg-3 mb-3">
+                                <label for="current_password" class="form-label">Contraseña Actual</label>
+                                <input type="password" name="current_password" class="form-control" >
+                                @error('current_password')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="col-lg-3 mb-3">
+                                <label for="password" class="form-label">Nueva Contraseña</label>
+                                <input type="password" name="password" class="form-control" >
+                                @error('password')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="col-lg-3 mb-3">
+                                <label for="password_confirmation" class="form-label">Confirmar Nueva Contraseña</label>
+                                <input type="password" name="password_confirmation" class="form-control" >
+                                @error('password_confirmation')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                    
                         <div class="col-lg-3">
                             <div class="form-group">
                                 <label for="fecha">Fecha</label>
@@ -388,13 +429,17 @@
                                  @else
                                 <p>No hay foto disponible</p>
                                @endif
+
+                               @if ($errors->has('foto'))
+                               <div class="text-danger">{{ $errors->first('foto') }}</div>
+                              @endif
                             </div>
                         </div>
                         <div class="col-lg-12 text-right">
                             <button type="submit" class="btn btn-primary">Guardar Cambios</button>
                         </div>
                     </div>
-                </form>
+         </form>
             </div>
         </div>
      </div>

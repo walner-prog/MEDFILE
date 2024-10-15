@@ -7,9 +7,10 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'CAPS ADMIN') }}</title>
+    <title>{{ config('app.name', 'MEDFILE') }}</title>
     <!-- Favicon  -->
-    <link rel="icon" href="/public/images/logosinfondo_planetaverde2.png">
+    <link rel="icon" href="{{ asset('storage/logo-sin-fondo.png') }}">
+
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>

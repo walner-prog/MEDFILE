@@ -76,15 +76,7 @@
              
             
               <div class="col-lg-10 d-flex justify-content-end align-items-center">
-                  <div class="datetime badge badge-info p-2 mr-2" id="datetime"></div>
-                  <label class="switch mb-0">
-                      <input type="checkbox" id="theme-toggle">
-                      <span class="slider round">
-                          <i class="fas fa-sun icon-light"></i>
-                          <i class="fas fa-moon icon-dark"></i>
-                      </span>
-                      <span id="mode-text"></span>
-                  </label>
+                
               </div>
               
            </div>

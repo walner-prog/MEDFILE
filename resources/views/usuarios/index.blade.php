@@ -168,12 +168,20 @@
                                             </div>
                         
                                             <div class="form-group">
-                                                <label for="roles">Roles</label>
-                                                {!! Form::select('roles[]', $roles, $usuario->roles->pluck('id')->toArray(), ['class' => 'form-control', 'multiple' => 'multiple']) !!}
+                                                <label>Roles</label>
+                                                <select name="roles[]" class="form-control" multiple>
+                                                    @foreach($roles as $id => $name)
+                                                        <option value="{{ $id }}" {{ (in_array($id, $usuario->roles->pluck('id')->toArray()) ? 'selected' : '') }}>
+                                                            {{ $name }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                                
                                                 @error('roles')
                                                     <div class="invalid-feedback">{{ $message }}</div>
                                                 @enderror
                                             </div>
+                                            
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
@@ -226,24 +234,28 @@
                         </div>
 
                         <div class="form-group">
-                            {!! Form::label('password', 'Password' ) !!}
-                            {!! Form::text('password', null, ['class' => 'form-control', 'placeholder' => 'Ingrese la password ']) !!}
+                            <label for="password">Password</label>
+                            <input type="text" name="password" class="form-control" placeholder="Ingrese la password">
+                            
+                            @error('password')
+                                <span class="text text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
                         
-                              @error('password')
-                                   <span class="text text-danger">{{ $message }}</span>
-                              @enderror
-                         </div>
-
                         <div class="form-group">
-                            <label for="Role">Roles</label>
-                            {!! Form::select('roles[]',$roles,[], ['class' => 'form-control', 'placeholder' => 'Ingrese los roles']) !!}
+                            <label for="roles">Roles</label>
+                            <select name="roles[]" class="form-control" placeholder="Ingrese los roles">
+                                <option value="" disabled selected>Seleccione un rol</option>
+                                @foreach($roles as $key => $role)
+                                    <option value="{{ $key }}">{{ $role }}</option>
+                                @endforeach
+                            </select>
+                            
+                            @error('roles')
+                                <span class="text text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
                         
-                              @error('Role')
-                                   <span class="text text-danger">{{ $message }}</span>
-                              @enderror
-                        
-                            </div>
-                    </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                         <button type="submit" class="btn btn-primary">Crear Usuario</button>

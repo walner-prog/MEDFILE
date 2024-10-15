@@ -50,29 +50,25 @@ class RegistroPacientesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    /*public function show($id)
-    {
-        $paciente = Paciente::with(['emergencias', 'historiasClinicas', 'controlMedicamentos', 'informesCondicionDiaria', 'listaProblemas', 'notasEvolucionTratamiento', 'registrosAdmisionEgresoHospitalario'])->findOrFail($id);
-        return view('registro_pacientes.show', compact('paciente'));
-    }*/
-
-    public function show($id)
-{
-    $paciente = Paciente::findOrFail($id);
-    $registrosAdmisionEgreso = $paciente->registrosAdmisionEgresoHospitalario;
-
-    // Ordenar los registros por fecha para determinar el más reciente
-    $registrosAdmisionEgreso = $registrosAdmisionEgreso->sortByDesc('fecha_admision'); // Ajusta el campo según tu modelo
-
-    // Obtener el registro más reciente
-    $registroMasReciente = $registrosAdmisionEgreso->first();
-
-    return view('registro_pacientes.show', [
-        'paciente' => $paciente,
-        'registrosAdmisionEgreso' => $registrosAdmisionEgreso,
-        'registroMasReciente' => $registroMasReciente,
-    ]);
-}
+  
+      public function show($id)
+      
+      {
+        $paciente = Paciente::findOrFail($id);
+        $registrosAdmisionEgreso = $paciente->registrosAdmisionEgresoHospitalario;
+    
+        // Ordenar los registros por fecha para determinar el más reciente
+        $registrosAdmisionEgreso = $registrosAdmisionEgreso->sortByDesc('fecha_admision'); // Ajusta el campo según tu modelo
+    
+        // Obtener el registro más reciente
+        $registroMasReciente = $registrosAdmisionEgreso->first();
+    
+        return view('registro_pacientes.show', [
+            'paciente' => $paciente,
+            'registrosAdmisionEgreso' => $registrosAdmisionEgreso,
+            'registroMasReciente' => $registroMasReciente,
+        ]);
+    }
 
     /**
      * Show the form for editing the specified resource.

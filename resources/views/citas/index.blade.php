@@ -51,6 +51,7 @@
 <div class="container mt-4 toggle-container">
     <br>
 
+    <!-- Breadcrumb Navigation -->
     <div class="row">
         <div class="col">
             <nav aria-label="breadcrumb" class="rounded-3 p-3 mb-4">
@@ -62,6 +63,7 @@
         </div>
     </div>
 
+    <!-- Create Cita Button -->
     <div class="row">
         <div class="col-lg-2">
             @can('create', App\Models\Cita::class)
@@ -72,6 +74,7 @@
         </div>
     </div>
 
+    <!-- Session Feedback -->
     @if (session('error'))
         <div class="alert alert-danger">{{ session('error') }}</div>
     @endif
@@ -91,6 +94,7 @@
     </div>
     @endif
 
+    <!-- Citas Table -->
     <div class="table-responsive">
         <table id="citasTable" class="min-w-full w-100 border border-gray-300 shadow-md rounded-lg p-2">
             <thead class="from-green-500 to-green-600 text-white">
@@ -100,26 +104,24 @@
                     <th class="px-6 py-3 text-left text-base font-medium tracking-wider border-b border-gray-200">Paciente</th>
                     <th class="px-6 py-3 text-left text-base font-medium tracking-wider border-b border-gray-200">Doctor</th>
                     <th class="px-6 py-3 text-left text-base font-medium tracking-wider border-b border-gray-200">Especialidad</th>
-                    <th class="px-6 py-3 text-left text-base font-medium tracking-wider border-b border-gray-200">Fecha </th>
+                    <th class="px-6 py-3 text-left text-base font-medium tracking-wider border-b border-gray-200">Fecha</th>
                     <th class="px-6 py-3 text-left text-base font-medium tracking-wider border-b border-gray-200">Hora</th>
                     <th class="px-6 py-3 text-left text-base font-medium tracking-wider border-b border-gray-200">Estado</th>
                     <th class="px-6 py-3 text-left text-base font-medium tracking-wider border-b border-gray-200">Acciones</th>
                 </tr>
             </thead>
             <tbody class="bordered-rows divide-y divide-gray-200">
-                {{-- Los datos se cargan acá dinámicamente por datatable server-side --}}
+                <!-- Data dynamically loaded via server-side Datatable -->
             </tbody>
         </table>
     </div>
 
-     
-    <div class="row">
-
-        <div class="col-lg-12 mt-5">
-
+    <!-- Doctor Calendar -->
+    <div class="row mt-5">
+        <div class="col-lg-12">
             <div class="card">
-                <div class=" card-header from-green-500 to-green-600 text-white text-center  p-2">
-                    <h3 class="text-lg font-semibold card-title ">Calendario de Atención de Doctores</h3>
+                <div class="card-header from-green-500 to-green-600 text-white text-center p-2">
+                    <h3 class="text-lg font-semibold card-title">Calendario de Atención de Doctores</h3>
                 </div>
                 <div class="card-body">
                     <div class="col-lg-4">
@@ -129,7 +131,7 @@
                                 <option value="">Selecciona un consultorio</option>
                                 @foreach ($consultorios as $consultorio)
                                     <option value="{{ $consultorio->id }}">
-                                        {{  $consultorio->nombre . "- Ubicacion: ". $consultorio->ubicacion }} 
+                                        {{ $consultorio->nombre . "- Ubicacion: " . $consultorio->ubicacion }}
                                     </option>
                                 @endforeach
                             </select>
@@ -137,292 +139,76 @@
                                 <div class="text-danger">{{ $errors->first('consultorio_id') }}</div>
                             @endif
                         </div>
-                       
                     </div>
-                        
-                    <div class=" text-white" id="consultorio_info"></div>
-                   
-                    <hr>
-                    <div class="overflow-x-auto">
-                        
-                    </div>
-                    
+                    <div class="text-white" id="consultorio_info"></div>
                 </div>
             </div>
-            
-    
-        </div>
-    
-
-        <div class="col-lg-12 mt-5">
-
-            <div class="card">
-                <div class=" card-header from-green-500 to-green-600 text-white text-center  p-2">
-                    <h3 class="text-lg font-semibold card-title ">Calendario de Reservas de citas medicas </h3>
-                </div>
-                <div class="card-body">
-                    <div class="col-lg-4">
-                        <div class="form-group">
-                            <label for="consultorio_id">Consultorio</label>
-                            <select class="form-control" id="consultorio_select" name="consultorio_id" required>
-                                <option value="">Selecciona un consultorio</option>
-                                @foreach ($consultorios as $consultorio)
-                                    <option value="{{ $consultorio->id }}">
-                                        {{  $consultorio->nombre . "- Ubicacion: ". $consultorio->ubicacion }} 
-                                    </option>
-                                @endforeach
-                            </select>
-                            @if ($errors->has('consultorio_id'))
-                                <div class="text-danger">{{ $errors->first('consultorio_id') }}</div>
-                            @endif
-                        </div>
-                       
-                    </div>
-
-                     <div class="col-lg-">
-                        <div id='calendar'></div>
-                     </div>
-                   
-                    
-                </div>
-            </div>
-            
-
         </div>
     </div>
-   
 
-    <!-- Modal para crear citas -->
+    <!-- Medical Appointment Calendar -->
+    <div class="row mt-5">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-header from-green-500 to-green-600 text-white text-center p-2">
+                    <h3 class="text-lg font-semibold card-title">Calendario de Reservas de Citas Médicas</h3>
+                </div>
+                <div class="card-body">
+                    <div class="col-lg-4">
+                        <div class="form-group">
+                            <label for="consultorio_id">Consultorio</label>
+                            <select class="form-control" id="consultorio_select" name="consultorio_id" required>
+                                <option value="">Selecciona un consultorio</option>
+                                @foreach ($consultorios as $consultorio)
+                                    <option value="{{ $consultorio->id }}">
+                                        {{ $consultorio->nombre . "- Ubicacion: " . $consultorio->ubicacion }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            @if ($errors->has('consultorio_id'))
+                                <div class="text-danger">{{ $errors->first('consultorio_id') }}</div>
+                            @endif
+                        </div>
+                    </div>
+                    <div id='calendar'></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Create Appointment Modal -->
     <div class="modal fade" id="createCitaForm" tabindex="-1" role="dialog" aria-labelledby="createCitaFormModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
         <div class="modal-dialog modal-xl" role="document">
             <div class="modal-content">
                 <div class="modal-header bg-primary">
                     <div class="row w-100">
-                        <!-- Título del modal -->
                         <div class="col-lg-8">
                             <h5 class="modal-title text-white" id="createCitaFormModalLabel">Programar Nueva Cita Médica</h5>
                         </div>
-                        
-                        <!-- Datos del Paciente -->
                         <div id="datos-paciente" class="col-lg-12 mt-3">
                             <h4 class="text-white">Datos del Paciente</h4>
                             <div class="p-3 mb-2 border rounded datos-pacientes bg-light">
-                                <div class="mb-2">
-                                    <strong class="text-primary">
-                                        <i class="fa-sharp fa-solid fa-notes-medical"></i> No. Expediente:
-                                    </strong> 
-                                    <span id="info_no_expediente" class="text-danger"></span>
-                                </div>
-                                <div class="mb-2">
-                                    <strong class="text-primary">
-                                        <i class="fa-solid fa-hospital-user"></i> Nombres y Apellidos:
-                                    </strong> 
-                                    <span id="info_primer_nombre" class="text-secondary"></span>
-                                    <span id="info_segundo_nombre" class="text-secondary"></span>
-                                    <span id="info_primer_apellido" class="text-secondary"></span>
-                                    <span id="info_segundo_apellido" class="text-secondary"></span>
-                                </div>
-                                <div class="mb-2">
-                                    <strong class="text-primary">Edad:</strong> 
-                                    <span id="info_edad" class="text-secondary"></span>
-                                    <strong class="text-primary ml-2">Sexo:</strong> 
-                                    <span id="info_sexo" class="text-secondary"></span>
-                                    <strong class="text-primary ml-2">No. Cédula:</strong> 
-                                    <span id="info_no_cedula" class="text-secondary"></span>
-                                    <strong class="text-primary ml-2">No. INSS:</strong> 
-                                    <span id="info_no_inss" class="text-secondary"></span>
-                                </div>
+                                <!-- Patient Info -->
                             </div>
                         </div>
                     </div>
                 </div>
-                
                 <div class="modal-body">
                     <form action="{{ route('citas.store') }}" method="POST" id="citaForm">
                         @csrf
-                    
-                        <div class="row">
-                            <!-- Columna de búsqueda de paciente -->
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="buscar_paciente" class="font-weight-bold">Buscar Paciente</label>
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" id="buscar_paciente" placeholder="Buscar por nombre, cédula o expediente">
-                                        <div class="input-group-append">
-                                            <span class="input-group-text"><i class="fa fa-search"></i></span>
-                                        </div>
-                                    </div>
-                                    <div id="lista_pacientes" class="list-group mt-2"></div>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-6" hidden>
-                                <div class="form-group">
-                                    <label for="paciente_id">Paciente seleccionado  </label>
-                                    <select class="form-control" id="paciente_id" name="paciente_id" required>
-                                     
-                                    </select>
-                                    @if ($errors->has('paciente_id'))
-                                        <div class="text-danger">{{ $errors->first('paciente_id') }}</div>
-                                    @endif
-                                </div>
-                            </div> 
-        
-                    
-                            <!-- Columna para mostrar el ID del paciente seleccionado -->
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label for="paciente_id_id" class="font-weight-bold">ID Paciente Seleccionado</label>
-                                    <input type="number" class="form-control" id="paciente_id_id" name="paciente_id" value="{{ old('paciente_id_id') }}" readonly required>
-                                    @if ($errors->has('paciente_id'))
-                                        <div class="text-danger">{{ $errors->first('paciente_id') }}</div>
-                                    @endif
-                                </div>
-                            </div>
+                        <!-- Form Content -->
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                            <button type="submit" class="btn btn-primary">Guardar Cita</button>
                         </div>
-                    
-                        <div class="row">
-                            <!-- Selección de doctor -->
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="doctor_id" class="font-weight-bold">Doctor</label>
-                                    <select class="form-control" id="doctor_id" name="doctor_id" required>
-                                        <option value="">Seleccionar doctor...</option>
-                                    </select>
-                                    @if ($errors->has('doctor_id'))
-                                        <div class="text-danger">{{ $errors->first('doctor_id') }}</div>
-                                    @endif
-                                </div>
-                            </div>
-                    
-                            <!-- Selección de especialidad -->
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="especialidad_id" class="font-weight-bold">Especialidad <span class="text-danger">*</span></label>
-                                    <select class="form-control" id="especialidad_id" name="especialidad_id" >
-                                        {{-- Opciones dinámicas de especialidades --}}
-                                    </select>
-                                    @if ($errors->has('especialidad_id'))
-                                        <div class="text-danger">{{ $errors->first('especialidad_id') }}</div>
-                                    @endif
-                                </div>
-                            </div>
-                        </div>
-                    
-                        <div class="row">
-                        <!-- Fecha de la Cita -->
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="fecha_cita" class="font-weight-bold">Fecha <span class="text-danger">*</span></label>
-                                <input type="date" class="form-control" id="fecha_cita" name="fecha_cita" required>
-                                @if ($errors->has('fecha_cita'))
-                                    <div class="text-danger">{{ $errors->first('fecha_cita') }}</div>
-                                @endif
-                            </div>
-                        </div>
-
-                        <!-- Hora de la Cita -->
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="hora_cita" class="font-weight-bold">Hora de la cita <span class="text-danger">*</span></label>
-                                <input type="time" class="form-control" id="hora_cita" name="hora_cita" required>
-                                @if ($errors->has('hora_cita'))
-                                    <div class="text-danger">{{ $errors->first('hora_cita') }}</div>
-                                @endif
-                            </div>
-                            <div id="horariosDisponibles"></div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <!-- Tipo de Cita -->
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="tipo_cita" class="font-weight-bold">Tipo de Cita <span class="text-danger">*</span></label>
-                                <select class="form-control" id="tipo_cita" name="tipo_cita" required>
-                                    <option value="consulta">Consulta</option>
-                                    <option value="control">Control</option>
-                                    <option value="emergencia">Emergencia</option>
-                                </select>
-                                @if ($errors->has('tipo_cita'))
-                                    <div class="text-danger">{{ $errors->first('tipo_cita') }}</div>
-                                @endif
-                            </div>
-                        </div>
-
-                        <!-- Estado de la Cita -->
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="estado" class="font-weight-bold">Estado <span class="text-danger">*</span></label>
-                                <select class="form-control" id="estado" name="estado" required>
-                                    <option value="por confirmar">Por Confirmar</option>
-                                    <option value="confirmada">Confirmada</option>
-                                    <option value="en progreso">En Progreso</option>
-                                    <option value="cancelada">Cancelada</option>
-                                    <option value="realizada">Realizada</option>
-                                </select>
-                                @if ($errors->has('estado'))
-                                    <div class="text-danger">{{ $errors->first('estado') }}</div>
-                                @endif
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Descripción de la Cita -->
-                    <div class="row">
-                        <div class="col-10">
-                            <div class="form-group">
-                                <label for="descripcion_cita" class="font-weight-bold">Descripción</label>
-                                <textarea class="form-control" id="descripcion_cita" name="descripcion_cita" rows="3"></textarea>
-                            </div>
-                        </div>
-                         <!-- Hora de la Cita -->
-                         <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="duracion" class="font-weight-bold">Duarcion de la cita <span class="text-danger">*</span></label>
-                                <input type="number" class="form-control" id="duracion" name="duracion" required>
-                                @if ($errors->has('duracion'))
-                                    <div class="text-danger">{{ $errors->first('duracion') }}</div>
-                                @endif
-                            </div>
-                        </div>
-                    </div>
-                      
-                    <div class="ro">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="fecha_reserva" class="font-weight-bold">Fecha de Reserva <span class="text-danger">*</span></label>
-                                <input type="date" class="form-control" id="fecha_cita" name="fecha_cita" value="{{ old('fecha_cita') }}" required>
-                                @if ($errors->has('fecha_reserva'))
-                                    <div class="text-danger">{{ $errors->first('fecha_reserva') }}</div>
-                                @endif
-                            </div>
-                        </div>
-                        
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="hora_reserva" class="font-weight-bold">Hora de Reserva <span class="text-danger">*</span></label>
-                                <input type="time" class="form-control" id="hora_cita" name="hora_cita" value="{{ old('hora_cita') }}" required>
-                                @if ($errors->has('hora_reserva'))
-                                    <div class="text-danger">{{ $errors->first('hora_reserva') }}</div>
-                                @endif
-                            </div>
-                        </div>
-                        
-                    </div>
-                    <!-- Botones de Acción -->
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                        <button type="submit" class="btn btn-primary">Guardar Cita</button>
-                    </div>
                     </form>
-                    
                 </div>
             </div>
         </div>
     </div>
-    
+
 </div>
+
 @stop
 
 
@@ -470,22 +256,23 @@ $(document).ready(function() {
         processing: true,
         serverSide: true,
         ajax: "{{ url('api/citas') }}", // Reemplaza con la URL correcta para tu API de citas
-        columns: [
-            { data: 'id' },
-            { data: 'no_expediente',
-                render: function (data, type, row) {
-                    return `<span class="text-primary font-weight-bold">${data}</span> <span class="badge badge-info">EXP</span>`;
-                },
-            },
-            { data: 'paciente_id' },
-            { data: 'doctor_id' },
-            { data: 'especialidad_id' },
-            { data: 'fecha_cita' },
-            { data: 'hora_cita' },
-           
-            { data: 'estado' },
-            { data: 'btn', orderable: false, searchable: false }
-        ],
+ columns: [
+    { data: 'id' },
+    { data: 'no_expediente',
+        render: function (data, type, row) {
+            return `<span class="text-primary font-weight-bold">${data}</span> <span class="badge badge-info">EXP</span>`;
+        },
+    },
+    { data: 'paciente_id' }, // Asumiendo que tienes un método 'nombre_completo' en el modelo Paciente
+    { data: 'doctor_id' },   // Similar para el doctor
+    { data: 'especialidad_id' }, // Para mostrar el nombre de la especialidad del doctor
+    { data: 'fecha_cita' },
+    { data: 'hora_cita' },
+    { data: 'estado' },
+    { data: 'btn', orderable: false, searchable: false }
+],
+
+
         language: {
             search: "Buscar ",
             lengthMenu: "Mostrar _MENU_ registros por página",
@@ -741,24 +528,28 @@ document.getElementById('fecha_cita').addEventListener('change', function() {
      });
  
  </script>
-  <script>
-
+ <script>
     document.addEventListener('DOMContentLoaded', function() {
       var calendarEl = document.getElementById('calendar');
       var calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: 'dayGridMonth',
         locale: 'es',
-        events:[
-            {
-                
-            }
+        events: [
+          @foreach($citas as $cita)
+          {
+            title: '{{ $cita->title }}',
+            start: '{{ \Carbon\Carbon::parse( $cita->start)->format('Y-m-d') }}',
+            end: '{{ \Carbon\Carbon::parse( $cita->end)->format('Y-m-d') }}',
+        
+            color: '#e82216'
+          },
+          @endforeach
         ]
-
       });
       calendar.render();
     });
-
   </script>
+  
 
 <script>
     document.addEventListener('DOMContentLoaded',function (){

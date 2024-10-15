@@ -67,14 +67,15 @@
     </div>
 
     <div class="row">
-        <div class="col-lg-12  text-center mr-auto">
+        <div class="col-12 text-center">
             <img 
             src="{{ asset('storage/banner-medfile.jpeg') }}" 
             alt="logo" 
             class="img-fluid mb-4" 
-            style="max-width: 1080px; height: auto;">
+            style="max-width: 100%; height: auto;">
         </div>
     </div>
+    
     
      <div class="row">
         <div class="col-lg-2">
@@ -102,7 +103,7 @@
     <div class="col-lg-6 mx-auto">
       <div class="form-group d-flex align-items-center">
         <i class="fa-solid fa-magnifying-glass fa-1x mb-1 mr-2"></i>
-        <input type="text" class="form-control" id="buscar_paciente" placeholder="Buscar por nombre, cédula o expediente">
+        <input type="text" class="form-control" id="buscar_paciente" autocomplete="off" placeholder="Buscar por nombre, cédula o expediente">
       </div>
       <small class="form-text text-muted">
         En el campo de búsqueda, al ingresar el nombre, cédula, o número de expediente, el sistema comenzará a filtrar automáticamente los registros disponibles en tiempo real, mostrando coincidencias relevantes para facilitar la selección del paciente deseado.
@@ -125,22 +126,20 @@
 <br>
 
   <div class="table table-responsive mt-2">
-    <table class="min-w-full text-white   border border-gray-300 shadow-md rounded-lg p-2" id="paciente_table">
+    <table class="min-w-full text-white table-bordered   border border-gray-300 shadow-md rounded-lg p-2" id="paciente_table">
         <thead class=" table- text-white">
             <tr>
-                <th><i class="fas fa-file-alt"></i> No. Expediente</th>
-                <th><i class="fas fa-user"></i> Nombre Completo</th>
-                <th><i class="fas fa-user"></i> Apellido Completo</th>
-                <th><i class="fas fa-birthday-cake"></i> Edad</th>
-                <th><i class="fas fa-venus-mars"></i> Sexo</th>
-                <th><i class="fas fa-id-card"></i> No. Cédula</th>
-                <th><i class="fas fa-id-badge"></i> No. INSS</th>
-                <th><i class="fas fa-heart"></i> Estado Civil</th>
-                <th><i class="fas fa-users"></i> Raza/Etnia</th>
-                <th><i class="fas fa-graduation-cap"></i> Escolaridad</th>
-                <th><i class="fas fa-layer-group"></i> Categoría</th>
-                
-              
+                <th class="table-paciente"><i class="fas fa-file-alt "></i> No. Expediente</th>
+                <th class="table-paciente"><i class="fas fa-user"></i> Nombre Completo</th>
+                <th class="table-paciente"><i class="fas fa-user"></i> Apellido Completo</th>
+                <th class="table-paciente"><i class="fas fa-birthday-cake"></i> Edad</th>
+                <th class="table-paciente"><i class="fas fa-venus-mars"></i> Sexo</th>
+                <th class="table-paciente"><i class="fas fa-id-card"></i> No. Cédula</th>
+                <th class="table-paciente"><i class="fas fa-id-badge"></i> No. INSS</th>
+                <th class="table-paciente"><i class="fas fa-heart"></i> Estado Civil</th>
+                <th class="table-paciente"><i class="fas fa-users"></i> Raza/Etnia</th>
+                <th class="table-paciente"><i class="fas fa-graduation-cap"></i> Escolaridad</th>
+                <th class="table-paciente"><i class="fas fa-layer-group"></i> Categoría</th> 
                
             </tr>
         </thead>
@@ -233,10 +232,6 @@
 
   <script>
 
-
-
-
-
     @if(session('error'))
         Swal.fire({
             icon: 'error',
@@ -260,7 +255,7 @@ $(document).ready(function() {
                     var historiaClinicaId = response.historia_clinica_id;
 
                     var newRow = `
-                        <tr class="table-lagon ">
+                        <tr class="table-lago ">
                             <td>${response.no_expediente}</td>
                             <td>${response.primer_nombre} ${response.segundo_nombre}</td>
                             <td>${response.primer_apellido} ${response.segundo_apellido}</td>
@@ -272,6 +267,7 @@ $(document).ready(function() {
                             <td>${response.raza_etnia}</td>
                             <td>${response.escolaridad}</td>
                             <td>${response.categoria}</td>
+                            
                           
                         </tr>
                     `;

@@ -4,15 +4,18 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
+use Illuminate\Auth\Authenticatable;
 
-class Paciente extends Model
+class Paciente extends Model implements AuthenticatableContract
 {
-    use HasFactory;
+    use HasFactory, Authenticatable; // Agrega el trait Authenticatable
 
     protected $table = 'pacientes';
 
     protected $fillable = [
         'no_expediente',
+        'password',
         'fecha',
         'establecimiento_salud',
         'primer_nombre',
@@ -31,14 +34,12 @@ class Paciente extends Model
         'correo',
         'direccion',
         'nombre_responsable',
-      
         'escolaridad',
         'ocupacion',
         'direccion_residencia',
         'localidad',
         'municipio',
         'departamento',
-       
         'parentesco',
         'telefono_responsable',
         'direccion_responsable',
@@ -47,39 +48,32 @@ class Paciente extends Model
         'foto'
     ];
 
-  
+    // Definir las relaciones con otros modelos
+    public function emergencias()
+    {
+        return $this->hasMany(Emergencia::class, 'paciente_id');
+    }
 
-       // Definir la relación con el modelo Emergencia
-       public function emergencias()
-       {
-           return $this->hasMany(Emergencia::class, 'paciente_id');
-       }
-   
-       // Definir la relación con el modelo InformeCondicionDiaria
-       public function informesCondicionDiaria()
-       {
-           return $this->hasMany(InformeCondicionDiaria::class, 'paciente_id');
-       }
-   
-       // Definir la relación con el modelo ListaProblema
-      public function listaProblemas()
-      {
+    public function informesCondicionDiaria()
+    {
+        return $this->hasMany(InformeCondicionDiaria::class, 'paciente_id');
+    }
+
+    public function listaProblemas()
+    {
         return $this->hasMany(ListaProblema::class, 'paciente_id');
-      }
+    }
 
-       // Definir la relación con el modelo HistoriaClinica
-      public function historiasClinicas()
-     {
+    public function historiasClinicas()
+    {
         return $this->hasMany(HistoriaClinica::class, 'paciente_id');
-     }
+    }
 
-     // Definir la relación con el modelo NotaEvolucionTratamiento
     public function notasEvolucionTratamiento()
     {
         return $this->hasMany(NotaEvolucionTratamiento::class, 'paciente_id');
     }
 
-       // Definir la relación con el modelo ControlMedicamento
     public function controlMedicamentos()
     {
         return $this->hasMany(ControlMedicamento::class, 'paciente_id');
@@ -105,9 +99,8 @@ class Paciente extends Model
         return $this->hasMany(Cita::class);
     }
 
-    public function getRouteKeyName()
-{
-    return 'no_expediente';  // Usar el no_expediente en las rutas
-}
-    
+    /* public function getRouteKeyName()
+    {
+        return 'no_expediente';  // Usar el no_expediente en las rutas
+    }  */
 }

@@ -164,7 +164,7 @@ return [
         Illuminate\View\ViewServiceProvider::class,
         Yajra\DataTables\DataTablesServiceProvider::class,
         App\Providers\PatientEventProvider::class,
-
+        
   
 
         /*

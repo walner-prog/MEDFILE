@@ -3,7 +3,10 @@
 namespace App\Http;
 
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
-
+use App\Models\Cita; // Para importar el modelo Cita
+use App\Notifications\CitaProximaNotification; // Para importar la notificación
+use Carbon\Carbon; // Para manejar fechas con Carbon
+use Illuminate\Console\Scheduling\Schedule;
 class Kernel extends HttpKernel
 {
     /**
@@ -74,5 +77,21 @@ class Kernel extends HttpKernel
         'permission' => \Spatie\Permission\Middlewares\PermissionMiddleware::class,
          'role_or_permission' => \Spatie\Permission\Middlewares\RoleOrPermissionMiddleware::class,
           'permission' => \Spatie\Permission\Middlewares\PermissionMiddleware::class,
+      //   mildeware personalizado para cesion de los pacientes 
+          'inactivity' => \App\Http\Middleware\InactivityLogout::class,
+       
+
     ];
+
+
+    protected function schedule(Schedule $schedule)
+{
+    $schedule->call(function () {
+        $citas = Cita::where('fecha_cita', Carbon::now()->addDay()->format('Y-m-d'))->get();
+        foreach ($citas as $cita) {
+            $cita->paciente->notify(new CitaProximaNotification($cita));
+        }
+    })->daily();
+}
+
 }

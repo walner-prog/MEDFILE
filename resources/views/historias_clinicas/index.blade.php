@@ -7,42 +7,45 @@
            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" integrity="sha512-TCJ6FYD6dMj4wsiWZz6swnVMqB5RW2MaebusGM1h8zE3DlX5C4sG5ndooMU2t7pLzYl5GmMKa9oB/njpy5Ul9w==" crossorigin="anonymous" />
               <!-- Otros encabezados -->
     
-    @section('css')
+              <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+
+              @section('css')
      
-      <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
+              <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
+            
+              <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+              <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+              <link rel="stylesheet" href="https://cdn.datatables.net/select/1.4.0/css/select.dataTables.min.css">
+             
+              @livewireStyles
+               <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap5.min.css">
+               <link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.bootstrap5.css">
+               <link rel="stylesheet" href="{{ asset('css/admin_custom.css') }}">
+             @stop
+            <!-- Otros elementos del encabezado... -->
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+            <link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/43.0.0/ckeditor5.css">
     
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-      <link rel="stylesheet" href="https://cdn.datatables.net/select/1.4.0/css/select.dataTables.min.css">
-     
-      @livewireStyles
-    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap5.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.bootstrap5.css">
-    <link rel="stylesheet" href="{{ asset('css/admin_custom.css') }}">
-  @stop
-      <!-- Otros elementos del encabezado... -->
-      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-      <link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/43.0.0/ckeditor5.css">
-    
-      <head>
-        <script>
-          (function() {
-            const currentTheme = localStorage.getItem('theme');
-            if (currentTheme === 'dark') {
-              document.documentElement.classList.add('dark-mode');
-              document.documentElement.classList.remove('light-mode');
-            } else if (currentTheme === 'light') {
-              document.documentElement.classList.add('light-mode');
-              document.documentElement.classList.remove('dark-mode');
-            } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-              document.documentElement.classList.add('dark-mode');
-            } else {
-              document.documentElement.classList.add('light-mode');
-            }
-          })();
-        </script>
+      
+             
+            <script>
+                (function() {
+                  const currentTheme = localStorage.getItem('theme');
+                  if (currentTheme === 'dark') {
+                    document.documentElement.classList.add('dark-mode');
+                    document.documentElement.classList.remove('light-mode');
+                  } else if (currentTheme === 'light') {
+                    document.documentElement.classList.add('light-mode');
+                    document.documentElement.classList.remove('dark-mode');
+                  } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                    document.documentElement.classList.add('dark-mode');
+                  } else {
+                    document.documentElement.classList.add('light-mode');
+                  }
+                })();
+              </script>
         <!-- Resto de tu <head> -->
-      </head>
+    
 
   </head>
    <body>
@@ -51,7 +54,7 @@
  
   @extends('adminlte::page')
     
-  @section('title', 'MEDFILE')
+  @section('title', 'historia clinica ')
   
 
 
@@ -79,41 +82,38 @@
            @endcan
        </div>
        <div class="col-lg-2 ">
-       
-        
-          
        </div>
 
        <div class="col-lg-2">
-           
        </div>
        <div class="col-lg-2">
        </div>
        <div class="col-lg-2 text-right">
            
-            
-             
-       </div>
+        </div>
     
-   </div>
-   
+    </div>
+    
+       
      
-     @if (session('error'))
-         <div class="alert alert-danger">
-             {{ session('error') }}
-         </div>
-     @endif
-     @if (session('info'))
-         <div class="alert alert-success">
-             {{ session('info') }}
-         </div>
-     @endif
-    
-     @if (session('delete'))
-         <div class="alert alert-warning">
-             {{ session('delete') }}
-         </div>
-     @endif
+    @if (session('error'))
+    <div class="alert alert-danger">
+        {{ session('error') }}
+    </div>
+@endif
+@if (session('info'))
+    <div class="alert alert-success">
+        {{ session('info') }}
+    </div>
+@endif
+
+@if (session('delete'))
+    <div class="alert alert-warning">
+        {{ session('delete') }}
+    </div>
+@endif
+     
+
  
      
    
@@ -170,7 +170,7 @@
                        
                    </div>
                    <div id="datos-paciente" class="mb-3 " >
-                       <h4>Datos del Paciente</h4>
+                       <h4>Registrar Historia Clinica</h4>
                       
                        <div class="p-3 mb-2  border rounded  datos-pacientes bg-white ">
                            <div class="mb-2">
@@ -238,7 +238,7 @@
                            <div class="form-group">
                                <label for="buscar_paciente" class="bold">Buscar Paciente</label>
                                <i class="fa-solid fa-magnifying-glass fa-1x mb-1"></i>
-                               <input type="text" class="form-control" id="buscar_paciente" placeholder="Buscar por nombre, cédula o expediente">
+                               <input type="text" class="form-control" autocomplete="off" id="buscar_paciente" placeholder="Buscar por nombre, cédula o expediente">
                            </div>
                            <div id="lista_pacientes" class="list-group"></div>
                        </div>
@@ -407,7 +407,7 @@
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label for="motivo_consulta">Motivo de Consulta <span class="text-danger">*</span></label>
-                                <textarea id="motivo_consulta" name="motivo_consulta">{{ old('motivo_consulta') }}</textarea>
+                                <textarea id="motivo_consulta" class=" form-control" name="motivo_consulta">{{ old('motivo_consulta') }}</textarea>
                                 @if ($errors->has('motivo_consulta'))
                                     <div class="text-danger">{{ $errors->first('motivo_consulta') }}</div>
                                 @endif
@@ -424,7 +424,7 @@
                            </div>
                        </div>
                        
-                       <div class="col-lg-6">
+                       <div class="col-lg-4">
                            <div class="form-group">
                                <label for="interrogatorio_aparatos_sistemas">Interrogatorio por  Aparatos y Sistemas <span class=" text-danger">*</span></label>
                                <textarea class="form-control edit_imput text-dark" id="interrogatorio_aparatos_sistemas" name="interrogatorio_aparatos_sistemas">{{ old('interrogatorio_aparatos_sistemas') }}</textarea>
@@ -434,26 +434,27 @@
                            </div>
                        </div>
                        
-                       <div class="col-lg-3">
+                       <div class="col-lg-2">
                            <div class="form-group">
                                <label for="inmunizaciones_completas">Inmunizaciones Completas <span class=" text-danger">*</span></label>
-                               <input type="checkbox" class="w-25 edit_imput text-dark" id="inmunizaciones_completas" name="inmunizaciones_completas" value="1" {{ old('inmunizaciones_completas') ? 'checked' : '' }}>
+                               <input type="checkbox" class="w-50 edit_imput text-dark" id="inmunizaciones_completas" name="inmunizaciones_completas" value="1" {{ old('inmunizaciones_completas') ? 'checked' : '' }}>
                                @if ($errors->has('inmunizaciones_completas'))
                                    <div class="text-danger">{{ $errors->first('inmunizaciones_completas') }}</div>
                                @endif
                            </div>
-                           <div class="" id="detalle_inmunizaciones_container" style="display: none;">
-                               <div class="form-group">
-                                   <label for="detalle_inmunizaciones">Detalle de Inmunizaciones</label>
-                                   <textarea class="form-control edit_imput text-dark" id="detalle_inmunizaciones" name="detalle_inmunizaciones">{{ old('detalle_inmunizaciones') }}</textarea>
-                                   @if ($errors->has('detalle_inmunizaciones'))
-                                       <div class="text-danger">{{ $errors->first('detalle_inmunizaciones') }}</div>
-                                   @endif
-                               </div>
-                           </div>
+                             
                        </div>
-                       
-                      
+                       <div class="col-lg-3">
+                        <div class="" id="detalle_inmunizaciones_container" style="display: none;">
+                            <div class="form-group">
+                                <label for="detalle_inmunizaciones">Detalle de Inmunizaciones</label>
+                                <textarea class="form-control edit_imput text-dark" id="detalle_inmunizaciones" name="detalle_inmunizaciones">{{ old('detalle_inmunizaciones') }}</textarea>
+                                @if ($errors->has('detalle_inmunizaciones'))
+                                    <div class="text-danger">{{ $errors->first('detalle_inmunizaciones') }}</div>
+                                @endif
+                            </div>
+                        </div>
+                       </div>
                        
                        
                        <div class="col-lg-1">
@@ -475,12 +476,14 @@
                                @endif
                            </div>
                        </div>
-                       <h4 class=" fw-bold">Antecedentes familiares patológicos:</h4>
+                       
                        <hr>
-                       <div class="row">
-                        
+                       <div class="row text-center">
+                         <div class="col-lg-10">
+                            <h4 class=" fw-bold text-center">Antecedentes familiares patológicos:</h4>
+                         </div>
                                        
-                           <div class="col-lg-5 card card-body ml-2">
+                           <div class="col-lg-6 ">
                                <div class="form-group">
                                    <label for="enfermedades_hereditarias">Enfermedades Hereditarias <span class="text-danger">*</span></label>
                                    <textarea class="form-control edit_imput text-dark" id="enfermedades_hereditarias" name="enfermedades_hereditarias" rows="8">{{ old('enfermedades_hereditarias') }}</textarea>
@@ -490,7 +493,7 @@
                                </div>
                            </div>
                            
-                           <div class="col-lg-5 card card-body ml-5">
+                           <div class="col-lg-6  ">
                                <div class="form-group">
                                    <label for="enfermedades_infecto_contagiosas">Enfermedades Infecto-Contagiosas <span class="text-danger">*</span></label>
                                    <textarea class="form-control edit_imput text-dark" id="enfermedades_infecto_contagiosas" name="enfermedades_infecto_contagiosas" rows="8">{{ old('enfermedades_infecto_contagiosas') }}</textarea>
@@ -504,7 +507,7 @@
                        </div>
                       
        
-                       <div class="col-lg-6">
+                       <div class="col-lg-6 ">
                            <div class="form-group">
                                <label for="tipo_hora_actividad_fisica">Tipo y Hora de Actividad Física  <span class=" text-danger">*</span></label>
                                <textarea class="form-control edit_imput text-dark" id="tipo_hora_actividad_fisica" name="tipo_hora_actividad_fisica">{{ old('tipo_hora_actividad_fisica') }}</textarea>
@@ -525,13 +528,10 @@
 
                    <div id="step3" class="step" style="display:none;">
                          <!-- Mensaje explicativo -->
-                       <div id="infoMessage" class="alert alert-info" role="alert" style="display: none;">
+                       <div id="" class="alert alert-info" role="alert">
                          Por favor, complete los campos según corresponda. Marque las opciones relevantes para que se muestren los campos adicionales necesarios.
                       </div>
-                       <!-- Botón para mostrar/ocultar el mensaje -->
-                      <button type="button" class="btn btn-info" id="toggleInfoMessage">
-                         Mostrar/Ocultar Instrucciones
-                      </button>
+                      
                        <div class="row">
                            <div class="col-lg-3">
                                <div class="form-group">
@@ -572,7 +572,7 @@
                        </div>
                            
                        <div class="row tabaco-fields">
-                           <div class="col-lg-2">
+                           <div class="col-lg-2 ">
                                <div class="form-group">
                                    <label for="tipo_tabaco">Tipo de Tabaco  <span class=" text-danger">*</span></label>
                                    <input type="text" class="form-control edit_imput text-dark" id="tipo_tabaco" name="tipo_tabaco" value="{{ old('tipo_tabaco') }}">
@@ -584,7 +584,7 @@
                            
                            <div class="col-lg-2">
                                <div class="form-group">
-                                   <label for="edad_inicio_tabaco">Edad de Inicio del Tabaco  <span class=" text-danger">*</span></label>
+                                   <label for="edad_inicio_tabaco">Edad de Inicio.  <span class=" text-danger">*</span></label>
                                    <input type="number" class="form-control edit_imput text-dark" id="edad_inicio_tabaco" name="edad_inicio_tabaco" value="{{ old('edad_inicio_tabaco') }}">
                                    @if ($errors->has('edad_inicio_tabaco'))
                                        <div class="text-danger">{{ $errors->first('edad_inicio_tabaco') }}</div>
@@ -594,7 +594,7 @@
                            
                            <div class="col-lg-2">
                                <div class="form-group">
-                                   <label for="cantidad_frecuencia_tabaco">Cantidad/Frecuencia de Tabaco  <span class=" text-danger">*</span></label>
+                                   <label for="cantidad_frecuencia_tabaco">Cantidad/Frecuencia.  <span class=" text-danger">*</span></label>
                                    <input type="number" class="form-control edit_imput text-dark" id="cantidad_frecuencia_tabaco" name="cantidad_frecuencia_tabaco" value="{{ old('cantidad_frecuencia_tabaco') }}">
                                    @if ($errors->has('cantidad_frecuencia_tabaco'))
                                        <div class="text-danger">{{ $errors->first('cantidad_frecuencia_tabaco') }}</div>
@@ -604,7 +604,7 @@
                            
                            <div class="col-lg-2">
                                <div class="form-group">
-                                   <label for="edad_abandono_tabaco">Edad de Abandono del Tabaco  <span class=" text-danger">*</span></label>
+                                   <label for="edad_abandono_tabaco">Edad de Abandono.  <span class=" text-danger">*</span></label>
                                    <input type="number" class="form-control edit_imput text-dark" id="edad_abandono_tabaco" name="edad_abandono_tabaco" value="{{ old('edad_abandono_tabaco') }}">
                                    @if ($errors->has('edad_abandono_tabaco'))
                                        <div class="text-danger">{{ $errors->first('edad_abandono_tabaco') }}</div>
@@ -614,7 +614,7 @@
                            
                            <div class="col-lg-2">
                                <div class="form-group">
-                                   <label for="duracion_habito_tabaco">Duración del Hábito del Tabaco  <span class=" text-danger">*</span></label>
+                                   <label for="duracion_habito_tabaco">Duración del Hábito.  <span class=" text-danger">*</span></label>
                                    <input type="number" class="form-control edit_imput text-dark" id="duracion_habito_tabaco" name="duracion_habito_tabaco" value="{{ old('duracion_habito_tabaco') }}">
                                    @if ($errors->has('duracion_habito_tabaco'))
                                        <div class="text-danger">{{ $errors->first('duracion_habito_tabaco') }}</div>
@@ -636,7 +636,7 @@
                                
                                <div class="col-lg-2">
                                    <div class="form-group">
-                                       <label for="cantidad_frecuencia_alcohol">Cantidad/Frecuencia de Alcohol  <span class=" text-danger">*</span></label>
+                                       <label for="cantidad_frecuencia_alcohol">Cantidad/Frecuencia.  <span class=" text-danger">*</span></label>
                                        <input type="number" class="form-control edit_imput text-dark" id="cantidad_frecuencia_alcohol" name="cantidad_frecuencia_alcohol" value="{{ old('cantidad_frecuencia_alcohol') }}">
                                        @if ($errors->has('cantidad_frecuencia_alcohol'))
                                            <div class="text-danger">{{ $errors->first('cantidad_frecuencia_alcohol') }}</div>
@@ -646,7 +646,7 @@
                                
                                <div class="col-lg-2">
                                    <div class="form-group">
-                                       <label for="edad_inicio_alcohol">Edad de Inicio del Alcohol  <span class=" text-danger">*</span></label>
+                                       <label for="edad_inicio_alcohol">Edad de Inicio.  <span class=" text-danger">*</span></label>
                                        <input type="number" class="form-control edit_imput text-dark" id="edad_inicio_alcohol" name="edad_inicio_alcohol" value="{{ old('edad_inicio_alcohol') }}">
                                        @if ($errors->has('edad_inicio_alcohol'))
                                            <div class="text-danger">{{ $errors->first('edad_inicio_alcohol') }}</div>
@@ -656,7 +656,7 @@
                                
                                <div class="col-lg-2">
                                    <div class="form-group">
-                                       <label for="edad_abandono_alcohol">Edad de Abandono del Alcohol  <span class=" text-danger">*</span></label>
+                                       <label for="edad_abandono_alcohol">Edad de Abandono.  <span class=" text-danger">*</span></label>
                                        <input type="number" class="form-control edit_imput text-dark" id="edad_abandono_alcohol" name="edad_abandono_alcohol" value="{{ old('edad_abandono_alcohol') }}">
                                        @if ($errors->has('edad_abandono_alcohol'))
                                            <div class="text-danger">{{ $errors->first('edad_abandono_alcohol') }}</div>
@@ -666,7 +666,7 @@
                                
                                <div class="col-lg-2">
                                    <div class="form-group">
-                                       <label for="duracion_habito_alcohol">Duración del Hábito del Alcohol  <span class=" text-danger">*</span></label>
+                                       <label for="duracion_habito_alcohol">Duración del Hábito.  <span class=" text-danger">*</span></label>
                                        <input type="number" class="form-control edit_imput text-dark" id="duracion_habito_alcohol" name="duracion_habito_alcohol" value="{{ old('duracion_habito_alcohol') }}">
                                        @if ($errors->has('duracion_habito_alcohol'))
                                            <div class="text-danger">{{ $errors->first('duracion_habito_alcohol') }}</div>
@@ -688,7 +688,7 @@
                                
                                <div class="col-lg-2">
                                    <div class="form-group">
-                                       <label for="cantidad_frecuencia_drogas">Cantidad/Frecuencia de Drogas  <span class=" text-danger">*</span></label>
+                                       <label for="cantidad_frecuencia_drogas">Cantidad/Frecuencia.  <span class=" text-danger">*</span></label>
                                        <input type="number" class="form-control edit_imput text-dark" id="cantidad_frecuencia_drogas" name="cantidad_frecuencia_drogas" value="{{ old('cantidad_frecuencia_drogas') }}">
                                        @if ($errors->has('cantidad_frecuencia_drogas'))
                                            <div class="text-danger">{{ $errors->first('cantidad_frecuencia_drogas') }}</div>
@@ -698,7 +698,7 @@
                                
                                <div class="col-lg-2">
                                    <div class="form-group">
-                                       <label for="edad_inicio_drogas">Edad de Inicio de Drogas  <span class=" text-danger">*</span></label>
+                                       <label for="edad_inicio_drogas">Edad de Inicio.  <span class=" text-danger">*</span></label>
                                        <input type="number" class="form-control edit_imput text-dark" id="edad_inicio_drogas" name="edad_inicio_drogas" value="{{ old('edad_inicio_drogas') }}">
                                        @if ($errors->has('edad_inicio_drogas'))
                                            <div class="text-danger">{{ $errors->first('edad_inicio_drogas') }}</div>
@@ -708,7 +708,7 @@
                                
                                <div class="col-lg-2">
                                    <div class="form-group">
-                                       <label for="edad_abandono_drogas">Edad de Abandono de Drogas  <span class=" text-danger">*</span></label>
+                                       <label for="edad_abandono_drogas">Edad de Abandono.  <span class=" text-danger">*</span></label>
                                        <input type="number" class="form-control edit_imput text-dark" id="edad_abandono_drogas" name="edad_abandono_drogas" value="{{ old('edad_abandono_drogas') }}">
                                        @if ($errors->has('edad_abandono_drogas'))
                                            <div class="text-danger">{{ $errors->first('edad_abandono_drogas') }}</div>
@@ -718,7 +718,7 @@
                                
                                <div class="col-lg-2">
                                    <div class="form-group">
-                                       <label for="duracion_habito_drogas">Duración del Hábito de Drogas  <span class=" text-danger">*</span></label>
+                                       <label for="duracion_habito_drogas">Duración del Hábito.  <span class=" text-danger">*</span></label>
                                        <input type="number" class="form-control edit_imput text-dark" id="duracion_habito_drogas" name="duracion_habito_drogas" value="{{ old('duracion_habito_drogas') }}">
                                        @if ($errors->has('duracion_habito_drogas'))
                                            <div class="text-danger">{{ $errors->first('duracion_habito_drogas') }}</div>
@@ -730,7 +730,7 @@
                            <div class="row farmacos-fields">
                                <div class="col-lg-2">
                                    <div class="form-group">
-                                       <label for="edad_abandono_farmacos">Edad de Abandono de Fármacos  <span class=" text-danger">*</span></label>
+                                       <label for="edad_abandono_farmacos">Edad de Abandono.  <span class=" text-danger">*</span></label>
                                        <input type="number" class="form-control edit_imput text-dark" id="edad_abandono_farmacos" name="edad_abandono_farmacos" value="{{ old('edad_abandono_farmacos') }}">
                                        @if ($errors->has('edad_abandono_farmacos'))
                                            <div class="text-danger">{{ $errors->first('edad_abandono_farmacos') }}</div>
@@ -740,7 +740,7 @@
                                
                                <div class="col-lg-2">
                                    <div class="form-group">
-                                       <label for="cantidad_frecuencia_farmacos">Cantidad/Frecuencia de Fármacos  <span class=" text-danger">*</span></label>
+                                       <label for="cantidad_frecuencia_farmacos">Cantidad/Frecuencia.  <span class=" text-danger">*</span></label>
                                        <input type="number" class="form-control edit_imput text-dark" id="cantidad_frecuencia_farmacos" name="cantidad_frecuencia_farmacos" value="{{ old('cantidad_frecuencia_farmacos') }}">
                                        @if ($errors->has('cantidad_frecuencia_farmacos'))
                                            <div class="text-danger">{{ $errors->first('cantidad_frecuencia_farmacos') }}</div>
@@ -750,7 +750,7 @@
                                
                                <div class="col-lg-2">
                                    <div class="form-group">
-                                       <label for="duracion_habito_farmacos">Duración del Hábito de Fármacos  <span class=" text-danger">*</span> </label>
+                                       <label for="duracion_habito_farmacos">Duración del Hábito.  <span class=" text-danger">*</span> </label>
                                        <input type="number" class="form-control edit_imput text-dark" id="duracion_habito_farmacos" name="duracion_habito_farmacos" value="{{ old('duracion_habito_farmacos') }}">
                                        @if ($errors->has('duracion_habito_farmacos'))
                                            <div class="text-danger">{{ $errors->first('duracion_habito_farmacos') }}</div>
@@ -758,7 +758,7 @@
                                    </div>
                                </div>
                                
-                               <div class="col-lg-2">
+                               <div class="col-lg-3">
                                    <div class="form-group">
                                        <label for="num_medicamentos_actuales">Número de Medicamentos Actuales  <span class=" text-danger">*</span></label>
                                        <input type="number" class="form-control edit_imput text-dark" id="num_medicamentos_actuales" name="num_medicamentos_actuales" value="{{ old('num_medicamentos_actuales') }}">
@@ -768,7 +768,7 @@
                                    </div>
                                </div>
                                
-                               <div class="col-lg-3">
+                               <div class="col-lg-4">
                                    <div class="form-group">
                                        <label for="nombre_posologia_farmacos">Nombre y Posología de Fármacos  <span class=" text-danger">*</span></label>
                                        <textarea class="form-control edit_imput text-dark" id="nombre_posologia_farmacos" name="nombre_posologia_farmacos">{{ old('nombre_posologia_farmacos') }}</textarea>
@@ -793,8 +793,11 @@
                    </div>
                    
                    <div id="step4" class="step-bg-color"  style="display:none;">
-                       <h4 class=" ml-2">Antecedentes personales patológicos (Registrar Fechas )</h4>
+                      
                        <div class="row p-2">
+                        <div class="col-lg-10 text-center">
+                            <h4 class=" ml-2">Antecedentes personales patológicos (Registrar Fechas )</h4>
+                        </div>
                            <div class="col-lg-6">
                                <div class="form-group">
                                    <label for="enfermedades_infecto">Enfermedades infecto-contagiosas previas  <span class=" text-danger">*</span></label>
@@ -1029,6 +1032,12 @@
 
                    <div id="step5" class="step step-bg-color" style="display:none;">
                        <div class="row p-2">
+                        <div class="col-lg-12  alert alert-info">
+                            <p class="text-white">
+                                Si el paciente trabaja, por favor complete la siguiente información. Esto es crucial para evaluar su situación laboral y cualquier posible impacto en su salud.
+                            </p>
+                        </div>
+
                            <div class="form-group">
                                <div class="form-check">
                                    <input type="checkbox" class="form-check-input" id="trabajo_actual" name="trabajo_actual" value="1" {{ old('trabajo_actual') ? 'checked' : '' }}>
@@ -1038,7 +1047,7 @@
                        </div>
 
                        <div class="row p-2 trabajo-fields" style="display: {{ old('trabajo_actual') ? 'block' : 'none' }};">
-                           <div class="col-lg-3 form-group">
+                           <div class="col-lg-3 form-group p-1">
                                <label for="lugar_trabajo">Lugar de Trabajo <span class=" text-danger">*</span></label>
                                <input type="text" class="form-control edit_imput text-dark" id="lugar_trabajo" name="lugar_trabajo" value="{{ old('lugar_trabajo') }}">
                                @if ($errors->has('lugar_trabajo'))
@@ -1046,7 +1055,7 @@
                                @endif
                            </div>
                            
-                           <div class="col-lg-3 form-group">
+                           <div class="col-lg-3 form-group p-1">
                                <label for="area_labora">Área Laboral <span class=" text-danger">*</span></label>
                                <input type="text" class="form-control edit_imput text-dark" id="area_labora" name="area_labora" value="{{ old('area_labora') }}">
                                @if ($errors->has('area_labora'))
@@ -1054,7 +1063,7 @@
                                @endif
                            </div>
                            
-                           <div class="col-lg-3 form-group">
+                           <div class="col-lg-3 form-group p-1">
                                <label for="oficio_categoria">Oficio / Categoría <span class=" text-danger">*</span></label>
                                <input type="text" class="form-control edit_imput text-dark" id="oficio_categoria" name="oficio_categoria" value="{{ old('oficio_categoria') }}">
                                @if ($errors->has('oficio_categoria'))
@@ -1062,7 +1071,7 @@
                                @endif
                            </div>
                            
-                           <div class="col-lg-3 form-group">
+                           <div class="col-lg-3 form-group p-1">
                                <label for="anos_oficio_trabajo_actual">Años en el Oficio / Trabajo Actual <span class=" text-danger">*</span></label>
                                <input type="number" class="form-control edit_imput text-dark" id="anos_oficio_trabajo_actual" name="anos_oficio_trabajo_actual" value="{{ old('anos_oficio_trabajo_actual') }}">
                                @if ($errors->has('anos_oficio_trabajo_actual'))
@@ -1070,7 +1079,7 @@
                                @endif
                            </div>
                            
-                           <div class="col-lg-3 form-group">
+                           <div class="col-lg-3 form-group p-1">
                                <label for="dia_laboral_horas">Horas por Día Laboral <span class=" text-danger">*</span></label>
                                <input type="number" class="form-control edit_imput text-dark" id="dia_laboral_horas" name="dia_laboral_horas" value="{{ old('dia_laboral_horas') }}">
                                @if ($errors->has('dia_laboral_horas'))
@@ -1078,7 +1087,7 @@
                                @endif
                            </div>
                            
-                           <div class="col-lg-3 form-group">
+                           <div class="col-lg-3 form-group p-1">
                                <label for="tipo_horario">Tipo de Horario <span class=" text-danger">*</span></label>
                                <input type="text" class="form-control edit_imput text-dark" id="tipo_horario" name="tipo_horario" value="{{ old('tipo_horario') }}">
                                @if ($errors->has('tipo_horario'))
@@ -1086,7 +1095,7 @@
                                @endif
                            </div>
                            
-                           <div class="col-lg-3 form-group">
+                           <div class="col-lg-3 form-group p-1">
                                <label for="horas_semanales">Horas Semanales <span class=" text-danger">*</span></label>
                                <input type="number" class="form-control edit_imput text-dark" id="horas_semanales" name="horas_semanales" value="{{ old('horas_semanales') }}">
                                @if ($errors->has('horas_semanales'))
@@ -1094,7 +1103,7 @@
                                @endif
                            </div>
                            
-                           <div class="col-lg-3 form-group">
+                           <div class="col-lg-3 form-group p-1">
                                <label for="descripcion_trabajo_actual">Descripción del Trabajo Actual <span class=" text-danger">*</span></label>
                                <textarea class="form-control edit_imput text-dark" id="descripcion_trabajo_actual" name="descripcion_trabajo_actual">{{ old('descripcion_trabajo_actual') }}</textarea>
                                @if ($errors->has('descripcion_trabajo_actual'))
@@ -1102,7 +1111,7 @@
                                @endif
                            </div>
                            
-                           <div class="col-lg-3 form-group">
+                           <div class="col-lg-3 form-group p-1">
                                <div class="form-check">
                                    <input type="checkbox" class="form-check-input" id="exposicion_sustancias" name="exposicion_sustancias" value="1" {{ old('exposicion_sustancias') ? 'checked' : '' }}>
                                    <label class="form-check-label" for="exposicion_sustancias">Exposición a Sustancias <span class=" text-danger">*</span></label>
@@ -1207,10 +1216,11 @@
                       
                      </div>
                     <div id="step6" class="step-bg-color" style="display:none;">
-                       <h4 class="mt-2 ml-4">Signos Vitales y Datos Antropométricos</h4>
-                          
-
-                       <div class="row p-2">
+                      
+                       <div class="row p-2 justify-content-between d-flex">
+                        <div class="col-lg-12 text-center">
+                            <h4 class="mt-2 ml-4">Signos Vitales y Datos Antropométricos</h4>
+                        </div>
                            <div class="col-lg-1 form-group">
                                <label for="fc"> (FC) <span class=" text-danger">*</span></label>
                                <input type="text" class="form-control edit_input text-dark" id="fc" name="fc" value="{{ old('fc') }}">
@@ -1276,11 +1286,13 @@
                        </div>
                       
                      
-                       <h4 class="mt-1 ml-4">Aspecto general Cabeza y Cuello</h4>
+                   
                        
 
                        <div class="row p-2">
-
+                           <div class="col-lg-12 text-center">
+                            <h4 class="mt-1 ml-4">Aspecto general Cabeza y Cuello</h4>
+                           </div>
                            <div class="col-lg-3 form-group">
                                <label for="aspecto_general">Aspecto General <span class=" text-danger">*</span></label>
                                <textarea class="form-control edit_input text-dark" id="aspecto_general" name="aspecto_general" rows="3" >{{ old('aspecto_general') }}</textarea>
@@ -1447,14 +1459,24 @@
                                @endif
                            </div>
                        
-                           <div class="col-3 form-group">
-                               <label for="nombre_elabora_historia">Nombre del Elaborador (Medico) <span class=" text-danger">*</span></label>
-                               <input type="text" class="form-control edit_input text-dark" id="nombre_elabora_historia" name="nombre_elabora_historia" value="{{ old('nombre_elabora_historia') }}">
-                               @if ($errors->has('nombre_elabora_historia'))
-                                   <div class="text-danger">{{ $errors->first('nombre_elabora_historia') }}</div>
-                               @endif
-                           </div>
+                           <div class="col-lg-7 form-group">
+                            <label for="doctor_id">Nombre del Elaborador (Médico) <span class="text-danger">*</span></label>
+                            <select class="form-control select2 w-100" id="doctor_id" name="doctor_id" required>
+                                <option value="">Seleccione un médico</option>
+                                @foreach($doctores as $doctor)
+                                    <option value="{{ $doctor->id }}" data-codigo="{{ $doctor->codigo }}" {{ old('doctor_id') == $doctor->id ? 'selected' : '' }}>
+                                        {{ $doctor->primer_nombre }} {{ $doctor->primer_apellido }} 
+                                    </option>
+                                @endforeach
+                            </select>
+                            @if ($errors->has('doctor_id'))
+                                <div class="text-danger">{{ $errors->first('doctor_id') }}</div>
+                            @endif
+                        </div>
+                        
+                        
                        
+
                            <div class="col-3 form-group">
                                <label for="firma_codigo_sello">Firma/Código/Sello (Medico) <span class="text-danger">*</span></label>
                                <input type="text" class="form-control edit_input text-dark" id="firma_codigo_sello" name="firma_codigo_sello" 
@@ -1467,18 +1489,11 @@
                        </div>
                    </div>
 
-                  
-
-               </form>
+              </form>
            </div>
          </div>        
       </div>
      </div>
-
-    
-
-
-
 
  </div>
   @endsection
@@ -1517,10 +1532,15 @@
 
 <script src="https://cdn.datatables.net/buttons/2.1.0/js/buttons.print.min.js"></script>
 <script src="https://cdn.datatables.net/select/1.4.0/js/dataTables.select.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/i18n/es.js"></script>
 <script src="{{ asset('js/custom.js') }}"></script>
 
 
   <script>
+
+
 
 $(document).ready(function() {
     $('#historiaclinicaTable').DataTable({
@@ -1877,7 +1897,7 @@ $(document).ready(function() {
 
    
          // funcion para mostrar los campos relacionados al trabajo si es true en el check
-         function toggleTrabajoCampos() {
+  function toggleTrabajoCampos() {
         const trabajoChecked = document.getElementById('trabajo_actual').checked;
         document.getElementById('trabajo_campos').style.display = trabajoChecked ? 'block' : 'none';
         // También oculta el campo de descripción de exposición si se desmarca el checkbox
@@ -1920,7 +1940,7 @@ $(document).ready(function() {
     }
 });
 
-    $(document).ready(function() {
+$(document).ready(function() {
     // Ocultar los campos adicionales por defecto
     $('.exposicion-fields').hide();
     $('.trabajos-fields').hide();
@@ -1958,7 +1978,6 @@ $(document).ready(function() {
 });
 
 // este codigo es para buscar por ajax en tiempo real los pacientes para las historis clinicas 
-
 
    $(document).ready(function() {
         $('#buscar_paciente').on('keyup', function() {
@@ -2131,10 +2150,10 @@ $(document).ready(function() {
             }
         });
     }
-});
+  });
 
     //****** con esta funcion muestro el input si el checked de no. cama es true 
-    $(document).ready(function() {
+  $(document).ready(function() {
     $('#is_ingresado').change(function() {
         if ($(this).is(':checked')) {
             $('#no_cama_container').show();
@@ -2142,7 +2161,7 @@ $(document).ready(function() {
             $('#no_cama_container').hide();
         }
     });
-});
+  });
    //****** con esta funcion muestro el input si el checked de inmunizaciones completas  es false 
 $(document).ready(function() {
     $('#inmunizaciones_completas').change(function() {
@@ -2158,9 +2177,6 @@ $(document).ready(function() {
         $('#detalle_inmunizaciones_container').show();
     }
 });
-
-
-
 
 $(document).ready(function() {
     // Manejar el cambio en el checkbox de alcohol
@@ -2201,7 +2217,30 @@ $(document).ready(function() {
 
 
  </script>
-  
+  <script>
+       $(document).ready(function() {
+    // Inicializar select2
+    $('#doctor_id').select2({
+        language: "es",
+        placeholder: "Seleccione un médico",
+        allowClear: true
+    });
+
+    // Detectar el cambio en el select de doctor
+    $('#doctor_id').on('change', function() {
+        // Obtener el código del médico seleccionado
+        var selectedDoctorCode = $('#doctor_id option:selected').data('codigo');
+        
+        // Rellenar el campo de Firma/Código/Sello con el código del doctor
+        if (selectedDoctorCode) {
+            $('#firma_codigo_sello').val(selectedDoctorCode);
+        } else {
+            // Si no hay médico seleccionado, limpiar el campo
+            $('#firma_codigo_sello').val('');
+        }
+    });
+});
+  </script>
 
   @stop
     

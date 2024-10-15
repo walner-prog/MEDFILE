@@ -94,26 +94,28 @@ class HorarioDoctorController extends Controller
     }
     
     
-public function horarios_doctor_consultorio($id)
+    
+    public function horarios_doctor_consultorio($id)
 
-{
+     
+    {
 
-    $horario = Consultorio::find($id);
-    try {
-        // Se utiliza Eloquent para obtener los horarios, incluyendo las relaciones con 'doctor' y 'consultorio'.
-        $horarios = HorarioDoctor::with(['doctor', 'consultorio'])
-            // Filtra los horarios basados en el 'consultorio_id' proporcionado en el parámetro $id.
-            ->where('consultorio_id', $id)
-            // Obtiene los resultados de la consulta.
-            ->get();
-
-        // Devuelve una vista, pasando la variable $horarios a la vista 'admin.horarios.cargar_datos_consultorios'.
-        return view('horarios.horarios_doctor_consultorio', compact('horarios','horario'));
-    } catch (\Exception $exception) {
-        // En caso de que ocurra un error, devuelve una respuesta JSON con el mensaje 'Error'.
-        return response()->json(['mensaje' => 'Error']);
+        $horario = Consultorio::find($id);
+        try {
+            // Se utiliza Eloquent para obtener los horarios, incluyendo las relaciones con 'doctor' y 'consultorio'.
+            $horarios = HorarioDoctor::with(['doctor', 'consultorio'])
+                // Filtra los horarios basados en el 'consultorio_id' proporcionado en el parámetro $id.
+                ->where('consultorio_id', $id)
+                // Obtiene los resultados de la consulta.
+                ->get();
+    
+            // Devuelve una vista, pasando la variable $horarios a la vista 'admin.horarios.cargar_datos_consultorios'.
+            return view('horarios.horarios_doctor_consultorio', compact('horarios','horario'));
+        } catch (\Exception $exception) {
+            // En caso de que ocurra un error, devuelve una respuesta JSON con el mensaje 'Error'.
+            return response()->json(['mensaje' => 'Error']);
+        }
     }
-}
 
     // Mostrar los detalles de un horario específico
     public function show($id)

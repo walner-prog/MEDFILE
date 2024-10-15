@@ -1,0 +1,451 @@
+.container {
+    padding: 20px;
+}
+
+h1 {
+    color: #2c3e50;
+}
+
+p {
+    color: #7f8c8d;
+}
+
+/* Estilos para tema claro */
+.light-theme {
+    background-color: #f4f4f9;
+    color: #2c3e50;
+}
+
+.light-theme .navbar {
+    background-color: #d9e4ff;
+    color: #2c3e50;
+}
+
+.light-theme .theme-toggle i {
+    color: #0071bc; /* Color del icono en tema claro */
+}
+
+/* Estilos para tema oscuro */
+.dark-theme {
+    background-color: #000000;
+    color: #ffffff;
+}
+
+.dark-theme .navbar {
+    background-color: #303030;
+    color: #ffffff;
+}
+
+.dark-theme .theme-toggle i {
+    color: #0ff157; /* Color del icono en tema oscuro */
+}
+
+.login-card {
+  z-index: 1000;
+}
+
+.logo {
+  max-width: 100%; /* Ajusta el tamaño del logo al contenedor */
+  height: auto; /* Mantiene la proporción de la imagen */
+  width: 100px; /* Establece un ancho máximo */
+}
+
+.container thead {
+  background-color: darkslategray;
+  color: darkgreen;
+}
+
+nav {
+  padding: 30px;
+  
+}
+
+nav a {
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+nav a.router-link-exact-active {
+  color: #0071bc;
+}
+
+.tr-encabezado {
+  background-color: darkslategray;
+}
+
+.boton-nav {
+  background-color: transparent; /* Fondo transparente */
+  border: none; /* Sin borde */
+  padding: 8px; /* Espaciado interno */
+  border-radius: 4px; /* Bordes redondeados */
+  transition: background-color 0.3s ease; /* Transición suave para el fondo */
+}
+
+.boton-nav:hover {
+  background-color: rgba(0, 0, 0, 0.1); /* Color de fondo al pasar el ratón */
+}
+
+.boton-nav:focus {
+  outline: none; /* Sin contorno en el foco */
+}
+
+.bt-cyan {
+  background-color: #06b6d4; /* Cyan 500 de Tailwind CSS */
+  color: white;
+}
+
+.bt-primario {
+  background-color: #0071bc; /* Azul primario */
+  color: white;
+}
+.primario {
+  background-color: #0071bc; /* Azul primario */
+
+}
+.bt-secundario {
+  background-color: #7ac943; /* Verde secundario */
+  color: white;
+}
+
+.bt-tercer {
+  background-color: #29abe2; /* Azul terciario */
+  color: white;
+}
+
+
+.nav-link {
+  position: relative; /* Para posicionar el pseudo-elemento */
+}
+
+.nav-link:hover {
+  color:#7ac943; 
+}
+
+.nav-link::after {
+  content: ""; /* Necesario para mostrar el pseudo-elemento */
+  display: block; /* Lo hace un bloque */
+  width: 0; /* Inicia con un ancho de 0 */
+  height: 2px; /* Altura de la línea */
+  background: #7ac943; /* Color de la línea */
+  transition: width 0.3s ease; /* Transición suave */
+  position: absolute; /* Posición absoluta para alinearlo */
+  left: 0; /* Alinear a la izquierda */
+  bottom: -2px; /* Espaciado desde el texto */
+
+}
+
+.nav-link:hover::after {
+  width: 100%; /* Se expande al 100% al pasar el ratón */
+}
+
+
+
+   
+footer {
+    background-color: #303030FF;
+    color: #b3b3b3;
+  }
+  
+  footer h5 {
+    color: #f1f1f1;
+    font-weight: 600;
+  }
+  
+  footer p, footer li {
+    font-size: 14px;
+  }
+  
+  footer a {
+    color: #b3b3b3;
+    transition: color 0.3s ease-in-out;
+  }
+  
+  footer a:hover {
+    color: #fff;
+  }
+  
+  footer .list-inline-item a {
+    margin-right: 10px;
+  }
+  
+  footer .list-inline-item a i {
+    color: #b3b3b3; /* Color de íconos en el pie de página */
+    transition: color 0.3s ease-in-out;
+  }
+  
+  footer .list-inline-item a:hover i {
+    color: #fff; /* Color de íconos al pasar el ratón */
+  }
+  
+  /* Estilos de tema oscuro */
+  .dark-theme {
+    background-color: #000000FF;
+    color: #ffffff;
+  }
+  
+  .dark-theme  .bg-light{
+    background-color: #03050EFF;
+    color: #ffffff;
+  }
+  .light-theme .bg-light {
+    background-color:#D9E4FFFF;
+  }
+  .dark-theme .card {
+    background-color: #252932FF; /* Fondo oscuro para la tarjeta */
+    color: #ffffff; /* Color del texto dentro de la tarjeta */
+    border: 1px solid #444; /* Color del borde de la tarjeta (opcional) */
+  }
+  
+  .light-theme h1,
+  .light-theme h2,
+  .light-theme h3,
+  .light-theme h4,
+  .light-theme h5,
+  .light-theme h6 {
+    color: #3c506a; /* Color blanco para todos los encabezados en modo oscuro */
+  }
+  .dark-theme .card i {
+    color: #497FFDFF; /* Color de los iconos dentro de la tarjeta */
+  }
+  
+  .dark-theme h1,
+  .dark-theme h2,
+  .dark-theme h3,
+  .dark-theme h4,
+  .dark-theme h5,
+  .dark-theme h6 {
+    color: #ffffff; /* Color blanco para todos los encabezados en modo oscuro */
+  }
+  
+  .dark-theme p,
+  .dark-theme span
+   {
+    color: #919191FF; /* Color blanco para todos los encabezados en modo oscuro */
+  }
+  .dark-theme nav .navbar-nav li a {
+    color: #ffffff; /* Color para enlaces en modo oscuro */
+  }
+  
+  
+  .dark-theme footer {
+    background-color: #03050EFF; /* Fondo oscuro para el pie de página */
+    color: #ffffff;
+  }
+  
+  
+  
+  .theme-toggle i {
+    font-size: 1.5em; /* Tamaño del icono */
+  }
+  .theme-toggle {
+    cursor: pointer;
+    margin-left: auto; /* Para alinear a la derecha */
+    color: #0071bc; /* Color del icono */
+    padding: 10px; /* Añade padding para aumentar el área de clic */
+    display: flex; /* Asegura que el contenido se alinee correctamente */
+    align-items: center; /* Centra el icono verticalmente */
+  }
+  .badge {
+    width: 20px;
+    height: 20px;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .agendar-cita {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f8f9fa;
+  }
+  
+  h2 {
+    font-size: 1.8rem;
+    color: #2857A7FF;
+  }
+  
+  label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  input, select {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+  }
+  
+  
+  
+  .alert-success {
+    color: #155724;
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+  }
+  
+  .list-group-item {
+    cursor: pointer;
+  }
+  
+  .list-group-item:hover {
+    background-color: #f8f9fa;
+  }
+
+  
+.bt-indigo {
+  background-color: #9F1FFBFF; /* Cyan 500 de Tailwind CSS */
+  color: white;
+}
+
+.bt-indigo:hover {
+  background-color: #720394FF; /* Cyan 500 de Tailwind CSS */
+  color: white;
+}
+
+/* Modo claro */
+#breadcrumb {
+ /* background-color: #f8f9fa; /* Color claro de fondo */
+  color: #212529; /* Color oscuro del texto */
+ 
+}
+
+#breadcrumb .breadcrumb-item a {
+  color: #007bff; /* Enlace en modo claro */
+  text-decoration: none;
+  list-style: none;
+}
+
+#breadcrumb .breadcrumb-item.active {
+  color: #495057; /* Texto activo */
+}
+
+/* Modo oscuro */
+body.dark-mode #breadcrumb {
+  background-color: #343a40; /* Fondo oscuro */
+  color: #f8f9fa; /* Texto claro */
+}
+
+body.dark-mode #breadcrumb .breadcrumb-item a {
+  color: #f8f9fa; /* Enlaces claros */
+  
+}
+
+body.dark-mode #breadcrumb .breadcrumb-item.active {
+  color: #adb5bd; /* Texto activo claro */
+}
+
+
+body.dark-mode input, 
+body.dark-mode textarea, 
+body.dark-mode select {
+    background-color: #495057; /* Fondo oscuro para inputs y textareas */
+    color: #f8f9fa; /* Texto claro */
+    border: 1px solid #6c757d; /* Borde claro */
+}
+
+body.dark-mode input::placeholder, 
+body.dark-mode textarea::placeholder {
+    color: #adb5bd; /* Color del placeholder en modo oscuro */
+}
+.badgee{
+  background-color:#0071bc;
+  width: 80px;
+  border-radius: 5px;
+  color: white;
+}
+
+
+/* Estilos adicionales para cambiar el tamaño de la letra */
+.large-text {
+  font-size: 1.5em; /* Ajusta el tamaño de la fuente según sea necesario */
+}
+
+/* Modo oscuro */
+body.dark-mode .question {
+  color: rgb(253, 255, 253); /* Color de la pregunta en modo oscuro */
+}
+
+body.dark-mode .response {
+  color: rgb(205, 213, 255); /* Color de la respuesta en modo oscuro */
+}
+
+/* Modo claro */
+.light-theme .question {
+  color: rgb(24, 30, 42); /* Color de la pregunta en modo claro */
+}
+
+.light-theme .response {
+  color: rgb(66, 66, 66); /* Color de la respuesta en modo claro */
+}
+
+
+body.dark-mode input,
+body.dark-mode textarea .text-area-ia{
+  background-color: #333; /* Fondo de inputs y textareas en modo oscuro */
+  color: #fff; /* Color del texto en inputs y textareas */
+  border: 1px solid #444; /* Borde de los inputs y textareas */
+}
+
+
+body.light-theme input,
+body.light-theme textarea .text-area-ia{
+  background-color: #fff; /* Fondo de inputs y textareas en modo claro */
+  color: rgb(24, 30, 42); /* Color del texto en inputs y textareas */
+  border: 1px solid #ccc; /* Borde de los inputs y textareas */
+}
+
+.fixed-chat-history {
+  position: sticky; /* Mantener el elemento en su lugar */
+  top: 0; /* Espacio desde el borde superior */
+  height: 400vh; /* Altura del contenedor */
+  overflow-y: auto; /* Permitir el desplazamiento vertical */
+}
+
+.chat-scroll {
+  max-height: 750px; /* Ajusta esta altura según tus necesidades */
+  overflow-y: auto; /* Permite el desplazamiento vertical */
+  scrollbar-width: none; /* Para Firefox */
+}
+
+.chat-scroll::-webkit-scrollbar {
+  display: none; /* Para Chrome, Safari y otros navegadores basados en WebKit */
+}
+
+.chat-scroll {
+  max-height: calc(100vh - 300px); /* Altura del chat ajustada para que no se solape con el form */
+  overflow-y: auto;
+  padding-bottom: 100px; /* Espacio para el form */
+ /* margin-right: 300px;*/
+}
+
+form.fixed-bottom {
+  z-index: 1030; /* Asegura que el form esté encima de otros elementos */
+}
+
+
+
+#chat-form {
+  z-index: 1050; /* Asegúrate de que el formulario esté por encima de otros elementos */
+ /* background-color: white; /* Fondo blanco para el formulario */
+ /* border-top: 1px solid #ddd; /* Opcional: añade una línea superior para distinguirlo */
+  margin-bottom: 0; /* Asegúrate de que no tenga margen inferior */
+  top: 785px;
+}
+
+#input {
+ 
+  min-height: 20px; /* Altura mínima */
+  max-height: 60px; /* Altura máxima */
+  overflow-y: auto; /* Habilitar el desplazamiento vertical si se excede la altura */
+}
+
+
+
+
+

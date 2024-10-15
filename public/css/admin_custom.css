@@ -504,7 +504,7 @@ background: linear-gradient(to right, #1548ff, #0575E6); /* W3C, IE 10+/ Edge, F
 }
 
 .light-mode .main-sidebar .nav-link.active {
-  background-color: #245c97 !important; /* Cambia #0575E6 por el color de fondo activo que desees en modo oscuro */
+  background-color: #3c4047 !important; /* Cambia #0575E6 por el color de fondo activo que desees en modo oscuro */
   color: #222e8b !important; /* Cambia #ffffff por el color del texto activo que desees en modo oscuro */
 }
 
@@ -670,7 +670,15 @@ th {
 }
 
 .light-mode th {
-  background: linear-gradient(to right, #333, #555);
+  background: linear-gradient(to right, #6e6c6c, #666666);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  
+}
+
+
+.light-mode .table-paciente {
+  background: linear-gradient(to right, #e2e1e1, #eae9e9);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   
@@ -721,4 +729,31 @@ CSS: Estilos personalizados para cambiar el tamaño, forma, color y otros aspect
   width: 350px !important; /* Ancho alargado */
   max-width: 100%;
 }
+
+.dark-mode .ia-row  {
+   background-color: #025586;
+ 
+}
+
+.light-mode .ia-row  {
+  background-color: #e9eaff;
+
+}
+
+
+@media (prefers-color-scheme: dark) {
+  .select2-container--default .select2-search--dropdown .select2-search__field {
+      background-color: #333333; /* Fondo oscuro */
+      color: #ffffff; /* Texto claro */
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  .select2-container--default .select2-search--dropdown .select2-search__field {
+      background-color: #ffffff; /* Fondo claro */
+      color: #2c2b2b; /* Texto oscuro */
+  }
+}
+
+
 

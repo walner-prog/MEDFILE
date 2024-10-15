@@ -105,31 +105,31 @@
                 <table id="horariosTable" class=" table-bordered w-100  p-2 min-w-full border border-gray-300 shadow-md rounded-lg p-2">
                     <thead class="bg-gradient-to-r from-green-500 to-green-600 text-white p-2">
                         <tr>
-                            <th class="px-6 py-3 text-left text-base font-medium tracking-wider border-b border-gray-200">ID</th>
-                            <th class="px-6 py-3 text-left text-base font-medium tracking-wider border-b border-gray-200">Doctor</th>
-                            <th class="px-6 py-3 text-left text-base font-medium tracking-wider border-b border-gray-200">Especialidad</th>
-                            <th class="px-6 py-3 text-left text-base font-medium tracking-wider border-b border-gray-200">Consultorio</th>
+                            <th class="px-6 py-3 p-2 text-left text-base font-medium tracking-wider border-b border-gray-200">ID</th>
+                            <th class="px-6 py-3 p-2 text-left text-base font-medium tracking-wider border-b border-gray-200">Doctor</th>
+                            <th class="px-6 py-3 p-2 text-left text-base font-medium tracking-wider border-b border-gray-200">Especialidad</th>
+                            <th class="px-6 py-3 p-2 text-left text-base font-medium tracking-wider border-b border-gray-200">Consultorio</th>
 
-                            <th class="px-6 py-3 text-left text-base font-medium tracking-wider border-b border-gray-200">Hora Inicio</th>
-                            <th class="px-6 py-3 text-left text-base font-medium tracking-wider border-b border-gray-200">Hora Fin</th>
-                            <th class="px-6 py-3 text-left text-base font-medium tracking-wider border-b border-gray-200">Duración de Cita</th>
-                            <th class="px-6 py-3 text-left text-base font-medium tracking-wider border-b border-gray-200">Día de la Semana</th>
-                            <th class="px-6 py-3 text-left text-base font-medium tracking-wider border-b border-gray-200">Acciones</th>
+                            <th class="px-6 py-3 p-2 text-left text-base font-medium tracking-wider border-b border-gray-200">Hora Inicio</th>
+                            <th class="px-6 py-3 p-2 text-left text-base font-medium tracking-wider border-b border-gray-200">Hora Fin</th>
+                            <th class="px-6 py-3 p-2 text-left text-base font-medium tracking-wider border-b border-gray-200">Duración de Cita</th>
+                            <th class="px-6 py-3 p-2 text-left text-base font-medium tracking-wider border-b border-gray-200">Día de la Semana</th>
+                            <th class="px-6 py-3 p-2 text-left text-base font-medium tracking-wider border-b border-gray-200">Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($horarios as $horario)
                         <tr>
-                            <td class="px-6 py-4 border-b border-gray-200">{{ $horario->id }}</td>
-                            <td class="px-6 py-4 border-b border-gray-200">{{ $horario->doctor->primer_nombre }} {{ $horario->doctor->primer_apellido }}</td>
-                            <td class="px-6 py-4 border-b border-gray-200">{{ $horario->doctor->especialidad->nombre ?? 'Sin Especialidad' }}</td>
-                            <td class="px-6 py-4 border-b border-gray-200">{{ $horario->consultorio->nombre ?? 'Sin Consultorio' }}</td>
+                            <td class="px-6 py-4 p-2 border-b border-gray-200">{{ $horario->id }}</td>
+                            <td class="px-6 py-4 p-2 border-b border-gray-200">{{ $horario->doctor->primer_nombre }} {{ $horario->doctor->primer_apellido }}</td>
+                            <td class="px-6 py-4 p-2 border-b border-gray-200">{{ $horario->doctor->especialidad->nombre ?? 'Sin Especialidad' }}</td>
+                            <td class="px-6 py-4 p-2 border-b border-gray-200">{{ $horario->consultorio->nombre ?? 'Sin Consultorio' }}</td>
                             
-                            <td class="px-6 py-4 border-b border-gray-200">{{ $horario->hora_inicio }}</td>
-                            <td class="px-6 py-4 border-b border-gray-200">{{ $horario->hora_fin }}</td>
-                            <td class="px-6 py-4 border-b border-gray-200">{{ $horario->duracion_cita }} minutos</td>
-                            <td class="px-6 py-4 border-b border-gray-200">{{ ucfirst($horario->dia_semana) }}</td>
-                            <td class="px-6 py-4 border-b border-gray-200">
+                            <td class="px-6 py-4 p-2 border-b border-gray-200">{{ $horario->hora_inicio }}</td>
+                            <td class="px-6 py-4 p-2 border-b border-gray-200">{{ $horario->hora_fin }}</td>
+                            <td class="px-6 py-4 p-2 border-b border-gray-200">{{ $horario->duracion_cita }} minutos</td>
+                            <td class="px-6 py-4 p-2 border-b border-gray-200">{{ ucfirst($horario->dia_semana) }}</td>
+                            <td class="px-6 py-4 p-2 border-b border-gray-200">
                                 <!-- Botón para mostrar el detalle del horario -->
                                 <a href="{{ route('horarios-doctor.show', $horario->id) }}" class="btn btn-info btn-sm">Ver</a>
                 
