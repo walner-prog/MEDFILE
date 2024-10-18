@@ -47,7 +47,7 @@
 
     @extends('adminlte::page')
     
-  @section('title', 'MEDFILE')
+  @section('title', 'edit-paciente')
   
   
   
@@ -108,12 +108,12 @@
         <div class="modal-content">
           <div class="modal-header bg-primary">
               <div class="row">
-                  <div class="col-lg-8">
-                      <h5 class="modal-title text-white" id="editAdmisionEgresoFormLabel{{ $paciente->id }}">Editar Registro de identificacion del paciente</h5>
+                  <div class="col-lg-12">
+                      <h4 class=" text-white" id="editAdmisionEgresoFormLabel{{ $paciente->id }}">Editar Registro de identificacion del paciente</h4>
                     
                   </div>
                   <div id="datos-paciente" class="mb-3">
-                      <h4>Datos del Paciente</h4>
+                      
                       <div class="p-3 mb-2 border rounded datos-pacientes bg-white">
                           <div class="mb-2">
                               <strong class="color-primario">

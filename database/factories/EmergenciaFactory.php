@@ -13,6 +13,51 @@ class EmergenciaFactory extends Factory
     {
         // Seleccionar un paciente al azar
         $paciente = Paciente::inRandomOrder()->first();
+         $medio_llegada = ['Ambulancia','Caminando','otro medio'];
+         // Crear un array vacío para almacenar las camas
+         $camas = [];
+
+         // Utilizamos un bucle para generar las 50 camas
+         foreach (range(1, 50) as $numero) {
+         $camas[] = "cama#$numero";
+          }
+
+          $causas_accidente_violencia = [
+            'Accidente de tránsito',
+            'Caída',
+            'Agresión física',
+            'Incendio',
+            'Accidente laboral',
+        ];
+         
+          
+                       
+$causas_tratamiento = [
+    'Infección',
+    'Fractura',
+    'Quemaduras',
+    'Deshidratación',
+    'Dolor abdominal',
+];
+
+// Definir un array con 5 lugares para lugar_accidente_violencia
+$lugares_accidente_violencia = [
+    'Calle',
+    'Casa',
+    'Trabajo',
+    'Escuela',
+    'Parque',
+];
+
+// Definir un array con 5 opciones para vif (Violencia Intrafamiliar)
+$vif_options = [
+    'No',
+    'No',
+    'Desconocido',
+    'En evaluación',
+    
+];
+        
 
         return [
             'paciente_id' => $paciente->id, // Relación con la tabla pacientes 
@@ -27,25 +72,27 @@ class EmergenciaFactory extends Factory
             'edad' => $paciente->edad, // Tomar el dato del paciente seleccionado
             'sexo' => $paciente->sexo, // Tomar el dato del paciente seleccionado
             'sala_servicio' => $this->faker->word,
-            'cama' => $this->faker->word,
             'ocupacion' => $this->faker->word,
-            'direccion_residencia' => $this->faker->address,
-            'localidad' => $this->faker->word,
-            'departamento' => $this->faker->word,
-            'telefono' => $this->faker->phoneNumber,
+            'cama' => $this->faker->randomElement($camas),
+            'direccion_residencia' => $paciente->municipio,
+            'localidad' => $paciente->departamento,
+            'departamento' =>$paciente->departamento,
+            'telefono' => $paciente->telefono,
             'no_inss' => $paciente->no_inss, // Tomar el dato del paciente seleccionado
             'no_cedula' => $paciente->no_cedula, // Tomar el dato del paciente seleccionado
-            'medio_llegada' => $this->faker->word,
-            'causa_accidente_violencia' => $this->faker->word,
-            'causa_tratamiento' => $this->faker->word,
-            'lugar_accidente_violencia' => $this->faker->word,
-            'vif' => $this->faker->word,
-            'direccion_avisar' => $this->faker->address,
-            'parentesco' => $this->faker->word,
-            'telefono_responsable' => $this->faker->phoneNumber,
-            'localidad_avisar' => $this->faker->word,
+            
+            'medio_llegada' => $this->faker->randomElement($medio_llegada),
+            'causa_accidente_violencia' => $this->faker->randomElement($causas_accidente_violencia),
+           'causa_tratamiento' => $this->faker->randomElement($causas_tratamiento),
+           'lugar_accidente_violencia' => $this->faker->randomElement($lugares_accidente_violencia),
+           'vif' => $this->faker->randomElement($vif_options),
+          
+            'direccion_avisar' => $paciente-> direccion_residencia,
+            'parentesco' => $paciente-> parentesco,
+            'telefono_responsable' => $paciente->telefono_responsable,
+            'localidad_avisar' => $paciente->municipio,
             'ciudad_avisar' => $this->faker->word,
-            'departamento_avisar' => $this->faker->word,
+            'departamento_avisar' => $paciente->departamento,
             'peso' => $this->faker->randomFloat(2, 0, 150),
             'talla' => $this->faker->randomFloat(2, 0, 2.5),
             'temperatura' => $this->faker->randomFloat(1, 35, 40),

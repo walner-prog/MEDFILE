@@ -24,7 +24,7 @@
                             <a class="nav-link" href="{{ url('/notificaciones-pendientes') }}">Notificaciones Pendientes</a>
                         </li>
                         <li class="nav-item flex-grow-1 text-center">
-                            <a class="nav-link" href="{{ url('/quienes-somos') }}">Quienes Somos</a>
+                            <a class="nav-link" href="{{ url('/medfile-pacientes/quienes-somos') }}">Quienes Somos</a>
                         </li>
 
                         <div class="theme-toggle" onclick="toggleTheme()">

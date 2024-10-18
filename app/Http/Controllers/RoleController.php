@@ -19,7 +19,7 @@ class RoleController extends Controller
 
     public function index()
     {
-        $roles = Role::with('permissions')->paginate(5); // Carga ansiosa de permisos
+        $roles = Role::with('permissions')->paginate(3); // Carga ansiosa de permisos
         return view('roles.index', compact('roles'));
     }
 

@@ -43,7 +43,7 @@
  
         @extends('adminlte::page')
           
-        @section('title', 'MEDFILE')
+        @section('title', 'departamentos-doctores')
         
         
         
@@ -118,7 +118,7 @@
           <div class="modal fade" id="createDepartmentModal" tabindex="-1" role="dialog" aria-labelledby="createDepartmentModalLabel" aria-hidden="true">
               <div class="modal-dialog modal-lg" role="document">
                   <div class="modal-content">
-                      <div class="modal-header bt-teal">
+                      <div class="modal-header bg-primary">
                           <h5 class="modal-title text-white" id="createDepartmentModalLabel">Crear Departamento</h5>
                           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                               <span aria-hidden="true">&times;</span>

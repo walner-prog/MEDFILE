@@ -15,6 +15,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use App\Models\Excepcion;
+use App\Mail\CitaCanceladaMail;
 class CitaController extends Controller
 {
     public function __construct()
@@ -51,9 +52,13 @@ class CitaController extends Controller
     // Mostrar el formulario para crear una nueva cita
     public function create()
     {
-        $doctores = Doctor::all();
+        
         $pacientes = Paciente::all();
-        return view('citas.create', compact('doctores', 'pacientes'));
+        $citas = Cita::with('paciente', 'doctor', 'especialidad')->get();
+       $doctores = Doctor::all();
+       $consultorios = Consultorio::all();
+       $horarios = HorarioDoctor::with('doctor','consultorio')->get();
+        return view('citas.create',compact('horarios','doctores','consultorios','citas','pacientes'));
     }
 
     public function store(Request $request)
@@ -318,75 +323,82 @@ class CitaController extends Controller
         return view('citas.edit', compact('cita', 'doctores', 'pacientes'));
     }
 
-    // Actualizar los detalles de una cita
-    public function update(Request $request, $id)
-    {
-        // Validación de los datos de entrada
-        $request->validate([
-            'doctor_id' => 'required|exists:doctores,id',
-            'paciente_id' => 'required|exists:pacientes,id',
-            'fecha_cita' => 'required|date',
-            'hora_cita' => 'required',
-            'tipo_cita' => 'required|string',
-            'estado' => 'required|in:por confirmar,confirmada,en progreso,cancelada,realizada',
-            'duracion' => 'required|integer|min:30',
-        ]);
-    
-        $cita = Cita::findOrFail($id);
-        $doctor = Doctor::findOrFail($request->doctor_id);
-        $fecha = Carbon::parse($request->fecha_cita);
-        $hora = Carbon::parse($request->hora_cita);
-        $duracion = $request->duracion;
-        $pacienteId = $request->paciente_id;
-    
-        // Validaciones adicionales (días festivos, citas del paciente, horarios del doctor, excepciones, etc.)
-        $esDiaFestivo = DiaFestivo::where('fecha', $fecha->toDateString())->exists();
-    
-        if ($esDiaFestivo) {
-            return redirect()->back()->withInput()->with('error', 'No se pueden agendar citas en días festivos.');
-        }
-    
-        // Verificación de conflictos con otras citas del paciente
-        $citaExistentePaciente = Cita::where('paciente_id', $pacienteId)
-            ->where('fecha_cita', $fecha->toDateString())
-            ->where(function ($query) use ($hora, $duracion) {
-                $horaFin = $hora->copy()->addMinutes($duracion);
-                $query->whereBetween('hora_cita', [$hora->toTimeString(), $horaFin->toTimeString()])
-                    ->orWhere(function ($query) use ($hora, $horaFin) {
-                        $query->where('hora_cita', '<=', $hora->toTimeString())
-                            ->where(DB::raw("ADDTIME(hora_cita, SEC_TO_TIME(duracion * 60))"), '>=', $hora->toTimeString());
-                    });
-            })
-            ->where('id', '!=', $cita->id) // Excluir la cita actual
-            ->exists();
-    
-        if ($citaExistentePaciente) {
-            return redirect()->back()->withInput()->with('error', 'El paciente ya tiene una cita a la misma hora.');
-        }
-    
-        // Verificar horario laboral del doctor y excepciones
-        // ...
-    
-        // Actualizar la cita
-        $cita->update([
-            'paciente_id' => $request->paciente_id,
-            'doctor_id' => $doctor->id,
-            'fecha_cita' => $fecha->toDateString(),
-            'hora_cita' => $hora->toTimeString(),
-            'duracion' => $duracion,
-            'tipo_cita' => $request->tipo_cita,
-            'descripcion_cita' => $request->descripcion_cita,
-            'estado' => $request->estado,
-            'especialidad_id' => $request->especialidad_id,
-            'title' => (!empty($request->hora_cita) ? $request->hora_cita : 'Hora no especificada') . ' ' . (!empty($doctor->especialidad->nombre) ? $doctor->especialidad->nombre : 'Especialidad no especificada'),
-            'start' => $request->fecha_cita . ' ' . $request->hora_cita . ':00',
-            'end' => $request->fecha_cita . ' ' . $request->hora_cita . ':00',
-            'color' => '#e82216',
-            'consultorio_id' => 1,
-        ]);
-    
-        return redirect()->route('citas.index')->with('info', 'Cita actualizada con éxito.');
+
+
+// Actualizar los detalles de una cita
+public function update(Request $request, $id)
+{
+    // Validación de los datos de entrada
+    $request->validate([
+        'doctor_id' => 'required|exists:doctores,id',
+        'paciente_id' => 'required|exists:pacientes,id',
+        'fecha_cita' => 'required|date',
+        'hora_cita' => 'required',
+        'tipo_cita' => 'required|string',
+        'estado' => 'required|in:por confirmar,confirmada,en progreso,cancelada,realizada',
+        'duracion' => 'required|integer|min:30',
+    ]);
+
+    $cita = Cita::findOrFail($id);
+    $doctor = Doctor::findOrFail($request->doctor_id);
+    $fecha = Carbon::parse($request->fecha_cita);
+    $hora = Carbon::parse($request->hora_cita);
+    $duracion = $request->duracion;
+    $pacienteId = $request->paciente_id;
+
+    // Validaciones adicionales (días festivos, citas del paciente, horarios del doctor, excepciones, etc.)
+    $esDiaFestivo = DiaFestivo::where('fecha', $fecha->toDateString())->exists();
+
+    if ($esDiaFestivo) {
+        return redirect()->back()->withInput()->with('error', 'No se pueden agendar citas en días festivos.');
     }
+
+    // Verificación de conflictos con otras citas del paciente
+    $citaExistentePaciente = Cita::where('paciente_id', $pacienteId)
+        ->where('fecha_cita', $fecha->toDateString())
+        ->where(function ($query) use ($hora, $duracion) {
+            $horaFin = $hora->copy()->addMinutes($duracion);
+            $query->whereBetween('hora_cita', [$hora->toTimeString(), $horaFin->toTimeString()])
+                ->orWhere(function ($query) use ($hora, $horaFin) {
+                    $query->where('hora_cita', '<=', $hora->toTimeString())
+                        ->where(DB::raw("ADDTIME(hora_cita, SEC_TO_TIME(duracion * 60))"), '>=', $hora->toTimeString());
+                });
+        })
+        ->where('id', '!=', $cita->id) // Excluir la cita actual
+        ->exists();
+
+    if ($citaExistentePaciente) {
+        return redirect()->back()->withInput()->with('error', 'El paciente ya tiene una cita a la misma hora.');
+    }
+
+    // Verificar horario laboral del doctor y excepciones
+    // ...
+
+    // Crear el valor de 'start' y 'end' correctamente utilizando Carbon
+    $start = Carbon::parse($request->fecha_cita . ' ' . $request->hora_cita)->format('Y-m-d H:i:s');
+    $end = Carbon::parse($request->fecha_cita . ' ' . $request->hora_cita)->addMinutes($duracion)->format('Y-m-d H:i:s');
+
+    // Actualizar la cita
+    $cita->update([
+        'paciente_id' => $request->paciente_id,
+        'doctor_id' => $doctor->id,
+        'fecha_cita' => $fecha->toDateString(),
+        'hora_cita' => $hora->toTimeString(),
+        'duracion' => $duracion,
+        'tipo_cita' => $request->tipo_cita,
+        'descripcion_cita' => $request->descripcion_cita,
+        'estado' => $request->estado,
+        'especialidad_id' => $request->especialidad_id,
+        'title' => (!empty($request->hora_cita) ? $request->hora_cita : 'Hora no especificada') . ' ' . (!empty($doctor->especialidad->nombre) ? $doctor->especialidad->nombre : 'Especialidad no especificada'),
+        'start' => $start, // Valor corregido
+        'end' => $end, // Valor corregido
+        'color' => '#e82216',
+        'consultorio_id' => 1,
+    ]);
+
+    return redirect()->route('citas.index')->with('info', 'Cita actualizada con éxito.');
+}
+
     
     // Eliminar una cita
     
@@ -403,5 +415,70 @@ class CitaController extends Controller
           return redirect()->route('emergencias.index')->with('delete', 'Cita eliminada con éxito.');
       }
     }
+
+    public function enviarNotificacionCita($citaId, $accion)
+{
+    // Obtener la cita
+    $cita = Cita::find($citaId);
+
+    // Verificar si la cita existe
+    if (!$cita) {
+        return response()->json(['message' => 'Cita no encontrada.'], 404);
+    }
+
+    // Obtener el paciente relacionado
+    $paciente = Paciente::find($cita->paciente_id);
+
+    // Verificar si el paciente tiene un correo electrónico
+    if (empty($paciente->email)) {
+        return response()->json(['message' => 'El paciente no tiene un correo electrónico registrado.'], 404);
+    }
+
+    // Construir el mensaje
+    $detalleCita = "Estimado/a {$paciente->primer_nombre} {$paciente->primer_apellido}, ";
+    
+    if ($accion === 'cancelada') {
+        $detalleCita .= "lamentamos informarle que su cita programada para el " . $cita->fecha_hora->format('d/m/Y H:i') . " ha sido cancelada.";
+    } elseif ($accion === 'programada') {
+        $detalleCita .= "le confirmamos que su cita ha sido programada para el " . $cita->fecha_hora->format('d/m/Y H:i') . ".";
+    }
+
+    // Enviar el correo con la notificación
+    Mail::to($paciente->email)->send(new CitaCanceladaMail($paciente, $detalleCita));
+
+    return redirect()->route('citas.index')->with('info', 'Notificación de cita enviada por correo electrónico correctamente.');
+}
+
+public function cancelarCita($citaId)
+{
+    // Obtener la cita
+    $cita = Cita::find($citaId);
+
+    // Verificar si la cita existe
+    if (!$cita) {
+        return response()->json(['message' => 'Cita no encontrada.'], 404);
+    }
+
+    // Obtener el paciente relacionado
+    $paciente = Paciente::find($cita->paciente_id);
+
+    // Verificar si el paciente tiene un correo electrónico
+    if (empty($paciente->email)) {
+        return response()->json(['message' => 'El paciente no tiene un correo electrónico registrado.'], 404);
+    }
+
+    // Cancelar la cita
+    $cita->estado = 'Cancelada'; // Asegúrate de tener un campo para el estado de la cita
+    $cita->save();
+
+    // Construir el mensaje
+    $detalleCita = "Estimado/a {$paciente->primer_nombre} {$paciente->primer_apellido}, lamentamos informarle que su cita programada para el " . $cita->fecha_hora->format('d/m/Y H:i') . " ha sido cancelada.";
+
+    // Enviar el correo con la notificación
+    Mail::to($paciente->email)->send(new CitaCanceladaMail($paciente, $detalleCita));
+
+    return redirect()->route('citas.index')->with('info', 'Cita cancelada y notificación enviada por correo electrónico correctamente.');
+}
+
 }
 

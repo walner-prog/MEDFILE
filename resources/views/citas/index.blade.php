@@ -43,7 +43,7 @@
       
 @extends('adminlte::page')
 
-@section('title', 'MEDFILE')
+@section('title', 'registro-citas')
 
 
 
@@ -67,9 +67,10 @@
     <div class="row">
         <div class="col-lg-2">
             @can('create', App\Models\Cita::class)
-            <button class="btn btn-indigo mb-3" data-toggle="modal" data-target="#createCitaForm">
+            <a href="{{ route('citas.create') }}" class="btn btn-indigo mb-3">
                 <i class="fas fa-plus"></i> Crear Cita
-            </button>
+            </a>
+            
             @endcan
         </div>
     </div>
@@ -176,36 +177,7 @@
         </div>
     </div>
 
-    <!-- Create Appointment Modal -->
-    <div class="modal fade" id="createCitaForm" tabindex="-1" role="dialog" aria-labelledby="createCitaFormModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
-        <div class="modal-dialog modal-xl" role="document">
-            <div class="modal-content">
-                <div class="modal-header bg-primary">
-                    <div class="row w-100">
-                        <div class="col-lg-8">
-                            <h5 class="modal-title text-white" id="createCitaFormModalLabel">Programar Nueva Cita Médica</h5>
-                        </div>
-                        <div id="datos-paciente" class="col-lg-12 mt-3">
-                            <h4 class="text-white">Datos del Paciente</h4>
-                            <div class="p-3 mb-2 border rounded datos-pacientes bg-light">
-                                <!-- Patient Info -->
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-body">
-                    <form action="{{ route('citas.store') }}" method="POST" id="citaForm">
-                        @csrf
-                        <!-- Form Content -->
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                            <button type="submit" class="btn btn-primary">Guardar Cita</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
+   
 
 </div>
 
@@ -256,21 +228,18 @@ $(document).ready(function() {
         processing: true,
         serverSide: true,
         ajax: "{{ url('api/citas') }}", // Reemplaza con la URL correcta para tu API de citas
- columns: [
-    { data: 'id' },
-    { data: 'no_expediente',
-        render: function (data, type, row) {
-            return `<span class="text-primary font-weight-bold">${data}</span> <span class="badge badge-info">EXP</span>`;
-        },
-    },
-    { data: 'paciente_id' }, // Asumiendo que tienes un método 'nombre_completo' en el modelo Paciente
-    { data: 'doctor_id' },   // Similar para el doctor
-    { data: 'especialidad_id' }, // Para mostrar el nombre de la especialidad del doctor
-    { data: 'fecha_cita' },
-    { data: 'hora_cita' },
-    { data: 'estado' },
-    { data: 'btn', orderable: false, searchable: false }
-],
+        columns: [
+        { data: 'id' },
+        { data: 'expediente', name: 'expediente' },
+       
+        { data: 'paciente', name: 'paciente' },  // Nombre completo del paciente
+        { data: 'doctor', name: 'doctor' },      // Nombre completo del doctor
+        { data: 'especialidad', name: 'especialidad' }, // Nombre de la especialidad
+        { data: 'fecha_cita' },
+        { data: 'hora_cita' },
+        { data: 'estado' },
+        { data: 'btn', orderable: false, searchable: false }
+    ],
 
 
         language: {
@@ -584,10 +553,10 @@ document.getElementById('fecha_cita').addEventListener('change', function() {
             }
 
             // Verificar si la hora seleccionada está fuera del rango permitido
-            if (selectedTime < '08:00' || selectedTime > '20:00') {
+            if (selectedTime < '08:00' || selectedTime > '18:00') {
                 // Si es así, establecer la hora seleccionada en null
                 this.value = null;
-                alert('Por favor, seleccione una hora entre las 08:00 y las 20:00.');
+                alert('Por favor, seleccione una hora entre las 08:00 y las 18:00.');
             }
         });
     });

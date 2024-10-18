@@ -10,6 +10,11 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-rc.0/css/select2.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <link rel="icon" href="{{ asset('assets/img/logo-sin-fondo.png') }}" type="image/png">
+
+    <!-- AOS CSS -->
+
+
     @livewireStyles
     <link href="{{ asset('css/pacientes.css') }}" rel="stylesheet"> <!-- Enlace al archivo CSS personalizado -->
 </head>
@@ -28,7 +33,8 @@
 
    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-  
+  <!-- AOS JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.1/aos.js"></script>
     @livewireScripts
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -80,7 +86,13 @@
             themeIcon.classList.add('fa-sun');
         }
     }
+
+
+
+   
     </script>
+    
+
 </body>
 
 </html>

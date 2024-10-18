@@ -1,6 +1,8 @@
-{{-- @extends('layouts.app') --}}
-
-<section>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <head>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-" crossorigin="anonymous" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-" crossorigin="anonymous" />
@@ -12,24 +14,65 @@
      
       <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
     
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+      <link rel="stylesheet" href="https://cdn.datatables.net/select/1.4.0/css/select.dataTables.min.css">
+     
+      @livewireStyles
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap5.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.bootstrap5.css">
     <link rel="stylesheet" href="{{ asset('css/admin_custom.css') }}">
   @stop
       <!-- Otros elementos del encabezado... -->
       <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+      <head>
+        <script>
+          (function() {
+            const currentTheme = localStorage.getItem('theme');
+            if (currentTheme === 'dark') {
+              document.documentElement.classList.add('dark-mode');
+              document.documentElement.classList.remove('light-mode');
+            } else if (currentTheme === 'light') {
+              document.documentElement.classList.add('light-mode');
+              document.documentElement.classList.remove('dark-mode');
+            } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+              document.documentElement.classList.add('dark-mode');
+            } else {
+              document.documentElement.classList.add('light-mode');
+            }
+          })();
+        </script>
+        <!-- Resto de tu <head> -->
+      </head>
 
-  
+
+  </head>
     
-    </head>
-    
+</head>
+<body>
+       
 @extends('adminlte::page')
 
-@section('title', 'AdminSalud')
+@section('title', 'editar-medicamnetos')
 
 
 
 @section('content')
 <div class="container">
     <br>
+    
+    
+    <div class="row">
+        <div class="col">
+            <nav aria-label="breadcrumb" class="rounded-3 p-3 mb-4">
+                <ol id="breadcrumb" class="breadcrumb mb-0  text-light">
+                    <li class="breadcrumb-item">Registros control de medicamentos de pacientes Ingresados</li>
+                    <li class="breadcrumb-item active" aria-current="page">editar-medicamnetos </li>
+                </ol>
+            </nav>
+        </div>
+        
+    </div>
      <div class="row">
         <div class="col-lg-2 ">
             <a class="text-white" href="{{ route('control_medicamentos.index') }}">
@@ -39,16 +82,8 @@
             </a>
            
         </div>
-        <div class="col-lg-10 text-right">
-           <label class="switch">
-                <input type="checkbox" id="theme-toggle">
-                <span class="slider round">
-                  <i class="fas fa-sun icon-light"></i>
-                  <i class="fas fa-moon icon-dark"></i>
-                </span>
-                <span id="mode-text"></span>
-              </label>
-             
+        <div class="col-lg-10">
+           
         </div>
      </div>
 
@@ -58,10 +93,10 @@
                 <div class="modal-header bg-primary">
                     <div class="row">
                         <div class="col-lg-8">
-                            <h5 class="modal-title text-white" id="editControlMedicamentoFormLabel{{ $controle->id }}">Editar Control de Medicamentos para el Paciente</h5>
+                            <h4 class="modal-title text-white" id="editControlMedicamentoFormLabel{{ $controle->id }}">Editar Control de Medicamentos para el Paciente</h4>
                         </div>
                         <div id="datos-paciente" class="mb-3 ">
-                            <h4>Datos del Paciente</h4>
+                          
                             <div class="p-3 mb-2  border rounded  datos-pacientes  bg-white ">
                                 <div class="mb-2">
                                <strong class="color-primario"> <i class="fa-sharp fa-solid fa-notes-medical color-primario"></i> No. Expediente:</strong> <span id="info_no_expediente" class="text-danger">{{ $controle->no_expediente }}</span>
@@ -276,7 +311,7 @@
                             </div>
     
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                              
                                 <button type="submit" class="btn btn-primary">Guardar Cambios</button>
                             </div>
                     </form>
@@ -407,3 +442,7 @@ setInterval(updateDateTime, 1000);
 </script>
 @stop
 </section>
+</body>
+</html>
+
+<section>

@@ -59,7 +59,7 @@
             </div>
         </div>
     
-       
+      
         @livewire('ia-pacientes') <!-- Aquí llamas al componente de Livewire -->
         <br><br><br>
 

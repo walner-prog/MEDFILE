@@ -211,9 +211,21 @@ Route::get('departamentos', function () {
 
 Route::get('citas', function () {
     return datatables()
-    ->eloquent( App\Models\cita::query())
-        ->addColumn('btn', 'actions-citas') // Asegúrate de que 'actions-citas' sea la vista que contiene los botones de acción
+        ->eloquent(App\Models\Cita::with(['paciente', 'doctor.especialidad'])) // Cargar relaciones con paciente, doctor y especialidad
+        ->addColumn('paciente', function($cita) {
+            return $cita->paciente->primer_nombre . ' ' . $cita->paciente->primer_apellido; // Retornar el nombre completo del paciente
+        })
        
+        ->addColumn('expediente', function($cita) {
+            return $cita->paciente->no_expediente;
+        })
+        ->addColumn('doctor', function($cita) {
+            return $cita->doctor->primer_nombre . ' ' . $cita->doctor->primer_apellido; // Retornar el nombre completo del paciente
+        })
+        ->addColumn('especialidad', function($cita) {
+            return $cita->doctor->especialidad->nombre ?? 'Sin Especialidad'; // Retornar la especialidad del doctor
+        })
+        ->addColumn('btn', 'actions-citas') // Vista que contiene los botones de acción
         ->rawColumns(['btn']) // Permitir el uso de HTML en la columna de botones
         ->toJson();
 });

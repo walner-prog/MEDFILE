@@ -25,7 +25,7 @@ class DatabaseSeeder extends Seeder
             HistoriaClinicaSeeder::class,
            // ControlMedicamentoSeeder::class,
             NotaEvolucionTratamientoSeeder::class,
-           
+          //  ControlMedicamentosSeeder::class,
             AdmisionSeeder::class,
 
             EspecialidadSeeder::class,
@@ -35,7 +35,10 @@ class DatabaseSeeder extends Seeder
             EspecialidadesSeeder::class,
             DoctorSeeder::class,
            
-            ConsultorioSeeder::class
+            ConsultorioSeeder::class,
+            AdmisionSeeder::class,
+            RolesSeeder::class,
+            SeederTablaPermisos::class
         ]);
     }
 }

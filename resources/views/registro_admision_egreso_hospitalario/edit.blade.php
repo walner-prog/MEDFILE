@@ -400,10 +400,9 @@
                          
                          <div class="col-lg-3 form-group">
                              <label for="reingreso_mismo_diagnostico">Reingreso con el Mismo Diagnóstico <span class="text-danger">*</span></label>
-                             <input type="checkbox" id="reingreso_mismo_diagnostico" name="reingreso_mismo_diagnostico" {{ old('reingreso_mismo_diagnostico', $admision->reingreso_mismo_diagnostico) ? 'checked' : '' }}>
-                             @if ($errors->has('reingreso_mismo_diagnostico'))
-                                 <div class="text-danger">{{ $errors->first('reingreso_mismo_diagnostico') }}</div>
-                             @endif
+                             <input type="hidden" name="reingreso_mismo_diagnostico" value="0">
+                             <input type="checkbox" id="reingreso_mismo_diagnostico" name="reingreso_mismo_diagnostico" value="1" {{ old('reingreso_mismo_diagnostico', $admision->reingreso_mismo_diagnostico) ? 'checked' : '' }}>
+
                          </div>
                          
                          <div class="col-lg-3 form-group">

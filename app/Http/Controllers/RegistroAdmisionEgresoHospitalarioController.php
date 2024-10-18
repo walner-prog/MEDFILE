@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Models\Doctor;
 use App\Models\RegistroAdmisionEgresoHospitalario;
 use App\Models\Paciente;
 use Illuminate\Support\Facades\Log;
@@ -17,13 +18,13 @@ class RegistroAdmisionEgresoHospitalarioController extends Controller
     public function index()
     {
       
-    
+        $doctores = Doctor::all();
         $admisiones = RegistroAdmisionEgresoHospitalario::with(['paciente' => function($query) {
                                 $query->select('id', 'no_expediente', 'primer_nombre', 'segundo_nombre', 'primer_apellido', 'segundo_apellido', 'no_cedula');
                             }])
                                 ->paginate(6); // Ajusta según el número de registros por página 
     
-        return view('registro_admision_egreso_hospitalario.index',compact('admisiones'));
+        return view('registro_admision_egreso_hospitalario.index',compact('admisiones','doctores'));
     }
     
 
@@ -132,7 +133,7 @@ class RegistroAdmisionEgresoHospitalarioController extends Controller
     public function update(Request $request, RegistroAdmisionEgresoHospitalario $admision)
     {
         $validator = Validator::make($request->all(), [
-           'paciente_id' => 'required|exists:pacientes,id',
+            'paciente_id' => 'required|exists:pacientes,id',
             'establecimiento_salud' => 'nullable|string|max:255', 
             'primer_nombre' => 'nullable|string|max:255',
             'segundo_nombre' => 'nullable|string|max:255',
@@ -150,15 +151,14 @@ class RegistroAdmisionEgresoHospitalarioController extends Controller
             'localidad' => 'nullable|string|max:255',
             'municipio' => 'nullable|string|max:255',
             'departamento' => 'nullable|string|max:255',
-
-         
-            'raza_etnia' => 'nullable|string|max:255', // Nombre alternativo para 'raza_etnia'
-            'edad' => 'nullable|integer', // Nombre alternativo para 'edad'
+    
+            'raza_etnia' => 'nullable|string|max:255', 
+            'edad' => 'nullable|integer', 
             'ocupacion' => 'nullable|string|max:255',
             'empleador' => 'nullable|string|max:255',
             'nombre_madre' => 'nullable|string|max:255',
             'nombre_padre' => 'nullable|string|max:255',
-
+    
             'urgencia_avisar' => 'nullable|string|max:255',
             'direccion_telefono_avisar' => 'nullable|string|max:255',
             'ingreso' => 'nullable|string|max:255',
@@ -169,7 +169,7 @@ class RegistroAdmisionEgresoHospitalarioController extends Controller
             'parentesco' => 'nullable|string|max:255',
             'diagnostico_ingreso' => 'nullable|string|max:255',
             'forma_llegada_hospital' => 'nullable|string|max:255',
-            'reingreso_mismo_diagnostico' => 'nullable|boolean',
+            'reingreso_mismo_diagnostico' => 'nullable',
             'sitio_ingreso_hospitalario' => 'nullable|string|max:255',
             'nombre_medico' => 'nullable|string|max:255',
             'sello_medico_ingreso' => 'nullable|string|max:255',
@@ -188,19 +188,20 @@ class RegistroAdmisionEgresoHospitalarioController extends Controller
             'infeccion_intrahospitalaria' => 'nullable|boolean',
             'referido_otro_establecimiento' => 'nullable|string|max:255',
         ]);
-
+    
         if ($validator->fails()) {
             return back()->withErrors($validator)->withInput()->with('error', 'Por favor corrige los errores.');
         }
-
-        $admision->update($validator->validated());
-
-      
-      
-
+    
+        // Lógica para manejar el checkbox de reingreso_mismo_diagnostico
+        $data = $validator->validated();
+        $data['reingreso_mismo_diagnostico'] = $request->has('reingreso_mismo_diagnostico') ? 1 : 0;
+    
+        // Actualizar el registro
+        $admision->update($data);
+    
         return redirect()->route('registro_admision_hospitalario.index')->with('update', 'Registro actualizado con éxito.');
     }
-
     
       
     public function destroy($id)

@@ -50,7 +50,7 @@
    
   @extends('adminlte::page')
     
-  @section('title', 'MEDFILE')
+  @section('title', 'lista-problemas')
 
 
   @section('content')
@@ -138,11 +138,11 @@
                     <div class="row">
 
                    <div class="col-lg-8">
-                    <h5 class="modal-title text-white" id="createListaProblemasFormModalLabel">Crear Problema de Paciente</h5>
+                    <h4 class="modal-title text-white" id="createListaProblemasFormModalLabel">Registrar Problema de Paciente</h4>
                    </div>
                     
                     <div id="datos-paciente" class="mb-3">
-                        <h4>Datos del Paciente</h4>
+                      
                         <div class="p-3 mb-2 border rounded datos-pacientes bg-white">
                             <div class="mb-2">
                                 <strong class="color-primario">
@@ -215,7 +215,7 @@
                                 <div class="form-group">
                                     <label for="buscar_paciente" class="bold">Buscar Paciente</label>
                                     <i class="fa-solid fa-magnifying-glass fa-1x mb-1"></i>
-                                    <input type="text" class="form-control" id="buscar_paciente" placeholder="Buscar por nombre, cédula o expediente">
+                                    <input type="text" class="form-control" autocomplete="off" id="buscar_paciente" placeholder="Buscar por nombre, cédula o expediente">
                                 </div>
                                 <div id="lista_pacientes" class="list-group"></div>
                             </div>

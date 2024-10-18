@@ -4,6 +4,10 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
+use App\Models\User; // Asegúrate de que el namespace sea correcto
+use Illuminate\Support\Facades\Hash;
+
 class RolesSeeder extends Seeder
 {
     /**
@@ -11,16 +15,29 @@ class RolesSeeder extends Seeder
      *
      * @return void
      */
-    // RolesSeeder.php
-public function run()
-{
-    Role::create(['name' => 'administrador']);
-    Role::create(['name' => 'tesorero']);
-    Role::create(['name' => 'secretario']);
+    public function run()
+    {
+        // Crear roles
+        Role::create(['name' => 'administrador']);
+        Role::create(['name' => 'doctor']);
+        Role::create(['name' => 'enfermera']);
 
-    $adminRole = Role::findByName('administrador');
-     $adminRole->givePermissionTo(['crear registros', 'editar registros', 'actualizar registros', 'eliminar registros']);
+        // Asignar permisos al rol de administrador
+        $adminRole = Role::findByName('administrador');
+      
 
-}
+        // Crear un usuario
+        $user = User::create([
+            'name' => 'Admin', // Puedes cambiar el nombre según tu preferencia
+            'email' => 'admin@gmail.com',
+            'password' => Hash::make('12345678'), // Encriptar la contraseña
+        ]);
 
+        // Asignar el rol de administrador al usuario
+        $user->assignRole('administrador');
+        
+        // Asignar todos los permisos al usuario
+        $permissions = Permission::all();
+        $user->syncPermissions($permissions);
+    }
 }

@@ -44,7 +44,7 @@
     
   @extends('adminlte::page')
     
-  @section('title', 'MEDFILE')
+  @section('title', 'estadisticas-pacientes')
   
   
   
@@ -79,50 +79,27 @@
         </div>
         
      </div>
-     
-   
-    
-    <br>
-    
 
-    <div class="container">
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul id="data-nav" class="nav nav-pills ">
-                    <li class="nav-item">
-                        <a class="nav-link active text-white" data-target="pacientes_por_ciudad_enfermedad">Enfermedad con Más Pacientes por ciuddad</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-white" data-target="pacientes_recientes">Pacientes Recientes</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-white" data-target="pacientes_por_enfermedad">Pacientes por Enfermedad</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-white" data-target="enfermedades_con_pacientes">Enfermedades con Pacientes</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-white" data-target="ciudades_con_pacientes">Ciudades con Pacientes</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-white" data-target="consulta_total_por_enfermedad">Consulta Total por Enfermedad</a>
-                    </li>
-                    
-                   
-                </ul>
-            </div>
-        </nav>
-        <div id="content-area" class="mt-4">
-            <!-- Aquí se cargará el contenido de las vistas parciales -->
+       <div class="row">
+        <div class="col-lg-6">
+            @livewire('pacientes-por-enfermedad')
         </div>
-        
-    </div>
-    
+        <div class="col-lg-6">
+            @livewire('ciudades-con-pacientes')
 
-   
+        </div>
+        <div class="col-lg-6">
+            <livewire:estadisticas-historias-clinicas />
+
+        </div>
+        <div class="col-lg-12">
+            <livewire:enfermedades-con-pacientes />
+
+        </div>
+       
+      
+       </div>
+    
  
 </div>
 

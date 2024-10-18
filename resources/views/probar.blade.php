@@ -9,6 +9,15 @@
 @endif
 
  <div class="text-center mt-4 container-fluid">
+       <!-- Tooltip de publicidad -->
+<div id="tooltip" class="tooltip">
+    <h5 class="tooltip-title">Mejora Tu Salud con IA</h5>
+    <p>
+        ¡Consulta a nuestra inteligencia artificial y recibe recomendaciones personalizadas para tu bienestar!
+    </p>
+    <button class="btn btn-success" onclick="startConsultation()">Comenzar Consulta</button>
+</div>
+
         <!-- Carrusel de imágenes -->
 <div id="carouselExample" class="carousel slide" data-bs-ride="carousel" data-aos="fade-up" data-aos-duration="500">
     <div class="carousel-inner">
@@ -125,11 +134,16 @@
             </div>
             <div class="card shadow text-center mt-5 mb-2">
                 <div class="card-body">
-                    <h5 class="card-title">Recursos en Línea</h5>
-                    <p>
-                        Explora una amplia colección de recursos diseñados para apoyarte en tu bienestar emocional y mental. Desde artículos informativos hasta videos guiados por profesionales, encontrarás herramientas prácticas para comprender y gestionar tu salud mental. Aprende estrategias de afrontamiento, técnicas de relajación y consejos útiles que te ayudarán en tu día a día, todo al alcance de un clic.
+                    <h5 class="card-title">Consulta Médica Asistida por IA</h5>
+                      <p>
+                          Bienvenido a nuestra sección de consulta médica asistida por inteligencia artificial, diseñada para proporcionarte un apoyo integral en el cuidado de tu salud. A través de avanzados algoritmos y modelos de aprendizaje automático, nuestra IA te ofrece un análisis detallado de tus síntomas y condiciones, brindándote recomendaciones personalizadas basadas en información médica confiable. 
+                      </p>
+                         
+                      <p>
+                        Explora nuestras herramientas interactivas y accede a orientación profesional al alcance de tu mano. Aprende sobre estrategias de manejo de salud, técnicas de prevención y recursos informativos que te ayudarán a tomar decisiones informadas y proactivas sobre tu bienestar. ¡Tu salud es nuestra prioridad!
                     </p>
-                    <a href="{{ url('/recursos') }}" class="btn bt-tercer w-50">Ver Recursos</a>
+
+                    <a href="{{ url('/chat') }}" class="btn bt-tercer w-50">Consultar</a>
                 </div>
             </div>
         </div>
@@ -137,13 +151,64 @@
             <img src="{{ asset('assets/img/citas.jpeg') }}" alt="Descripción de la imagen" class="img-fluid" />
         </div>
     </div>
+ 
 </div>
 <br>
+  <script>
+    // Función para mostrar el tooltip
+   function showTooltip() {
+    const tooltip = document.getElementById("tooltip");
+    tooltip.style.display = "block"; // Muestra el tooltip
+    tooltip.style.opacity = "1"; // Asegura que sea visible
+  }
 
+    // Verifica si el tooltip ha sido mostrado en los últimos 30 minutos
+   function shouldShowTooltip() {
+    const lastShownTime = localStorage.getItem("tooltipLastShown");
+    const currentTime = new Date().getTime();
+
+    // Si no hay registro, mostrar tooltip y guardar la hora actual
+    if (!lastShownTime || currentTime - lastShownTime > 1800000) { // 1800000 ms = 30 min
+        localStorage.setItem("tooltipLastShown", currentTime);
+        return true;
+    }
+    return false;
+}
+
+// Detectar el desplazamiento y mostrar el tooltip si corresponde
+window.addEventListener("scroll", function() {
+    if (shouldShowTooltip()) {
+        showTooltip();
+    }
+});
+
+// Función para iniciar la consulta
+function startConsultation() {
+    // Aquí puedes redirigir al usuario a la página de consulta
+    window.location.href = '/chat'; // Ajusta la URL según tu aplicación
+}
+
+   </script>
     </div>
 @endsection
 @section('css')
    <style>
+
+.tooltip {
+    display: none; /* Oculto por defecto */
+    position: fixed; 
+    bottom: 20px; 
+    right: 20px; 
+    background-color: #f9f9f9; 
+    border: 1px solid #ccc; 
+    border-radius: 5px; 
+    padding: 15px; 
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    z-index: 1000;
+    width: 300px; /* Ancho del tooltip */
+    transition: opacity 0.3s; /* Efecto de transición */
+}
+
     .search-bar {
   width: 100%;
   max-width: 400px;

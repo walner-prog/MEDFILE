@@ -285,7 +285,15 @@ return [
     // Navbar items:
     [
         'type'         => 'fullscreen-widget',
-        'topnav_right' => true,
+        'topnav_right' => false,
+    ],
+    [
+        'text'       => 'Portal de pacientes',
+        'icon_color' => 'white',
+        'text_color' => 'dark',
+        'route'      => 'medfile-pacientes.home',
+        'icon'       => 'fas fa-fw fas fa-user',
+        'active'     => ['medfile-pacientes.home'],
     ],
 
     // Sidebar items:
@@ -311,6 +319,39 @@ return [
                 'route'      => 'historias_clinicas.index',
                 'active'     => ['historias_clinicas*'],
             ],
+           
+            [
+                'text'       => 'Registro de Pacientes',
+                'icon_color' => 'white',
+                'icon'       => 'fas fa-fw fa-user-plus icon-separation-sidebar',
+                'route'      => 'registro_pacientes.index',
+                'active'     => ['registro_pacientes*'],
+            ],
+            [
+                'text'       => 'Hospitales',
+                'icon_color' => 'white',
+                'icon'       => 'fas fa-fw fa-hospital icon-separation-sidebar',
+                'route'      => 'hospitales.index',
+                'active'     => ['hospitales*'],
+            ],
+            [
+                'text'       => 'Estadisticas  ',
+                'icon_color' => 'white',
+                'text_color' => 'dark',
+                'route'      => 'pacientes.calculos',
+                'icon'       => 'fas fa-fw fa-stethoscope',
+                'active'     => ['pacientes_calculos'],
+            ],
+        ],
+    ],
+
+    [
+        'text'       => 'Gestion emergencias',
+        'icon'       => 'fas fa-fw fa-hospital-user',
+        'icon_color' => 'white',
+        'active'     => ['emergencias'],
+        'submenu'    => [
+           
             [
                 'text'       => 'Emergencias',
                 'icon_color' => 'white',
@@ -353,31 +394,9 @@ return [
                 'route'      => 'registro_admision_hospitalario.index',
                 'active'     => ['registro_admision_hospitalario*'],
             ],
-            [
-                'text'       => 'Registro de Pacientes',
-                'icon_color' => 'white',
-                'icon'       => 'fas fa-fw fa-user-plus icon-separation-sidebar',
-                'route'      => 'registro_pacientes.index',
-                'active'     => ['registro_pacientes*'],
-            ],
-            [
-                'text'       => 'Hospitales',
-                'icon_color' => 'white',
-                'icon'       => 'fas fa-fw fa-hospital icon-separation-sidebar',
-                'route'      => 'hospitales.index',
-                'active'     => ['hospitales*'],
-            ],
-            [
-                'text'       => 'Estadisticas  ',
-                'icon_color' => 'white',
-                'text_color' => 'dark',
-                'route'      => 'pacientes.calculos',
-                'icon'       => 'fas fa-fw fa-stethoscope',
-                'active'     => ['pacientes_calculos'],
-            ],
+
         ],
     ],
-
     [
         'text'       => 'Gestion de Doctores',
         'icon'       => 'fas fa-user-md',

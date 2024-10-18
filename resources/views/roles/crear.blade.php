@@ -49,22 +49,27 @@
     
    
     
-    
+ 
     @section('content')
     <div class="container mt-5">
-        <div class="row">
-            <div class="col">
+        <div class="row mb-3">
+            <div class="col-lg-12">
                 <nav aria-label="breadcrumb" class="rounded-3 p-3 mb-4 ">
-                    <ol id="breadcrumb" class="breadcrumb mb-0  text-light bg-indigo">
+                    <ol id="breadcrumb" class="breadcrumb mb-0 text-light ">
                         <li class="breadcrumb-item active">Hogar</li>
                         <li class="breadcrumb-item active " aria-current="page">Registro de Roles de usuarios</li>
                         <li class="text-dark breadcrumb-item ">Crear.</li>
                     </ol>
                 </nav>
             </div>
-            
+    
+            <div class="col-lg-4">
+                <a href="{{ route('roles.index') }}" class="btn btn-secondary font-bold py-2 px-4 rounded-full">
+                    <i class="fas fa-arrow-left"></i> Volver a Roles
+                </a>
+            </div>
         </div>
-        <div class="col-md-10 mx-auto">
+        <div class="col-md-10 col-lg-12 mx-auto">
             <div class="card">
                 <div class="card-header bg-info text-white">
                     <h4 class="mb-0">Crear Nuevo Rol</h4>
@@ -72,20 +77,20 @@
                 <div class="card-body">
                     <form method="post" action="{{ route('roles.store') }}">
                         @csrf
-                        
+    
                         <div class="form-group">
-                            {!! Form::label('name', 'Nombre del rol', ['class' => 'form-label']) !!}
-                            {!! Form::text('name', null, ['class' => 'form-control', 'placeholder' => 'Ingrese el nombre del rol']) !!}
+                            <label for="name" class="form-label">Nombre del rol</label>
+                            <input type="text" name="name" class="form-control" placeholder="Ingrese el nombre del rol" value="{{ old('name') }}">
                             
                             @error('name')
                                 <span class="text text-danger">{{ $message }}</span>
                             @enderror
                         </div>
-                
+    
                         <div class="form-group">
                             <label for="" class="form-label">Permisos para este rol</label>
                             <div class="form-check">
-                                {{ Form::checkbox('select_all', 'all', false, ['class' => 'form-check-input', 'id' => 'select_all']) }}
+                                <input type="checkbox" name="select_all" class="form-check-input" id="select_all">
                                 <label class="form-check-label" for="select_all">
                                     Seleccionar todos
                                 </label>
@@ -94,7 +99,7 @@
                                 @foreach($permission as $value)
                                     <div class="col-md-4 mb-3">
                                         <div class="form-check">
-                                            {{ Form::checkbox('permission[]', $value->id, false, ['class' => 'form-check-input', 'id' => 'permiso' . $value->id]) }}
+                                            <input type="checkbox" name="permission[]" value="{{ $value->id }}" class="form-check-input" id="permiso{{ $value->id }}">
                                             <label class="form-check-label" for="permiso{{ $value->id }}">
                                                 {{ $value->name }}
                                             </label>
@@ -102,18 +107,18 @@
                                     </div>
                                 @endforeach
                             </div>
-                            
+    
                             @error('permission')
                                 <span class="text text-danger">{{ $message }}</span>
                             @enderror
                         </div>
+    
+                        <!-- Botón para asignar todos los permisos -->
                         
+    
                         <button class="btn btn-info btn-block w-25" type="submit">Guardar</button>
                     </form>
                 </div>
-                
-               
-                
             </div>
         </div>
     </div>
@@ -121,29 +126,35 @@
     @stop
     
     @section('css')
-        <link rel="stylesheet" href="/css/admin_custom.css">
-    @stop
-    @section('css')
         <link rel="stylesheet" href="{{ asset('css/admin_custom.css') }}">
     @stop
     
     @section('js')
-        <script> console.log('Hi!'); </script>
-    @stop
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const selectAllCheckbox = document.getElementById('select_all');
+                const permissionCheckboxes = document.querySelectorAll('input[name="permission[]"]');
     
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const selectAllCheckbox = document.getElementById('select_all');
-            const permissionCheckboxes = document.querySelectorAll('input[name="permission[]"]');
-        
-            selectAllCheckbox.addEventListener('change', function() {
-                permissionCheckboxes.forEach(checkbox => {
-                    checkbox.checked = selectAllCheckbox.checked;
+                selectAllCheckbox.addEventListener('change', function() {
+                    permissionCheckboxes.forEach(checkbox => {
+                        checkbox.checked = selectAllCheckbox.checked;
+                    });
+                });
+    
+                // Evento para el botón "Asignar Todos los Permisos"
+                const assignAllPermissionsButton = document.getElementById('assignAllPermissions');
+                assignAllPermissionsButton.addEventListener('click', function() {
+                    permissionCheckboxes.forEach(checkbox => {
+                        checkbox.checked = true; // Marcar todos los checkboxes
+                    });
                 });
             });
-        });
         </script>
+    @stop
+    
 </body>
 </html>
 

@@ -9,6 +9,6 @@ class AdmisionSeeder extends Seeder
 {
     public function run()
     {
-        RegistroAdmisionEgresoHospitalario::factory()->count(100)->create();
+        RegistroAdmisionEgresoHospitalario::factory()->count(60)->create();
     }
 }

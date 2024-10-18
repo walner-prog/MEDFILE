@@ -13,6 +13,13 @@ class PacienteAuthController extends Controller
    return view('probar');
     }
 
+    
+    public function  quienesSomos(){
+
+        return view('pacientes_portal.quienes_somos');
+         }
+ 
+
 
     public function showRegistrationForm()
     {

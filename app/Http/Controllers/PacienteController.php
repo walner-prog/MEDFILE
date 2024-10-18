@@ -38,46 +38,11 @@ class PacienteController extends Controller
     
     public function calculosPacientes(Request $request) {
           
-        $averageAge = Paciente::avg(DB::raw('YEAR(CURDATE()) - YEAR(fecha_nacimiento)'));
-
-        $medicos = Doctor::withCount('pacientes')->get();
-
-        $ages = Paciente::select(DB::raw('YEAR(CURDATE()) - YEAR(fecha_nacimiento) as edad'))->pluck('edad');
-         // Convertir la colección a un array y ordenar
-        $agesArray = $ages->sort()->values()->all();
         
-        // Función para calcular percentil
-        function calculatePercentile($array, $percentile) {
-            $index = ($percentile / 100) * (count($array) - 1);
-            $indexFloor = floor($index);
-            $indexCeil = ceil($index);
-        
-            if ($indexFloor == $indexCeil) {
-                return $array[$indexFloor];
-            }
-        
-            return $array[$indexFloor] * ($indexCeil - $index) + $array[$indexCeil] * ($index - $indexFloor);
-        }
-        
-        $percentile25 = calculatePercentile($agesArray, 25);
-        $percentile75 = calculatePercentile($agesArray, 75);
-        $pacientes = Paciente::whereBetween(DB::raw('YEAR(CURDATE()) - YEAR(fecha_nacimiento)'), [$percentile25, $percentile75])
-                     ->paginate(10);     
-                     
-                     
-                     $minAge = $request->input('min_age', 30);
-                     $maxAge = $request->input('max_age', 50);
-                 
-                     $pacientes = Paciente::whereBetween(DB::raw('YEAR(CURDATE()) - YEAR(fecha_nacimiento)'), [$minAge, $maxAge])
-                         ->paginate(10);
-                 
-                     if ($request->ajax()) {
-                         return view('pacientes._list', compact('pacientes'))->render();
-                     }
                  
  
     
-        return view('pacientes.calculos' , compact( 'averageAge','medicos','pacientes','percentile25','percentile75','minAge', 'maxAge'));
+        return view('pacientes.calculos' );
 
     }
     
@@ -407,6 +372,12 @@ class PacienteController extends Controller
             'raza_etnia' => $paciente->raza_etnia,
             'escolaridad' => $paciente->escolaridad,
             'categoria' => $paciente->categoria,
+            'localidad' => $paciente->localidad,
+            'municipio' => $paciente->municipio,
+            'departamento' => $paciente->departamento,
+            'parentesco' => $paciente->parentesco,
+            'ocupacion' => $paciente->ocupacion,
+            'direccion_residencia' => $paciente->direccion_residencia,
             'tiene_historia_clinica' => $paciente->historiasClinicas->isNotEmpty(),
             'tiene_registro_admision_egreso' => $paciente->registrosAdmisionEgresoHospitalario->isNotEmpty(),
         ]);

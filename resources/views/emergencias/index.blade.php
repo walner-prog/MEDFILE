@@ -48,7 +48,7 @@
      
   @extends('adminlte::page')
     
-  @section('title', 'MEDFILE')
+  @section('title', 'emergencia')
   
   
   
@@ -71,7 +71,7 @@
      
       <div class="row">
         <div class="col-lg-2">
-            @can('create', App\Models\Emergencia::class)
+            @can('crear-emergencia', App\Models\Emergencia::class)
             <button class="btn btn-indigo mb-3" data-toggle="modal" data-target="#createemergenciasForm">
                 <i class="fas fa-plus"></i> Crear 
             </button>
@@ -113,27 +113,30 @@
           </div>
       @endif
   
-      <div class="table-responsive">
-        <table id="emergenciasTable" class="min-w-full border border-gray-300 shadow-md rounded-lg p-2">
-            <thead class="from-green-500 to-green-600 text-white">
-                <tr>
-                    <th class="px-6 py-3 text-left text-base font-medium tracking-wider border-b border-gray-200">ID</th>
-                    <th class="px-6 py-3 text-left text-base font-medium tracking-wider border-b border-gray-200">No. Expediente</th>
-                    <th class="px-6 py-3 text-left text-base font-medium tracking-wider border-b border-gray-200">Primer Nombre</th>
-                    <th class="px-6 py-3 text-left text-base font-medium tracking-wider border-b border-gray-200">Segundo Nombre</th>
-                    <th class="px-6 py-3 text-left text-base font-medium tracking-wider border-b border-gray-200">Primer Apellido</th>
-                    <th class="px-6 py-3 text-left text-base font-medium tracking-wider border-b border-gray-200">Segundo Apellido</th>
-                    <th class="px-6 py-3 text-left text-base font-medium tracking-wider border-b border-gray-200">No. Cédula</th>
-                    <th class="px-6 py-3 text-left text-base font-medium tracking-wider border-b border-gray-200">Acciones</th>
-                </tr>
-            </thead>
-            <hr>
-            <tbody class="divide-y divide-gray-200">
-                {{-- Los datos se cargan acá dinámicamente por datatable server-side --}}
-            </tbody>
-        </table>
-        
-    </div>
+          @can('ver-emergencia')
+          <div class="table-responsive">
+            <table id="emergenciasTable" class="min-w-full border border-gray-300 shadow-md rounded-lg p-2">
+                <thead class="from-green-500 to-green-600 text-white">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-base font-medium tracking-wider border-b border-gray-200">ID</th>
+                        <th class="px-6 py-3 text-left text-base font-medium tracking-wider border-b border-gray-200">No. Expediente</th>
+                        <th class="px-6 py-3 text-left text-base font-medium tracking-wider border-b border-gray-200">Primer Nombre</th>
+                        <th class="px-6 py-3 text-left text-base font-medium tracking-wider border-b border-gray-200">Segundo Nombre</th>
+                        <th class="px-6 py-3 text-left text-base font-medium tracking-wider border-b border-gray-200">Primer Apellido</th>
+                        <th class="px-6 py-3 text-left text-base font-medium tracking-wider border-b border-gray-200">Segundo Apellido</th>
+                        <th class="px-6 py-3 text-left text-base font-medium tracking-wider border-b border-gray-200">No. Cédula</th>
+                        <th class="px-6 py-3 text-left text-base font-medium tracking-wider border-b border-gray-200">Acciones</th>
+                    </tr>
+                </thead>
+                <hr>
+                <tbody class="divide-y divide-gray-200">
+                    {{-- Los datos se cargan acá dinámicamente por datatable server-side --}}
+                </tbody>
+            </table>
+            
+        </div>
+          @endcan
+     
 
 
 
@@ -145,11 +148,11 @@
                 <div class="modal-header bg-primary">
                     <div class="row">
                         <div class="col-lg-8">
-                            <h5 class="modal-title text-white" id="createIngresoEgresoFormModalLabel">Crear Registro de Ingreso de Emergencia</h5>
+                            <h4 class="modal-title text-white" id="createIngresoEgresoFormModalLabel">Crear Registro de Ingreso de Emergencia</h4>
                         </div>
       
                         <div id="datos-paciente" class="mb-3">
-                            <h4>Datos del Paciente</h4>
+                           
                             <div class="p-3 mb-2 border rounded datos-pacientes bg-white">
                                 <div class="mb-2">
                                     <strong class="color-primario">
@@ -182,13 +185,13 @@
                     <form action="{{ route('emergencias.store') }}" method="POST">
                         @csrf
       
-                        <div class="row">
+                        <div class="row p-2">
                             <!-- Campo para buscar y seleccionar un paciente -->
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label for="buscar_paciente" class="bold">Buscar Paciente</label>
                                     <i class="fa-solid fa-magnifying-glass fa-1x mb-1"></i>
-                                    <input type="text" class="form-control" id="buscar_paciente" placeholder="Buscar por nombre, cédula o expediente">
+                                    <input type="text" class="form-control" autocomplete="off" id="buscar_paciente" placeholder="Buscar por nombre, cédula o expediente">
                                 </div>
                                 <div id="lista_pacientes" class="list-group"></div>
                             </div>
@@ -218,18 +221,10 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row p-2">
                             <!-- Existing input fields -->
                             
-                            <div class="col-lg-3" >
-                                <div class="form-group">
-                                    <label for="fecha">Fecha</label>
-                                    <input type="date" class="form-control edit_imput" id="fecha" name="fecha" value="{{ old('fecha') }}" required>
-                                    @if ($errors->has('fecha'))
-                                        <div class="text-danger">{{ $errors->first('fecha') }}</div>
-                                    @endif
-                                </div>
-                            </div>
+                            
                             <div class="col-lg-2">
                                 <div class="form-group">
                                     <label for="no_expediente">No. Expediente</label>
@@ -258,11 +253,19 @@
                                     @endif
                                 </div>
                             </div>
-                            
+                            <div class="col-lg-3" >
+                                <div class="form-group">
+                                    <label for="fecha">Fecha</label>
+                                    <input type="date" class="form-control edit_imput" id="fecha" name="fecha" value="{{ old('fecha') }}" required>
+                                    @if ($errors->has('fecha'))
+                                        <div class="text-danger">{{ $errors->first('fecha') }}</div>
+                                    @endif
+                                </div>
+                            </div>
                             <div class="col-lg-3">
                                 <div class="form-group">
                                    <label for="primer_nombre">Primer Nombre</label>
-                                   <input type="text" class="form-control edit_imput" id="primer_nombre" name="primer_nombre" value="{{ old('primer_nombre') }}" required>
+                                   <input type="text" class="form-control edit_imput" id="primer_nombre" name="primer_nombre" value="{{ old('primer_nombre') }}"  readonly>
                                    @if ($errors->has('primer_nombre'))
                                        <div class="text-danger">{{ $errors->first('primer_nombre') }}</div>
                                    @endif
@@ -272,7 +275,7 @@
                                <div class="col-lg-3">
                                    <div class="form-group">
                                        <label for="segundo_nombre">Segundo Nombre</label>
-                                       <input type="text" class="form-control edit_imput" id="segundo_nombre" name="segundo_nombre" value="{{ old('segundo_nombre') }}" required>
+                                       <input type="text" class="form-control edit_imput" id="segundo_nombre" name="segundo_nombre" value="{{ old('segundo_nombre') }}"  readonly>
                                        @if ($errors->has('segundo_nombre'))
                                            <div class="text-danger">{{ $errors->first('segundo_nombre') }}</div>
                                        @endif
@@ -281,7 +284,7 @@
                            <div class="col-lg-3">
                                <div class="form-group">
                                    <label for="primer_apellido">Primer Apellido</label>
-                                   <input type="text" class="form-control edit_imput" id="primer_apellido" name="primer_apellido" value="{{ old('primer_apellido') }}">
+                                   <input type="text" class="form-control edit_imput" id="primer_apellido" name="primer_apellido" value="{{ old('primer_apellido') }}" readonly>
                                    @if ($errors->has('primer_apellido'))
                                        <div class="text-danger">{{ $errors->first('primer_apellido') }}</div>
                                    @endif
@@ -291,7 +294,7 @@
                             <div class="col-lg-3">
                                 <div class="form-group">
                                     <label for="segundo_apellido">Segundo Apellido</label>
-                                    <input type="text" class="form-control edit_imput" id="segundo_apellido" name="segundo_apellido" value="{{ old('segundo_apellido') }}">
+                                    <input type="text" class="form-control edit_imput" id="segundo_apellido" name="segundo_apellido" value="{{ old('segundo_apellido') }}" readonly>
                                     @if ($errors->has('segundo_apellido'))
                                         <div class="text-danger">{{ $errors->first('segundo_apellido') }}</div>
                                     @endif
@@ -300,7 +303,7 @@
                             <div class="col-lg-3">
                                 <div class="form-group">
                                     <label for="edad">Edad</label>
-                                    <input type="number" class="form-control edit_imput" id="edad" name="edad" value="{{ old('edad') }}" required>
+                                    <input type="number" class="form-control edit_imput" id="edad" name="edad" value="{{ old('edad') }}" readonly>
                                     @if ($errors->has('edad'))
                                         <div class="text-danger">{{ $errors->first('edad') }}</div>
                                     @endif
@@ -309,7 +312,7 @@
                             <div class="col-lg-3">
                                 <div class="form-group">
                                     <label for="sexo">Sexo</label>
-                                    <select class="form-control edit_imput" id="sexo" name="sexo" required>
+                                    <select class="form-control edit_imput" id="sexo" name="sexo"readonly>
                                         <option value="M" {{ old('sexo') == 'M' ? 'selected' : '' }}>Masculino</option>
                                         <option value="F" {{ old('sexo') == 'F' ? 'selected' : '' }}>Femenino</option>
                                     </select>
@@ -320,19 +323,19 @@
                             </div>
                             <div class="col-lg-3">
                                 <div class="form-group">
-                                    <label for="sala_servicio">Sala/Servicio</label>
-                                    <input type="text" class="form-control edit_imput" id="sala_servicio" name="sala_servicio" value="{{ old('sala_servicio') }}">
-                                    @if ($errors->has('sala_servicio'))
-                                        <div class="text-danger">{{ $errors->first('sala_servicio') }}</div>
+                                    <label for="no_inss">No. INSS</label>
+                                    <input type="text" class="form-control edit_imput" id="no_inss" name="no_inss" value="{{ old('no_inss') }} " readonly>
+                                    @if ($errors->has('no_inss'))
+                                        <div class="text-danger">{{ $errors->first('no_inss') }}</div>
                                     @endif
                                 </div>
                             </div>
                             <div class="col-lg-3">
                                 <div class="form-group">
-                                    <label for="cama">Cama</label>
-                                    <input type="text" class="form-control edit_imput" id="cama" name="cama" value="{{ old('cama') }}">
-                                    @if ($errors->has('cama'))
-                                        <div class="text-danger">{{ $errors->first('cama') }}</div>
+                                    <label for="no_cedula">No. Cédula</label>
+                                    <input type="text" class="form-control edit_imput" id="no_cedula" name="no_cedula" value="{{ old('no_cedula') }}" readonly>
+                                    @if ($errors->has('no_cedula'))
+                                        <div class="text-danger">{{ $errors->first('no_cedula') }}</div>
                                     @endif
                                 </div>
                             </div>
@@ -385,22 +388,23 @@
                             <!-- New input fields -->
                             <div class="col-lg-3">
                                 <div class="form-group">
-                                    <label for="no_inss">No. INSS</label>
-                                    <input type="text" class="form-control edit_imput" id="no_inss" name="no_inss" value="{{ old('no_inss') }}">
-                                    @if ($errors->has('no_inss'))
-                                        <div class="text-danger">{{ $errors->first('no_inss') }}</div>
+                                    <label for="sala_servicio">Sala/Servicio</label>
+                                    <input type="text" class="form-control edit_imput" id="sala_servicio" name="sala_servicio" value="{{ old('sala_servicio') }}">
+                                    @if ($errors->has('sala_servicio'))
+                                        <div class="text-danger">{{ $errors->first('sala_servicio') }}</div>
                                     @endif
                                 </div>
                             </div>
                             <div class="col-lg-3">
                                 <div class="form-group">
-                                    <label for="no_cedula">No. Cédula</label>
-                                    <input type="text" class="form-control edit_imput" id="no_cedula" name="no_cedula" value="{{ old('no_cedula') }}">
-                                    @if ($errors->has('no_cedula'))
-                                        <div class="text-danger">{{ $errors->first('no_cedula') }}</div>
+                                    <label for="cama">Cama</label>
+                                    <input type="text" class="form-control edit_imput" id="cama" name="cama" value="{{ old('cama') }}">
+                                    @if ($errors->has('cama'))
+                                        <div class="text-danger">{{ $errors->first('cama') }}</div>
                                     @endif
                                 </div>
                             </div>
+
                             <div class="col-lg-3">
                                 <div class="form-group">
                                     <label for="medio_llegada">Medio de Llegada</label>
@@ -676,7 +680,7 @@
                         </div>
            
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-success">Guardar</button>
+                        <button type="submit" class="btn btn-primary">Guardar</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
                     </div>
                 </form>

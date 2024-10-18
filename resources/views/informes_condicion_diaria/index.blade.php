@@ -49,7 +49,7 @@
           
   @extends('adminlte::page')
     
-  @section('title', 'MEDFILE')
+  @section('title', 'condicion-diaria-paciente')
 
 
   @section('content')
@@ -70,7 +70,7 @@
       
       <div class="row">
           <div class="col-lg-2">
-              @can('create', App\Models\InformeCondicionDiaria::class)
+              @can('crear-informe-condicion-diaria', App\Models\InformeCondicionDiaria::class)
               <button class="btn btn-indigo mb-3" data-toggle="modal" data-target="#createInformeCondicionForm">
                 <i class="fas fa-plus"></i> Crear Informe
             </button>
@@ -108,8 +108,9 @@
           </ul>
       </div>
       @endif
-  
-       <div class="table-responsive">
+      
+      @can('ver-informe-condicion-diaria')
+      <div class="table-responsive">
         <table id="informesTable" class="min-w-full w-100 border border-gray-300 shadow-md rounded-lg p-2">
             <thead class="from-green-500 to-green-600 text-white">
                 <tr>
@@ -133,6 +134,8 @@
          
       </div>
 
+      @endcan
+      
 
       <div class="modal fade" id="createInformeCondicionForm" tabindex="-1" role="dialog" aria-labelledby="createInformeCondicionFormModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
         <div class="modal-dialog modal-xl" role="document">
@@ -140,10 +143,10 @@
                 <div class="modal-header bg-primary">
                     <div class="row">
                         <div class="col-lg-8">
-                            <h5 class="modal-title text-white" id="createInformeCondicionFormModalLabel"></h5>
+                            <h4 class="modal-title text-white" id="createInformeCondicionFormModalLabel">Registrar Informe del paciente</h4>
                         </div>
                         <div id="datos-paciente" class="mb-3">
-                            <h4>Datos del Paciente</h4>
+                           
                             <div class="p-3 mb-2 border rounded datos-pacientes bg-white">
                                 <div class="mb-2">
                                     <strong class="color-primario">
@@ -181,7 +184,7 @@
                                 <div class="form-group">
                                     <label for="buscar_paciente" class="bold">Buscar Paciente</label>
                                     <i class="fa-solid fa-magnifying-glass fa-1x mb-1"></i>
-                                    <input type="text" class="form-control" id="buscar_paciente" placeholder="Buscar por nombre, cédula o expediente">
+                                    <input type="text" class="form-control" autocomplete="off" id="buscar_paciente" placeholder="Buscar por nombre, cédula o expediente">
                                 </div>
                                 <div id="lista_pacientes" class="list-group"></div>
                             </div>
@@ -211,27 +214,27 @@
                             </div>
                             
                           </div>
-                        <div class="row">
-                            <div class="col-lg-3 ml-1">
+                        <div class="row p-2">
+                            <div class="col-lg-2 ">
                                 <div class="form-group">
                                     <label for="no_expediente">No. Expediente</label>
                                     <input type="text" class="form-control edit_imput text-dark" id="no_expediente" name="no_expediente">
                                 </div>
                             </div>
                            
-                            <div class="col-lg-3 ">
+                            <div class="col-lg-2 ">
                                 <div class="form-group">
                                     <label for="fecha">Fecha <span class=" text-danger">*</span></label>
                                     <input type="date" class="form-control edit_imput text-dark" id="fecha" name="fecha">
                                 </div>
                             </div>
-                            <div class="col-lg-3 ">
+                            <div class="col-lg-2 ">
                                 <div class="form-group">
                                     <label for="servicio">Servicio <span class=" text-danger">*</span></label>
                                     <input type="text" class="form-control edit_imput text-dark" id="servicio" name="servicio">
                                 </div>
                             </div>
-                            <div class="col-lg-3 ">
+                            <div class="col-lg-2 ">
                                 <div class="form-group">
                                     <label for="sala">Sala <span class=" text-danger">*</span></label>
                                     <input type="text" class="form-control edit_imput text-dark" id="sala" name="sala">
@@ -240,7 +243,7 @@
                        
                        
                            
-                            <div class="col-lg-3">
+                            <div class="col-lg-4">
                                 <div class="form-group" >
                                     <label for="fecha_hora_condicion">Fecha y Hora de la Condición <span class=" text-danger">*</span></label>
                                     <input type="datetime-local" class="form-control edit_imput text-dark" id="fecha_hora_condicion" name="fecha_hora_condicion">

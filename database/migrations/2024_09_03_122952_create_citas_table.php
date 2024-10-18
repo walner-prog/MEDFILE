@@ -9,10 +9,10 @@ class CreateCitasTable extends Migration
     {
         Schema::create('citas', function (Blueprint $table) {
             $table->id();
-            $table->string('no_expediente')->nullable(); // Opcional si ya tienes el paciente_id
+          //  $table->string('no_expediente')->nullable(); // Opcional si ya tienes el paciente_id
             $table->foreignId('paciente_id')->constrained('pacientes');
             $table->foreignId('doctor_id')->constrained('doctores');
-            $table->foreignId('especialidad_id')->constrained('especialidades')->nullable();
+          //  $table->foreignId('especialidad_id')->constrained('especialidades')->nullable();
             $table->foreignId('consultorio_id')->constrained('consultorios');
             $table->date('fecha_cita')->nullable();
 

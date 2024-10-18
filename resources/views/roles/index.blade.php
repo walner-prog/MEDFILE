@@ -73,52 +73,8 @@
                   </div>
                   
                   @can('ver-rol')
-                  <div class="table table-responsive">
-                    <table class="min-w-full w-100 border border-gray-300 shadow-md rounded-lg p-2 ">
-                        <thead class="from-green-500 to-green-600 text-white">
-                            <tr>
-                                <th class="px-4 py-3 text-left">Rol</th>
-                                <th class="px-6 py-3 text-left text-base font-medium tracking-wider border-b border-gray-200" style="width: 300px">Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($roles as $role)
-                                <tr>
-                                    <td class="px-4 py-3">{{ $role->name }}</td>
-                                    <td class="px-4 py-3 text-right">
-                                        @can('ver-usuario-rol')
-                                            <a href="{{ route('roles.show', $role->id) }}" class="btn btn-purple btn-sm font-bold py-2 px-4 rounded-full inline-block">
-                                                <i class="fas fa-eye"></i>
-                                            </a>
-                                        @endcan
-                                        @can('editar-rol')
-                                            <a href="{{ route('roles.edit', $role->id) }}" class="btn btn-green btn-sm font-bold py-2 px-4 rounded-full inline-block">
-                                                <i class="fas fa-edit"></i>
-                                            </a>
-                                        @endcan
-                    
-                                        @can('borrar-rol')
-                                            <form action="{{ route('roles.destroy', $role->id) }}" method="POST" style="display:inline-block; margin-left: 4px;">
-                                                @csrf
-                                                @method('delete')
-                                                <button type="submit" class="btn btn-orange btn-sm font-bold py-2 px-4 rounded-full">
-                                                    <i class="fas fa-trash"></i>
-                                                </button>
-                                            </form>
-                                        @endcan
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                     </table>
-                  </div>
-               
-                
-                   
-                                <!-- Enlaces de paginación -->
-                                <ul class="pagination">
-                                    {{ $roles->links("pagination::bootstrap-4") }}
-                                </ul>
+                  <livewire:roles-component />
+
                   @endcan
                  
             </div>
@@ -134,14 +90,9 @@
     @stop
     
     @section('js')
-        <script> console.log('Hi!'); </script>
-
-        <script>
-            
-
-        </script>
+       
     @stop
-    </section>
+   
     
 </body>
 </html>

@@ -1,58 +1,70 @@
 
+
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-" crossorigin="anonymous" />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-" crossorigin="anonymous" />
-         <!-- Agrega esto en la sección head de tu HTML -->
-           <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" integrity="sha512-TCJ6FYD6dMj4wsiWZz6swnVMqB5RW2MaebusGM1h8zE3DlX5C4sG5ndooMU2t7pLzYl5GmMKa9oB/njpy5Ul9w==" crossorigin="anonymous" />
-              <!-- Otros encabezados -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    @section('css')
-    <link rel="stylesheet" href="{{ asset('css/admin_custom.css') }}">
-      <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
+       
     
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-      <link rel="stylesheet" href="https://cdn.datatables.net/select/1.4.0/css/select.dataTables.min.css">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+
+        @section('css')
+
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
+      
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+        <link rel="stylesheet" href="https://cdn.datatables.net/select/1.4.0/css/select.dataTables.min.css">
+       
+        @livewireStyles
+         <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap5.min.css">
+         <link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.bootstrap5.css">
+         <link rel="stylesheet" href="{{ asset('css/admin_custom.css') }}">
      
-      @livewireStyles
-    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap5.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.bootstrap5.css">
-  
-  @stop
       <!-- Otros elementos del encabezado... -->
       <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+      <link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/43.0.0/ckeditor5.css">
 
-      <head>
-        <script>
-          (function() {
-            const currentTheme = localStorage.getItem('theme');
-            if (currentTheme === 'dark') {
-              document.documentElement.classList.add('dark-mode');
-              document.documentElement.classList.remove('light-mode');
-            } else if (currentTheme === 'light') {
-              document.documentElement.classList.add('light-mode');
-              document.documentElement.classList.remove('dark-mode');
-            } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-              document.documentElement.classList.add('dark-mode');
-            } else {
-              document.documentElement.classList.add('light-mode');
-            }
-          })();
-        </script>
-        <!-- Resto de tu <head> -->
-      </head>
-  </head>
-<body>
 
+              @livewireStyles
+               <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap5.min.css">
+               <link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.bootstrap5.css">
+               <link rel="stylesheet" href="{{ asset('css/admin_custom.css') }}">
+             @stop
+            <!-- Otros elementos del encabezado... -->
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+            <link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/43.0.0/ckeditor5.css">
+    
       
+             
+            <script>
+                (function() {
+                  const currentTheme = localStorage.getItem('theme');
+                  if (currentTheme === 'dark') {
+                    document.documentElement.classList.add('dark-mode');
+                    document.documentElement.classList.remove('light-mode');
+                  } else if (currentTheme === 'light') {
+                    document.documentElement.classList.add('light-mode');
+                    document.documentElement.classList.remove('dark-mode');
+                  } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                    document.documentElement.classList.add('dark-mode');
+                  } else {
+                    document.documentElement.classList.add('light-mode');
+                  }
+                })();
+              </script>
+        
+    
+
+  </head>
+
+<body>
+       
 @extends('adminlte::page')
 
-@section('title', 'MEDFILE')
-
-
-
+@section('title', 'horarios-doctores')
 
 @section('content')
 <div class="container mt-4">
@@ -61,7 +73,7 @@
     <div class="row">
         <div class="col">
             <nav aria-label="breadcrumb" class="rounded-3 p-3 mb-4">
-                <ol class="breadcrumb mb-0 text-light">
+                <ol class="breadcrumb mb-0 ">
                     <li class="breadcrumb-item">Inicio</li>
                     <li class="breadcrumb-item active" aria-current="page">Gestión de Horarios</li>
                 </ol>
@@ -101,177 +113,8 @@
     <div class="row">
         <div class="col-lg-12">
          
-            <div class="table-responsive">
-                <table id="horariosTable" class=" table-bordered w-100  p-2 min-w-full border border-gray-300 shadow-md rounded-lg p-2">
-                    <thead class="bg-gradient-to-r from-green-500 to-green-600 text-white p-2">
-                        <tr>
-                            <th class="px-6 py-3 p-2 text-left text-base font-medium tracking-wider border-b border-gray-200">ID</th>
-                            <th class="px-6 py-3 p-2 text-left text-base font-medium tracking-wider border-b border-gray-200">Doctor</th>
-                            <th class="px-6 py-3 p-2 text-left text-base font-medium tracking-wider border-b border-gray-200">Especialidad</th>
-                            <th class="px-6 py-3 p-2 text-left text-base font-medium tracking-wider border-b border-gray-200">Consultorio</th>
+            @livewire('horarios-doctor')
 
-                            <th class="px-6 py-3 p-2 text-left text-base font-medium tracking-wider border-b border-gray-200">Hora Inicio</th>
-                            <th class="px-6 py-3 p-2 text-left text-base font-medium tracking-wider border-b border-gray-200">Hora Fin</th>
-                            <th class="px-6 py-3 p-2 text-left text-base font-medium tracking-wider border-b border-gray-200">Duración de Cita</th>
-                            <th class="px-6 py-3 p-2 text-left text-base font-medium tracking-wider border-b border-gray-200">Día de la Semana</th>
-                            <th class="px-6 py-3 p-2 text-left text-base font-medium tracking-wider border-b border-gray-200">Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($horarios as $horario)
-                        <tr>
-                            <td class="px-6 py-4 p-2 border-b border-gray-200">{{ $horario->id }}</td>
-                            <td class="px-6 py-4 p-2 border-b border-gray-200">{{ $horario->doctor->primer_nombre }} {{ $horario->doctor->primer_apellido }}</td>
-                            <td class="px-6 py-4 p-2 border-b border-gray-200">{{ $horario->doctor->especialidad->nombre ?? 'Sin Especialidad' }}</td>
-                            <td class="px-6 py-4 p-2 border-b border-gray-200">{{ $horario->consultorio->nombre ?? 'Sin Consultorio' }}</td>
-                            
-                            <td class="px-6 py-4 p-2 border-b border-gray-200">{{ $horario->hora_inicio }}</td>
-                            <td class="px-6 py-4 p-2 border-b border-gray-200">{{ $horario->hora_fin }}</td>
-                            <td class="px-6 py-4 p-2 border-b border-gray-200">{{ $horario->duracion_cita }} minutos</td>
-                            <td class="px-6 py-4 p-2 border-b border-gray-200">{{ ucfirst($horario->dia_semana) }}</td>
-                            <td class="px-6 py-4 p-2 border-b border-gray-200">
-                                <!-- Botón para mostrar el detalle del horario -->
-                                <a href="{{ route('horarios-doctor.show', $horario->id) }}" class="btn btn-info btn-sm">Ver</a>
-                
-                                <!-- Botón para editar el horario (modal) -->
-                                <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#editHorarioForm{{ $horario->id }}">Editar</button>
-                
-                                <!-- Formulario para eliminar el horario -->
-                                <form action="{{ route('horarios-doctor.destroy', $horario->id) }}" method="POST" style="display:inline;">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
-                                </form>
-                            </td>
-                        </tr>
-                        
-                       <!-- Modal para editar horario -->
-                       <div class="modal fade" id="editHorarioForm{{ $horario->id }}" tabindex="-1" role="dialog" aria-labelledby="editHorarioFormModalLabel{{ $horario->id }}" aria-hidden="true">
-                           <div class="modal-dialog modal-lg" role="document">
-                               <div class="modal-content">
-                                   <div class="modal-header bg-primary">
-                                       <h5 class="modal-title text-white" id="editHorarioFormModalLabel{{ $horario->id }}">Editar Horario</h5>
-                                       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                           <span aria-hidden="true">&times;</span>
-                                       </button>
-                                   </div>
-                                   <div class="modal-body">
-                                       <form action="{{ route('horarios-doctor.update', $horario->id) }}" method="POST">
-                                           @csrf
-                                           @method('PUT') <!-- Usamos el método PUT para actualizar -->
-                                       
-                                           <div class="row">
-                                               <!-- Campo Día de la Semana -->
-                                               <div class="col-lg-3">
-                                                   <div class="form-group">
-                                                       <label for="dia_semana">Día de la Semana</label>
-                                                       <select name="dia_semana" id="dia_semana" class="form-control" required>
-                                                           <option value="">Selecciona un día</option>
-                                                           <option value="lunes" {{ old('dia_semana', $horario->dia_semana) == 'lunes' ? 'selected' : '' }}>Lunes</option>
-                                                           <option value="martes" {{ old('dia_semana', $horario->dia_semana) == 'martes' ? 'selected' : '' }}>Martes</option>
-                                                           <option value="miercoles" {{ old('dia_semana', $horario->dia_semana) == 'miercoles' ? 'selected' : '' }}>Miércoles</option>
-                                                           <option value="jueves" {{ old('dia_semana', $horario->dia_semana) == 'jueves' ? 'selected' : '' }}>Jueves</option>
-                                                           <option value="viernes" {{ old('dia_semana', $horario->dia_semana) == 'viernes' ? 'selected' : '' }}>Viernes</option>
-                                                           <option value="sabado" {{ old('dia_semana', $horario->dia_semana) == 'sabado' ? 'selected' : '' }}>Sábado</option>
-                                                           <option value="domingo" {{ old('dia_semana', $horario->dia_semana) == 'domingo' ? 'selected' : '' }}>Domingo</option>
-                                                       </select>
-                                                       @if ($errors->has('dia_semana'))
-                                                           <div class="text-danger">{{ $errors->first('dia_semana') }}</div>
-                                                       @endif
-                                                   </div>
-                                               </div>
-                                       
-                                               <!-- Campo Hora Inicio -->
-                                               <div class="col-lg-3">
-                                                   <div class="form-group">
-                                                       <label for="hora_inicio">Hora Inicio</label>
-                                                       <input type="time" name="hora_inicio" id="hora_inicio" class="form-control" value="{{ old('hora_inicio', $horario->hora_inicio) }}" required>
-                                                       @if ($errors->has('hora_inicio'))
-                                                           <div class="text-danger">{{ $errors->first('hora_inicio') }}</div>
-                                                       @endif
-                                                   </div>
-                                               </div>
-                                       
-                                               <!-- Campo Hora Fin -->
-                                               <div class="col-lg-3">
-                                                   <div class="form-group">
-                                                       <label for="hora_fin">Hora Fin</label>
-                                                       <input type="time" name="hora_fin" id="hora_fin" class="form-control" value="{{ old('hora_fin', $horario->hora_fin) }}" required>
-                                                       @if ($errors->has('hora_fin'))
-                                                           <div class="text-danger">{{ $errors->first('hora_fin') }}</div>
-                                                       @endif
-                                                   </div>
-                                               </div>
-                                       
-                                               <!-- Campo Duración de la Cita -->
-                                               <div class="col-lg-3">
-                                                   <div class="form-group">
-                                                       <label for="duracion_cita">Duración de la Cita (min)</label>
-                                                       <input type="number" name="duracion_cita" id="duracion_cita" class="form-control" value="{{ old('duracion_cita', $horario->duracion_cita) }}" required>
-                                                       @if ($errors->has('duracion_cita'))
-                                                           <div class="text-danger">{{ $errors->first('duracion_cita') }}</div>
-                                                       @endif
-                                                   </div>
-                                               </div>
-                                           </div>
-                                       
-                                           <!-- Campo Doctor -->
-                                           <div class="row">
-                                               <div class="col-lg-6">
-                                                   <div class="form-group">
-                                                       <label for="doctor_id">Doctor</label>
-                                                       <select class="form-control" id="doctor_id" name="doctor_id" required>
-                                                           <option value="">Selecciona un doctor</option>
-                                                           @foreach ($doctores as $doctor)
-                                                               <option value="{{ $doctor->id }}" {{ old('doctor_id', $horario->doctor_id) == $doctor->id ? 'selected' : '' }}>
-                                                                   {{ $doctor->primer_nombre }} {{ $doctor->segundo_nombre }} 
-                                                                   {{ $doctor->primer_apellido }} {{ $doctor->segundo_apellido }} - Especialidad: {{ $doctor->especialidad_id }}
-                                                               </option>
-                                                           @endforeach
-                                                       </select>
-                                                       @if ($errors->has('doctor_id'))
-                                                           <div class="text-danger">{{ $errors->first('doctor_id') }}</div>
-                                                       @endif
-                                                   </div>
-                                               </div>
-                                       
-                                               <!-- Campo Consultorio -->
-                                               <div class="col-lg-6">
-                                                   <div class="form-group">
-                                                       <label for="consultorio_id">Consultorio</label>
-                                                       <select class="form-control" id="consultorio_id" name="consultorio_id" required>
-                                                           <option value="">Selecciona un consultorio</option>
-                                                           @foreach ($consultorios as $consultorio)
-                                                               <option value="{{ $consultorio->id }}" {{ old('consultorio_id', $horario->consultorio_id) == $consultorio->id ? 'selected' : '' }}>
-                                                                   {{ $consultorio->nombre }} - Ubicación: {{ $consultorio->ubicacion }}
-                                                               </option>
-                                                           @endforeach
-                                                       </select>
-                                                       @if ($errors->has('consultorio_id'))
-                                                           <div class="text-danger">{{ $errors->first('consultorio_id') }}</div>
-                                                       @endif
-                                                   </div>
-                                               </div>
-                                           </div>
-                                       
-                                           <!-- Botones de acción -->
-                                           <div class="modal-footer">
-                                               <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                                               <button type="submit" class="btn btn-primary">Actualizar Horario</button>
-                                           </div>
-                                       </form>
-                                       
-                                   </div>
-                               </div>
-                           </div>
-                       </div>
-       
-                       @endforeach
-                   </tbody>
-                </table>
-             </div>
-
-        </div>
         <br>
         <div class="col-lg-12 mt-5">
 
@@ -285,7 +128,7 @@
                             <label for="consultorio_id">Consultorio</label>
                             <select class="form-control" id="consultorio_select" name="consultorio_id" required>
                                 <option value="">Selecciona un consultorio</option>
-                                @foreach ($consultorios as $consultorio)
+                                @foreach ($consultorios_crear as $consultorio)
                                     <option value="{{ $consultorio->id }}">
                                         {{  $consultorio->nombre . "- Ubicacion: ". $consultorio->ubicacion }} 
                                     </option>
@@ -310,10 +153,9 @@
             
 
         </div>
-    </div>
-      
+        
         <!-- Modal para crear horario -->
-        <div class="modal fade" id="createHorarioForm" tabindex="-1" role="dialog" aria-labelledby="createHorarioFormModalLabel" aria-hidden="true">
+      <div class="modal fade" id="createHorarioForm" tabindex="-1" role="dialog" aria-labelledby="createHorarioFormModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header bg-primary">
@@ -351,7 +193,7 @@
                                     <label for="consultorio_id">Consultorio</label>
                                     <select class="form-control" id="consultorio_select" name="consultorio_id" required>
                                         <option value="">Selecciona un consultorio</option>
-                                        @foreach ($consultorios as $consultorio)
+                                        @foreach ($consultorios_crear as $consultorio)
                                             <option value="{{ $consultorio->id }}">
                                                 {{  $consultorio->nombre . "- Ubicacion: ". $consultorio->ubicacion }} 
                                             </option>
@@ -405,7 +247,7 @@
                                     <label for="doctor_id">Doctor</label>
                                     <select class="form-control" id="doctor_id" name="doctor_id" required>
                                         <option value="">Selecciona un doctor</option>
-                                        @foreach ($doctores as $doctor)
+                                        @foreach ($doctores_crear as $doctor)
                                             <option value="{{ $doctor->id }}">
                                                 {{ $doctor->primer_nombre }} {{ $doctor->segundo_nombre }} 
                                                 {{ $doctor->primer_apellido }} {{ $doctor->segundo_apellido }}
@@ -432,9 +274,11 @@
                 </div>
             </div>
         </div>
-        </div>
+    </div>
 
-</div>
+      </div>
+    </div>
+      
 @endsection
 
 
@@ -898,10 +742,77 @@ $(document).ready(function() {
     });
 
 </script>
-@stop
+
+<script>
     
+
+    document.addEventListener("DOMContentLoaded", function () {
+    const toggleSwitch = document.getElementById('theme-toggle');
+    const modeText = document.getElementById('mode-text');
+    const breadcrumb = document.getElementById('breadcrumb');
+  
+    function switchTheme(e) {
+      if (e.target.checked) {
+        // Tema oscuro
+        document.documentElement.classList.add('dark-mode');
+        document.documentElement.classList.remove('light-mode');
+        modeText.textContent = 'modo claro';
+        breadcrumb.classList.remove('bg-white', 'text-light');
+        breadcrumb.classList.add('bg-dark', 'text-white');
+        localStorage.setItem('theme', 'dark'); // Guardar la preferencia en localStorage
+      } else {
+        // Tema claro
+        document.documentElement.classList.add('light-mode');
+        document.documentElement.classList.remove('dark-mode');
+        modeText.textContent = 'modo oscuro';
+        breadcrumb.classList.remove('bg-dark', 'text-white');
+        breadcrumb.classList.add('bg-white', 'text-light');
+        localStorage.setItem('theme', 'light'); // Guardar la preferencia en localStorage
+      }
+    }
+  
+    // Aplicar el tema guardado en localStorage al cargar la página
+    const currentTheme = localStorage.getItem('theme');
+  
+    if (currentTheme === 'dark') {
+      toggleSwitch.checked = true;
+      document.documentElement.classList.add('dark-mode');
+      document.documentElement.classList.remove('light-mode');
+      modeText.textContent = 'modo claro';
+      breadcrumb.classList.remove('bg-white', 'text-light');
+      breadcrumb.classList.add('bg-dark', 'text-white');
+    } else if (currentTheme === 'light') {
+      toggleSwitch.checked = false;
+      document.documentElement.classList.add('light-mode');
+      document.documentElement.classList.remove('dark-mode');
+      modeText.textContent = 'modo oscuro';
+      breadcrumb.classList.remove('bg-dark', 'text-white');
+      breadcrumb.classList.add('bg-white', 'text-light');
+    }
+  
+    // Event listener para el cambio de tema
+    toggleSwitch.addEventListener('change', switchTheme);
+  });
+  
+  
+  // Function to update date and time
+  function updateDateTime() {
+      const now = new Date();
+      const datetimeString = now.toLocaleString();
+      document.getElementById('datetime').textContent = datetimeString;
+  }
+  
+  
+  // Initial call to set the date and time
+  updateDateTime();
+  
+  // Update date and time every second
+  setInterval(updateDateTime, 1000);
+</script>
+@stop
 </body>
 </html>
+
 
 
 

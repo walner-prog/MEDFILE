@@ -75,7 +75,7 @@
   </head>
   @extends('adminlte::page')
     
-  @section('title', 'MEDFILE')
+  @section('title', 'admision-hospitalaria')
 
 
 
@@ -90,7 +90,7 @@
             <nav aria-label="breadcrumb" class="rounded-3 p-3 mb-4">
                 <ol id="breadcrumb" class="breadcrumb mb-0  text-light">
                     <li class="breadcrumb-item">Hogar</li>
-                    <li class="breadcrumb-item active" aria-current="page">Registros de Admision y Egreso </li>
+                    <li class="breadcrumb-item active" aria-current="page">Registros de Admision y Egreso Hospitalarios </li>
                 </ol>
             </nav>
         </div>
@@ -171,11 +171,11 @@
                 <div class="modal-header bg-primary">
                     <div class="row">
                         <div class="col-lg-8">
-                            <h5 class="modal-title text-white" id="createIngresoEgresoFormModalLabel">Crear Registro de Ingreso o Egreso Hospitalario</h5>
+                            <h4 class="modal-title text-white" id="createIngresoEgresoFormModalLabel">Crear Registro de Ingreso o Egreso Hospitalario</h4>
                         </div>
       
                         <div id="datos-paciente" class="mb-3">
-                            <h4>Datos del Paciente</h4>
+                          
                             <div class="p-3 mb-2 border rounded datos-pacientes bg-white">
                                 <div class="mb-2">
                                     <strong class="color-primario">
@@ -249,7 +249,7 @@
                                 <div class="form-group">
                                     <label for="buscar_paciente" class="bold">Buscar Paciente</label>
                                     <i class="fa-solid fa-magnifying-glass fa-1x mb-1"></i>
-                                    <input type="text" class="form-control" id="buscar_paciente" placeholder="Buscar por nombre, cédula o expediente">
+                                    <input type="text" class="form-control" autocomplete="off" id="buscar_paciente" placeholder="Buscar por nombre, cédula o expediente">
                                 </div>
                                 <div id="lista_pacientes" class="list-group"></div>
                             </div>
@@ -277,7 +277,7 @@
                                     
                                 </div>
                             </div>
-                        <div class="row">
+                        <div class="row p-2">
                             <div class="col-lg-3">
                                 <div class="form-group">
                                     <label for="no_expediente">No. Expediente <span class="text-danger">*</span></label>
@@ -432,7 +432,16 @@
                                     @endif
                                 </div>
                             </div>
-
+                         
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label for="parentesco">Parentesco <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="parentesco" name="parentesco" value="{{ old('parentesco') }}" required readonly>
+                                    @if ($errors->has('parentesco'))
+                                        <div class="text-danger">{{ $errors->first('parentesco') }}</div>
+                                    @endif
+                                </div>
+                            </div>
                             <div class="col-lg-3">
                                 <div class="form-group">
                                     <label for="urgencia_avisar">Persona a Avisar en Caso de Urgencia <span class="text-danger">*</span></label>
@@ -472,15 +481,7 @@
                                 </div>
                             </div>
                          
-                                <div class="col-lg-3">
-                                    <div class="form-group">
-                                        <label for="parentesco">Parentesco <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" id="parentesco" name="parentesco" value="{{ old('parentesco') }}" required readonly>
-                                        @if ($errors->has('parentesco'))
-                                            <div class="text-danger">{{ $errors->first('parentesco') }}</div>
-                                        @endif
-                                    </div>
-                                </div>
+                                
                         
                             <div class="col-lg-3">
                                 <div class="form-group">
@@ -595,25 +596,7 @@
                                 </div>
                             </div>
                         
-                            <div class="col-lg-3">
-                                <div class="form-group">
-                                    <label for="nombre_medico">Nombre del Médico <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" id="nombre_medico" name="nombre_medico" value="{{ old('nombre_medico') }}" required>
-                                    @if ($errors->has('nombre_medico'))
-                                        <div class="text-danger">{{ $errors->first('nombre_medico') }}</div>
-                                    @endif
-                                </div>
-                            </div>
-                        
-                            <div class="col-lg-3">
-                                <div class="form-group">
-                                    <label for="sello_medico_ingreso">Sello del Médico de Ingreso <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" id="sello_medico_ingreso" name="sello_medico_ingreso" value="{{ old('sello_medico_ingreso') }}" required>
-                                    @if ($errors->has('sello_medico_ingreso'))
-                                        <div class="text-danger">{{ $errors->first('sello_medico_ingreso') }}</div>
-                                    @endif
-                                </div>
-                            </div>
+                            
                         </div>
 
                         <div class="row">
@@ -760,6 +743,25 @@
                                     <input type="text" class="form-control" id="referido_otro_establecimiento" name="referido_otro_establecimiento" value="{{ old('referido_otro_establecimiento') }}">
                                     @if ($errors->has('referido_otro_establecimiento'))
                                         <div class="text-danger">{{ $errors->first('referido_otro_establecimiento') }}</div>
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label for="nombre_medico">Nombre del Médico <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="nombre_medico" name="nombre_medico" value="{{ old('nombre_medico') }}" required>
+                                    @if ($errors->has('nombre_medico'))
+                                        <div class="text-danger">{{ $errors->first('nombre_medico') }}</div>
+                                    @endif
+                                </div>
+                            </div>
+                        
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label for="sello_medico_ingreso">Sello del Médico de Ingreso <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="sello_medico_ingreso" name="sello_medico_ingreso" value="{{ old('sello_medico_ingreso') }}" required>
+                                    @if ($errors->has('sello_medico_ingreso'))
+                                        <div class="text-danger">{{ $errors->first('sello_medico_ingreso') }}</div>
                                     @endif
                                 </div>
                             </div>
@@ -1023,7 +1025,7 @@ $(document).ready(function() {
                     $('#categoria_paciente').val(response.categoria);
                     $('#direccion_residencia').val(response.direccion_residencia);
                     $('#localidad').val(response.localidad);
-                    $('#municipio').val(response.municipio);
+                    $('#municipio_distrito').val(response.municipio);
                     $('#departamento').val(response.departamento);
                     $('#ocupacion').val(response.ocupacion);
                     $('#urgencia_avisar').val(response.responsable_emergencia);

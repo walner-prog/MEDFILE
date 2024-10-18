@@ -51,8 +51,8 @@
 @section('content')
 <div class="container">
 
-    <div class="row">
-        <div class="col">
+    <div class="row mb-3">
+        <div class="col-lg-12">
             <nav aria-label="breadcrumb" class="rounded-3 p-3 mb-4 ">
                 <ol id="breadcrumb" class="breadcrumb mb-0  text-light ">
                     <li class="breadcrumb-item active">Hogar</li>
@@ -60,6 +60,12 @@
                     <li class="text-dark breadcrumb-item ">Editar el Rol {{ $role->name }} .</li>
                 </ol>
             </nav>
+        </div>
+        <div class="col-lg-4">
+            <a href="{{ route('roles.index') }}" class="btn btn-secondary font-bold py-2 px-4 rounded-full">
+                <i class="fas fa-arrow-left"></i> Volver a Roles
+            </a>
+            
         </div>
         
     </div>
@@ -70,7 +76,7 @@
                     @method('PUT')
                     
                     <div class="form-group">
-                        {!! Form::label('name', 'Nombre del rol') !!}
+                        <label for="name">Nombre del rol</label>
                         <input type="text" name="name" value="{{ old('name', $role->name) }}" class="form-control @error('name') is-invalid @enderror" readonly>
                         
                         @error('name')
@@ -81,8 +87,14 @@
                     </div>
                     
                     <div class="form-group">
-                        {!! Form::label('permissions', 'Permisos para este rol') !!}
+                        <label for="permissions">Permisos para este rol</label>
                         <br>
+                        <div class="form-check">
+                            <input type="checkbox" name="select_all" class="form-check-input" id="select_all">
+                            <label class="form-check-label" for="select_all">
+                                Seleccionar todos
+                            </label>
+                        </div>
                         <div class="row">
                             @foreach($permissions as $permission)
                                 <div class="col-md-4 mb-3">
@@ -97,7 +109,7 @@
                                 </div> 
                             @endforeach
                         </div>
-                
+                    
                         @error('permissions')
                             <div class="invalid-feedback d-block">
                                 {{ $message }}
@@ -105,7 +117,8 @@
                         @enderror
                     </div>
                     
-                    <button class="btn btn-primary btn-sm" type="submit">Guardar</button>
+                    
+                    <button class="btn btn-primary " type="submit">Guardar</button>
                 </form>
                 
                 
@@ -122,7 +135,29 @@
 @stop
 
 @section('js')
-    <script> console.log('Hi!'); </script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const selectAllCheckbox = document.getElementById('select_all');
+        const permissionCheckboxes = document.querySelectorAll('input[name="permission[]"]');
+
+        selectAllCheckbox.addEventListener('change', function() {
+            permissionCheckboxes.forEach(checkbox => {
+                checkbox.checked = selectAllCheckbox.checked;
+            });
+        });
+
+        // Evento para el botón "Asignar Todos los Permisos"
+        const assignAllPermissionsButton = document.getElementById('assignAllPermissions');
+        assignAllPermissionsButton.addEventListener('click', function() {
+            permissionCheckboxes.forEach(checkbox => {
+                checkbox.checked = true; // Marcar todos los checkboxes
+            });
+        });
+    });
+</script>
 @stop
 
 </body>

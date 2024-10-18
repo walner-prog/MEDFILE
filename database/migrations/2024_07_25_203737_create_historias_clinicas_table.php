@@ -16,24 +16,18 @@ class CreateHistoriasClinicasTable extends Migration
         Schema::create('historias_clinicas', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('paciente_id'); // Relación con la tabla pacientes
-          //  $table->string('primer_nombre')->nullable();
-           // $table->string('segundo_nombre')->nullable();
-           // $table->string('primer_apellido')->nullable();
-           // $table->string('segundo_apellido')->nullable();
-            
+
             $table->time('hora')->nullable();
+            $table->string('archivo_examen')->nullable();
             $table->string('sala')->nullable();
-          //  $table->string('no_expediente')->nullable();// por ajax 
-          //  $table->string('no_cedula')->nullable();    // por ajax 
-           // $table->string('no_inss')->nullable();      // por ajax 
+          
             $table->string('no_cama')->nullable();
-         //   $table->integer('edad')->nullable();         // por ajax 
-         //   $table->date('fecha_nacimiento')->nullable(); // por ajax 
+         
             $table->string('lugar_nacimiento')->nullable();
-         //   $table->enum('sexo', ['M', 'F'])->nullable();    // por ajax 
+        
             $table->string('procedencia')->nullable();
             $table->string('religion')->nullable();
-         //   $table->string('grupos_etnicos')->nullable();
+        
             $table->string('escolaridad')->nullable();             // por ajax 
             $table->string('direccion_habitual')->nullable();       // por ajax 
             $table->string('nombre_padre')->nullable();

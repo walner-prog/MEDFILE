@@ -46,12 +46,9 @@
   </head>
 <body>
     
-</body>
-</html>
-  
   @extends('adminlte::page')
     
-  @section('title', 'MEDFILE')
+  @section('title', 'control-medicamentos')
   
   
   
@@ -145,10 +142,10 @@
            <div class="modal-header bg-primary">
                <div class="row">
                    <div class="col-lg-8">
-                       <h5 class="modal-title text-white" id="createControlMedicamentoFormModalLabel">Crear Control de Medicamentos para el Paciente</h5>
+                       <h5 class="modal-title text-white" id="createControlMedicamentoFormModalLabel">Registrar Control de Medicamentos para el Paciente</h5>
                    </div>
                    <div id="datos-paciente" class="mb-3">
-                       <h4>Datos del Paciente</h4>
+                    
                        <div class="p-3 mb-2 border rounded datos-pacientes bg-white">
                            <div class="mb-2">
                                <strong class="color-primario">
@@ -197,7 +194,7 @@
                         <div class="form-group">
                             <label for="buscar_paciente" class="bold">Buscar Paciente</label>
                             <i class="fa-solid fa-magnifying-glass fa-1x mb-1"></i>
-                            <input type="text" class="form-control" id="buscar_paciente" placeholder="Buscar por nombre, cédula o expediente">
+                            <input type="text" class="form-control" autocomplete="off" id="buscar_paciente" placeholder="Buscar por nombre, cédula o expediente">
                         </div>
                         <div id="lista_pacientes" class="list-group"></div>
                     </div>
@@ -260,59 +257,52 @@
                            @endif
                        </div>
                    </div>
-                   <div class="row">
+                   <div class="row p-2">
                       
-                           <div class="col-lg-3 ml-1">
-                               <div class="form-group">
-                                   <label for="establecimiento_salud">Establecimiento de Salud</label>
-                                   <input type="text" class="form-control edit_imput text-dark" id="establecimiento_salud" name="establecimiento_salud">
-                               </div>
-                           </div>
-                           <div class="col-lg-3 ml-1">
+                           
+                           <div class="col-lg-2 ">
                                <div class="form-group">
                                    <label for="no_expediente">No. Expediente</label>
-                                   <input type="text" class="form-control edit_imput text-dark" id="no_expediente" name="no_expediente">
+                                   <input type="text" class="form-control edit_imput text-dark" id="no_expediente" name="no_expediente" readonly>
                                </div>
                            </div>
-                           <div class="col-lg-3 ml-1">
+                           <div class="col-lg-2 ">
                                <div class="form-group">
                                    <label for="no_cedula">No. Cédula</label>
-                                   <input type="text" class="form-control edit_imput text-dark" id="no_cedula" name="no_cedula">
+                                   <input type="text" class="form-control edit_imput text-dark" id="no_cedula" name="no_cedula" readonly>
                                </div>
                            </div>
-                           
-                           <div class="col-lg-3 ml-1">
+                           <div class="col-lg-2 ">
+                            <div class="form-group">
+                                <label for="no_inss">No. INSS</label>
+                                <input type="text" class="form-control edit_imput text-dark" id="no_inss" name="no_inss" readonly>
+                            </div>
+                        </div>
+                        
+                           <div class="col-lg-2 ">
                                <div class="form-group">
                                    <label for="fecha">Fecha</label>
                                    <input type="date" class="form-control edit_imput text-dark" id="fecha" name="fecha">
                                </div>
                            </div>
-                           <div class="col-lg-3 ml-1">
+                           <div class="col-lg-2 ">
+                            <div class="form-group">
+                                <label for="establecimiento_salud">Centro de Salud</label>
+                                <input type="text" class="form-control edit_imput text-dark" id="establecimiento_salud" name="establecimiento_salud">
+                            </div>
+                        </div>
+                           <div class="col-lg-2 ">
                                <div class="form-group">
                                    <label for="hora">Hora</label>
                                    <input type="time" class="form-control edit_imput text-dark" id="hora" name="hora">
                                </div>
                            </div>
-                           <div class="col-lg-3 ml-1">
-                               <div class="form-group">
-                                   <label for="no_inss">No. INSS</label>
-                                   <input type="text" class="form-control edit_imput text-dark" id="no_inss" name="no_inss">
-                               </div>
-                           </div>
-                           
-                
-                          
-                          
+                             
                
                    </div>
-                   <div class="row">
-                       <div class="col-md-8">
-                           <div class="form-group">
-                               <label for="medicamentos_otros">Medicamentos Otros</label>
-                               <textarea class="form-control" id="medicamentos_otros" name="medicamentos_otros" class="form-control edit_imput text-dark"></textarea>
-                           </div>
-                       </div>
-                       <div class="col-lg-3 ml-1">
+                   <div class="row p-2">
+                       
+                       <div class="col-lg-2 ">
                            <div class="form-group">
                                <label for="servicio">Servicio</label>
                                <input type="text" class="form-control edit_imput text-dark" id="servicio" name="servicio" value="{{ old('servicio') }}">
@@ -322,7 +312,7 @@
                            </div>
                        </div>
                        
-                       <div class="col-lg-3 ml-1">
+                       <div class="col-lg-2">
                            <div class="form-group">
                                <label for="no_cama">No. Cama</label>
                                <input type="text" class="form-control edit_imput text-dark" id="no_cama" name="no_cama" value="{{ old('no_cama') }}">
@@ -332,7 +322,7 @@
                            </div>
                        </div>
                        
-                       <div class="col-lg-3 ml-1">
+                       <div class="col-lg-2">
                            <div class="form-group">
                                <label for="sala">Sala</label>
                                <input type="text" class="form-control edit_imput text-dark" id="sala" name="sala" value="{{ old('sala') }}">
@@ -342,7 +332,7 @@
                            </div>
                        </div>
                        
-                       <div class="col-lg-3 ml-1">
+                       <div class="col-lg-2">
                            <div class="form-group">
                                <label for="fecha_medicamentos">Fecha Medicamentos</label>
                                <input type="date" class="form-control edit_imput text-dark" id="fecha_medicamentos" name="fecha_medicamentos" value="{{ old('fecha_medicamentos') }}">
@@ -352,7 +342,7 @@
                            </div>
                        </div>
                        
-                       <div class="col-lg-3 ml-1">
+                       <div class="col-lg-2">
                            <div class="form-group">
                                <label for="hora_medicamentos">Hora Medicamentos</label>
                                <input type="time" class="form-control edit_imput text-dark" id="hora_medicamentos" name="hora_medicamentos" value="{{ old('hora_medicamentos') }}">
@@ -362,7 +352,7 @@
                            </div>
                        </div>
                        
-                       <div class="col-lg-3 ml-1">
+                       <div class="col-lg-3 ">
                            <div class="form-group">
                                <label for="medicamentos_stat_prn_preanestesico">Medicamentos STAT/PRN/Preanestésico</label>
                                <input type="text" class="form-control edit_imput text-dark" id="medicamentos_stat_prn_preanestesico" name="medicamentos_stat_prn_preanestesico" value="{{ old('medicamentos_stat_prn_preanestesico') }}">
@@ -372,7 +362,7 @@
                            </div>
                        </div>
                        
-                       <div class="col-lg-3 ml-1">
+                       <div class="col-lg-3 ">
                            <div class="form-group">
                                <label for="hora_medicamentos_stat_prn">Hora Medicamentos STAT/PRN</label>
                                <input type="time" class="form-control edit_imput text-dark" id="hora_medicamentos_stat_prn" name="hora_medicamentos_stat_prn" value="{{ old('hora_medicamentos_stat_prn') }}">
@@ -382,7 +372,7 @@
                            </div>
                        </div>
                        
-                       <div class="col-lg-3 ml-1">
+                       <div class="col-lg-3 ">
                            <div class="form-group">
                                <label for="fecha_medicamentos_stat_prn">Fecha Medicamentos STAT/PRN</label>
                                <input type="date" class="form-control edit_imput text-dark" id="fecha_medicamentos_stat_prn" name="fecha_medicamentos_stat_prn" value="{{ old('fecha_medicamentos_stat_prn') }}">
@@ -391,8 +381,15 @@
                                @endif
                            </div>
                        </div>
+
+                       <div class="col-md-8">
+                        <div class="form-group">
+                            <label for="medicamentos_otros">Medicamentos Otros</label>
+                            <textarea class="form-control" id="medicamentos_otros" name="medicamentos_otros" class="form-control edit_imput text-dark"></textarea>
+                        </div>
+                    </div>
                        
-                       <div class="col-lg-3 ml-1">
+                       <div class="col-lg-3">
                            <div class="form-group">
                                <label for="nombre_enfermera_codigo">Nombre y Código de la Enfermera</label>
                                <input type="text" class="form-control edit_imput text-dark" id="nombre_enfermera_codigo" name="nombre_enfermera_codigo" value="{{ old('nombre_enfermera_codigo') }}">
@@ -811,4 +808,8 @@ $(document).ready(function() {
 </section>
 
 
+    
+</body>
+</html>
+  
 

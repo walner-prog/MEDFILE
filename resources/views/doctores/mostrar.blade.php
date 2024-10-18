@@ -69,7 +69,7 @@
  
   @extends('adminlte::page')
     
-  @section('title', 'MEDFILE')
+  @section('title', 'buscar-doctores')
   
   
   
@@ -147,16 +147,16 @@
         <table class="table table-striped table-bordered shadow-lg p-2 table-sm" id="doctor_table">
             <thead class=" bg-primary">
                 <tr>
-                    <th>Código</th>
-                    <th>Nombre Completo</th>
-                    <th>Apellido Completo</th>
-                    <th>Especialidad</th>
-                    <th>Departamento</th>
-                    <th>No. Cédula</th>
-                    <th>Teléfono</th>
-                    <th>Email</th>
-                    <th>Estado</th>
-                    <th>Fecha de Contratación</th>
+                    <th class="table-paciente">Código</th>
+                    <th class="table-paciente">Nombre Completo</th>
+                    <th class="table-paciente">Apellido Completo</th>
+                    <th class="table-paciente">Especialidad</th>
+                    <th class="table-paciente">Departamento</th>
+                    <th class="table-paciente">No. Cédula</th>
+                    <th class="table-paciente">Teléfono</th>
+                    <th class="table-paciente">Email</th>
+                    <th class="table-paciente">Estado</th>
+                    <th class="table-paciente">Fecha de Contratación</th>
                 </tr>
             </thead>
             <tbody class="card-cyan">
@@ -269,7 +269,7 @@ $(document).ready(function() {
                 type: 'GET',
                 success: function(response) {
                     var newRow = `
-                        <tr class="bg-gradient-info">
+                        <tr class="bg-gradient-info ">
                             <td>${response.codigo}</td>
                             <td>${response.primer_nombre} ${response.segundo_nombre}</td>
                             <td>${response.primer_apellido} ${response.segundo_apellido}</td>

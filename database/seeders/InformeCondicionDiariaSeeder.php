@@ -14,6 +14,6 @@ class InformeCondicionDiariaSeeder extends Seeder
      */
     public function run()
     {
-        InformeCondicionDiaria::factory()->count(200)->create();
+        InformeCondicionDiaria::factory()->count(60)->create();
     }
 }

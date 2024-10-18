@@ -1,6 +1,8 @@
-{{-- @extends('layouts.app') --}}
-
-<section>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <head>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-" crossorigin="anonymous" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-" crossorigin="anonymous" />
@@ -9,33 +11,61 @@
               <!-- Otros encabezados -->
     
     @section('css')
-     
+      <link rel="stylesheet" href="{{ asset('css/admin_custom.css') }}">
       <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
     
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
       <link rel="stylesheet" href="https://cdn.datatables.net/select/1.4.0/css/select.dataTables.min.css">
      
-   
+      @livewireStyles
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap5.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.bootstrap5.css">
-    <link rel="stylesheet" href="{{ asset('css/admin_custom.css') }}">
   @stop
       <!-- Otros elementos del encabezado... -->
       <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+      <head>
+        <script>
+          (function() {
+            const currentTheme = localStorage.getItem('theme');
+            if (currentTheme === 'dark') {
+              document.documentElement.classList.add('dark-mode');
+              document.documentElement.classList.remove('light-mode');
+            } else if (currentTheme === 'light') {
+              document.documentElement.classList.add('light-mode');
+              document.documentElement.classList.remove('dark-mode');
+            } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+              document.documentElement.classList.add('dark-mode');
+            } else {
+              document.documentElement.classList.add('light-mode');
+            }
+          })();
+        </script>
+        <!-- Resto de tu <head> -->
+      </head>
 
-  
-        @livewireStyles
-    </head>
-    
-@extends('adminlte::page')
+  </head>
+<body>
+    @extends('adminlte::page')
 
-@section('title', 'AdminSalud')
+@section('title', 'editar-doctor')
 
 
 
 @section('content')
 <div class="container">
+    <div class="row">
+        <div class="col">
+            <nav aria-label="breadcrumb" class="rounded-3 p-3 mb-4">
+                <ol id="breadcrumb" class="breadcrumb mb-0  text-light">
+                    <li class="breadcrumb-item">Hogar</li>
+                    <li class="breadcrumb-item active" aria-current="page">Editar Dpctor </li>
+                </ol>
+            </nav>
+        </div>
+        
+    </div>
+    
     <br>
      <div class="row">
         <div class="col-lg-2 ">
@@ -47,14 +77,7 @@
            
         </div>
         <div class="col-lg-10 text-right">
-           <label class="switch">
-                <input type="checkbox" id="theme-toggle">
-                <span class="slider round">
-                  <i class="fas fa-sun icon-light"></i>
-                  <i class="fas fa-moon icon-dark"></i>
-                </span>
-                <span id="mode-text"></span>
-              </label>
+          
              
         </div>
      </div>
@@ -63,8 +86,8 @@
         <div class="modal-content">
             <div class="modal-header bg-primary">
                 <div class="row">
-                    <div class="col-lg-8">
-                        <h5 class="modal-title text-white" id="editDoctorFormLabel{{ $doctor->id }}">Editar Doctor</h5>
+                    <div class="col-lg-12">
+                        <h4>Editar Doctor</h4>
                     </div>
                 </div>
             </div>
@@ -271,38 +294,6 @@
 <script src="https://cdn.datatables.net/buttons/2.1.0/js/buttons.print.min.js"></script>
 <script src="https://cdn.datatables.net/select/1.4.0/js/dataTables.select.min.js"></script>
 
-<script>
-// Check for saved user theme preference
-const currentTheme = localStorage.getItem('theme') || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
-if (currentTheme) {
-    document.body.classList.add(currentTheme + '-mode');
-    document.getElementById('theme-toggle').checked = currentTheme === 'dark';
-}
-
-const toggleSwitch = document.getElementById('theme-toggle');
-
-function switchTheme(e) {
-    if (e.target.checked) {
-        document.body.classList.add('dark-mode');
-        document.body.classList.remove('light-mode');
-        localStorage.setItem('theme', 'dark');
-    } else {
-        document.body.classList.add('light-mode');
-        document.body.classList.remove('dark-mode');
-        localStorage.setItem('theme', 'light');
-    }
-}
-
-toggleSwitch.addEventListener('change', switchTheme);
-
-
-// Initial call to set the date and time
-updateDateTime();
-
-// Update date and time every second
-setInterval(updateDateTime, 1000);
-
-
-</script>
 @stop
-</section>
+</body>
+</html>

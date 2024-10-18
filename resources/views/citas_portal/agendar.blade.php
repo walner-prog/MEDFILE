@@ -4,7 +4,8 @@
 @section('content')
  
 <div class="container">
-    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.1/aos.css" />
+
   
       
     @if (session('error'))
@@ -22,7 +23,7 @@
     <div class="alert alert-warning">
         {{ session('delete') }}
     </div>
-@endif
+@endif 
 
 <div class="row">
     <div class="col">
@@ -41,7 +42,7 @@
     </div>
 
     <!-- Formulario con borde y íconos -->
-    <div class="col-lg-6">
+    <div class="col-lg-6" >
         <div class="card">
             <div class="card-body">
                 <form action="{{ route('citas.stores') }}" method="POST" id="citaForm">
@@ -102,25 +103,19 @@
                         <select class="form-control" id="estado" name="estado" required>
                             <option value="por confirmar">Por Confirmar</option>
                             <option value="confirmada">Confirmada</option>
-                            <option value="en progreso">En Progreso</option>
-                            <option value="cancelada">Cancelada</option>
-                            <option value="realizada">Realizada</option>
+                          
                         </select>
                         @if ($errors->has('estado'))
                             <div class="text-danger">{{ $errors->first('estado') }}</div>
                         @endif
                     </div>
 
-                    <!-- Descripción de la Cita -->
-                    <div class="form-group">
-                        <label for="descripcion_cita" class="font-weight-bold"><i class="fas fa-comment-medical"></i> Descripción</label>
-                        <textarea class="form-control" id="descripcion_cita" name="descripcion_cita" rows="3"></textarea>
-                    </div>
+                    
 
                     <!-- Duración de la Cita -->
                     <div class="form-group">
                         <label for="duracion" class="font-weight-bold"><i class="fas fa-hourglass-half"></i> Duración de la cita <span class="text-danger">*</span></label>
-                        <input type="number" class="form-control" id="duracion" name="duracion" required>
+                        <input type="number" class="form-control" value="30" id="duracion" name="duracion" readonly>
                         @if ($errors->has('duracion'))
                             <div class="text-danger">{{ $errors->first('duracion') }}</div>
                         @endif
@@ -135,57 +130,7 @@
         </div>
     </div>
 
-    <div class="col-lg-10">
-        <div class="card">
-            <div class=" card-header from-green-500 to-green-600 text-white text-center  p-2">
-                <h3 class="text-lg font-semibold card-title ">Calendario de Reservas de citas medicas </h3>
-            </div>
-            <div class="card-body">
-                <div class="col-lg-4">
-                    <div class="form-group">
-                        <label for="consultorio_id">Consultorio</label>
-                        <select class="form-control" id="consultorio_select" name="consultorio_id" required>
-                            <option value="">Selecciona un consultorio</option>
-                            @foreach ($consultorios as $consultorio)
-                                <option value="{{ $consultorio->id }}">
-                                    {{  $consultorio->nombre . "- Ubicacion: ". $consultorio->ubicacion }} 
-                                </option>
-                            @endforeach
-                        </select>
-                        @if ($errors->has('consultorio_id'))
-                            <div class="text-danger">{{ $errors->first('consultorio_id') }}</div>
-                        @endif
-                    </div>
-                   
-                </div>
 
-                 <div class="col-lg-">
-                    <div id='calendar'></div>
-                 </div>
-               
-                
-            </div>
-        </div>
-        
-        
-        
-        
-    </div>
-</div>
-<div class="container">
-    <div class="form-group">
-        <label for="doctor_select">Seleccione Doctor</label>
-        <select class="form-control" id="doctor_select" name="doctor_id" style="width: 100%">
-            <option value="">Selecciona un doctor</option>
-            @foreach ($doctores as $doctor)
-                <option value="{{ $doctor->id }}">{{ $doctor->primer_nombre }} {{ $doctor->primer_apellido }}</option>
-            @endforeach
-        </select>
-    </div>
-    
-    <!-- Contenedor donde se mostrará la tabla de horarios -->
-    <div id="horarios_disponibles"></div>
-    
 </div>
 
 
@@ -212,6 +157,8 @@
 <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.colVis.min.js"></script>
 <script src="https://cdn.datatables.net/select/1.4.0/js/dataTables.select.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.1/aos.js"></script>
+    @livewireScripts
 
 <!-- FullCalendar -->
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
@@ -261,6 +208,20 @@ $(document).ready(function() {
         }
     });
 });
+
+
+@if(session('error'))
+        <script>
+            swal({
+                title: "¡Error!",
+                text: "{{ session('error') }}",
+                icon: "error",
+                button: "Cerrar",
+                timer: 5000,
+                closeOnClickOutside: false,
+            });
+        </script>
+    @endif
 </script>
 
 <script>
@@ -282,7 +243,13 @@ document.addEventListener('DOMContentLoaded', function () {
     });
     calendar.render();
 });
+
+ <script>
+  AOS.init();
 </script>
+
+
+
 
 @stop
 

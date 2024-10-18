@@ -78,8 +78,11 @@
     
     
      <div class="row">
-        <div class="col-lg-2">
-          
+        <div class="col-lg-2 d-flex justify-content-star">
+           
+                <a href="{{ route('upload-file.view') }}" class="btn btn-primary">
+                    Analizar Examenes con la IA
+                </a>
         </div>
 
        
@@ -88,8 +91,11 @@
             <h4 class="mb-2 text-dark">Consulta de pacientes  registrados </h4>
             
         </div>
-        <div class="col-lg-2 d-flex justify-content-end align-items-center">
-           
+           <div class="col-lg-2 d-flex justify-content-end align-items-center">
+            <a href="{{ route('historias-clinicas.ia') }}" class="btn btn-primary">
+                Analizar Historias Clínicas con IA
+            </a>
+            
           
         </div>
         

@@ -66,7 +66,7 @@
  
   @extends('adminlte::page')
     
-  @section('title', 'MEDFILE')
+  @section('title', 'especialidd-doctores')
   
   
   
@@ -78,7 +78,7 @@
             <nav aria-label="breadcrumb" class="rounded-3 p-3 mb-4">
                 <ol id="breadcrumb" class="breadcrumb mb-0  text-light">
                     <li class="breadcrumb-item">Hogar</li>
-                    <li class="breadcrumb-item active" aria-current="page">Gestion de Personal </li>
+                    <li class="breadcrumb-item active" aria-current="page">Gestion de Especialidades </li>
                 </ol>
             </nav>
         </div>
@@ -156,7 +156,7 @@
     <div class="modal fade" id="createEspecialidadModal" tabindex="-1" role="dialog" aria-labelledby="createEspecialidadModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
-                <div class="modal-header bt-teal">
+                <div class="modal-header bg-primary">
                     <h5 class="modal-title text-white" id="createEspecialidadModalLabel">Crear Especialidad</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>

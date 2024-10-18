@@ -81,7 +81,8 @@
         </div>
      </div>
 
-    <div class="modal-dialog modal-xl" role="document">
+     @can('editar-emergencia')
+     <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
           <div class="modal-header bg-primary">
               <div class="row">
@@ -595,6 +596,8 @@
           </div>
       </div>
   </div>
+     @endcan
+    
       
 
  <br>

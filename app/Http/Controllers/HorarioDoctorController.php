@@ -21,10 +21,10 @@ class HorarioDoctorController extends Controller
     // Mostrar una lista de todos los horarios
     public function index()
     {
-        $doctores = Doctor::all();
-        $consultorios = Consultorio::all();
-        $horarios = HorarioDoctor::with('doctor','consultorio')->get();
-        return view('horarios.index', compact('horarios','doctores','consultorios'));
+        $doctores_crear = Doctor::all();
+        $consultorios_crear = Consultorio::all();
+        $horarios_crear = HorarioDoctor::with('doctor','consultorio')->get();
+        return view('horarios.index', compact('doctores_crear','consultorios_crear','horarios_crear'));
     }
 
     // Mostrar el formulario para crear un nuevo horario
@@ -139,8 +139,8 @@ class HorarioDoctorController extends Controller
             'doctor_id' => 'required|exists:doctores,id',
             'consultorio_id'  => 'required|exists:consultorios,id',
             'dia_semana' => 'required|in:lunes,martes,miercoles,jueves,viernes,sabado,domingo',
-            'hora_inicio' => 'required|date_format:H:i',
-            'hora_fin' => 'required|date_format:H:i|after:hora_inicio',
+            'hora_inicio' => 'required',
+            'hora_fin' => 'required|after:hora_inicio',
             'duracion_cita' => 'required|integer|min:5',
         ]);
     

@@ -178,7 +178,7 @@ class HistoriaClinicaController extends Controller
             'examen_neurologico' => 'nullable|string',
             'observaciones_analisis' => 'nullable|string',
             'diagnosticos_problemas' => 'nullable|string',
-            'nombre_elabora_historia' => 'nullable|string|max:255',
+            'nombre_elabora_historia' => 'nullable|max:255',
             'firma_codigo_sello' => 'string|required|digits:5',
            
         ]);
@@ -391,7 +391,7 @@ class HistoriaClinicaController extends Controller
             'examen_neurologico' => 'nullable|string',
             'observaciones_analisis' => 'nullable|string',
             'diagnosticos_problemas' => 'nullable|string',
-            'nombre_elabora_historia' => 'nullable|string|max:255',
+            'doctor_id' => 'nullable|max:255',
             'firma_codigo_sello' => 'nullable|string|max:255',
         ]);
 
@@ -458,7 +458,7 @@ class HistoriaClinicaController extends Controller
 
       
     public function analizarHistoriaClinica(Request $request, $id)
-    {
+ {
 
       try {
         // Obtén la historia clínica del paciente
@@ -472,12 +472,16 @@ class HistoriaClinicaController extends Controller
        // Crea el cliente de Guzzle para las solicitudes a la API de OpenAI
       $client = new Client();
 
-       // Lógica de análisis con OpenAI (Resumen)
+       // Lógica de análisis con OpenAI (Resumen) 
+     
+
+
        try {
         $inputResumen = "Analiza la historia clínica del paciente y proporciona un resumen detallado de los síntomas y diagnósticos con el objetivo de ayudar al medico. " .
                         "Motivo de consulta: " . $historiaClinica->motivo_consulta . 
                         ". Historia de enfermedad actual: " . $historiaClinica->historia_enfermedad_actual . 
                         ". Diagnósticos: " . $historiaClinica->diagnosticos_problemas;
+                       
 
         $responseResumen = $client->post('https://api.openai.com/v1/chat/completions', [
             'headers' => [
@@ -566,6 +570,101 @@ class HistoriaClinicaController extends Controller
     return view('analisis-IA-HCP.mostrar_pacientes_ia');
   }
 
+  public function analizarTodasHistoriasClinicas()
+  {
+      // Obtener todas las historias clínicas
+      $historiasClinicas = HistoriaClinica::all();
+  
+      // Inicializar resultados
+      $resultados = [];
+  
+      foreach ($historiasClinicas as $historiaClinica) {
+          try {
+              // Crea el cliente de Guzzle para las solicitudes a la API de OpenAI
+              $client = new Client();
+  
+              // Lógica de análisis con OpenAI (Resumen)
+              $inputResumen = "Analiza la historia clínica del paciente y proporciona un resumen detallado de los síntomas y diagnósticos. " .
+                              "Motivo de consulta: " . $historiaClinica->motivo_consulta . 
+                              ". Historia de enfermedad actual: " . $historiaClinica->historia_enfermedad_actual . 
+                              ". Diagnósticos: " . $historiaClinica->diagnosticos_problemas;
+  
+              $responseResumen = $client->post('https://api.openai.com/v1/chat/completions', [
+                  'headers' => [
+                      'Authorization' => 'Bearer ' . env('OPENAI_API_KEY'),
+                      'Content-Type' => 'application/json',
+                  ],
+                  'json' => [
+                      'model' => 'gpt-4',
+                      'messages' => [
+                          ['role' => 'user', 'content' => $inputResumen],
+                      ],
+                  ],
+              ]);
+  
+              $resumen = json_decode($responseResumen->getBody(), true);
+              $resumenContenido = $resumen['choices'][0]['message']['content'] ?? 'No se obtuvo respuesta';
+  
+              // Lógica de análisis con OpenAI (Recomendaciones)
+              $inputRecomendaciones = "Proporciona recomendaciones personalizadas sobre salud y bienestar basadas en la siguiente historia clínica: " . json_encode($historiaClinica);
+  
+              $responseRecomendaciones = $client->post('https://api.openai.com/v1/chat/completions', [
+                  'headers' => [
+                      'Authorization' => 'Bearer ' . env('OPENAI_API_KEY'),
+                      'Content-Type' => 'application/json',
+                  ],
+                  'json' => [
+                      'model' => 'gpt-4',
+                      'messages' => [
+                          ['role' => 'user', 'content' => $inputRecomendaciones],
+                      ],
+                  ],
+              ]);
+  
+              $recomendaciones = json_decode($responseRecomendaciones->getBody(), true);
+              $recomendacionesContenido = $recomendaciones['choices'][0]['message']['content'] ?? 'No se obtuvo respuesta';
+  
+              // Guardar resultados
+              $resultados[] = [
+                  'paciente_id' => $historiaClinica->paciente_id,
+                  'resumen' => $resumenContenido,
+                  'recomendaciones' => $recomendacionesContenido,
+              ];
+  
+          } catch (\Exception $e) {
+              // Manejo de errores (opcional)
+              $resultados[] = [
+                  'paciente_id' => $historiaClinica->paciente_id,
+                  'error' => 'Error al analizar la historia clínica: ' . $e->getMessage(),
+              ];
+          }
+      }
+  
+      // Devuelve los resultados como JSON
+      return response()->json($resultados);
+  }
+  
+  public function guardarArchivo(Request $request, $id)
+{
+    $request->validate([
+        'archivo_examen' => 'required|file|mimes:pdf,jpg,jpeg,png', // Validar tipos de archivo
+    ]);
+
+    if ($request->hasFile('archivo_examen')) {
+        // Almacenar el archivo en la carpeta "public/examenes"
+        $rutaArchivo = $request->file('archivo_examen')->store('public/examenes');
+
+        // Obtener la ruta pública del archivo
+        $rutaPublica = str_replace('public/', 'storage/', $rutaArchivo);
+
+        // Guardar la ruta en la base de datos
+        $historiaClinica = HistoriaClinica::find($id);
+        $historiaClinica->archivo_examen = $rutaPublica;
+        $historiaClinica->save();
+    }
+
+    return back()->with('success', 'Archivo guardado exitosamente.');
+}
 
 
 public function detectarPatronesYAnomalias($pacienteId)
@@ -601,42 +700,97 @@ public function detectarPatronesYAnomalias($pacienteId)
                 ];
             }
 
-            // 2. Patrones en el peso
-            if ($historia->peso < 50 || $historia->peso > 100) {
-                $resultados['anomalías'][] = [
-                    'historia_id' => $historia->id,
-                    'mensaje' => 'Peso anormal: ' . $historia->peso,
-                ];
-            } else {
-                $resultados['patrones'][] = [
-                    'historia_id' => $historia->id,
-                    'mensaje' => 'Peso dentro del rango normal: ' . $historia->peso,
-                ];
+            foreach ($historias as $historia) {
+                // Obtener edad del paciente
+                $edad = $historia->paciente->edad; // Asumiendo que tienes una relación con el paciente
+            
+                // Definir rangos de peso según la edad
+                if ($edad < 13) {
+                    // Niños
+                    $pesoNormal = ($historia->peso >= 20 && $historia->peso <= 45); // Ejemplo de rangos
+                } elseif ($edad < 20) {
+                    // Adolescentes
+                    $pesoNormal = ($historia->peso >= 50 && $historia->peso <= 70); // Ejemplo de rangos
+                } elseif ($edad < 65) {
+                    // Adultos
+                    $pesoNormal = ($historia->peso >= 50 && $historia->peso <= 100); // Ejemplo de rangos
+                } else {
+                    // Adultos mayores
+                    $pesoNormal = ($historia->peso >= 45 && $historia->peso <= 90); // Ejemplo de rangos
+                }
+            
+                // Evaluar peso según edad
+                if (!$pesoNormal) {
+                    $resultados['anomalías'][] = [
+                        'historia_id' => $historia->id,
+                        'mensaje' => 'Peso anormal: ' . $historia->peso,
+                    ];
+                } else {
+                    $resultados['patrones'][] = [
+                        'historia_id' => $historia->id,
+                        'mensaje' => 'Peso dentro del rango normal: ' . $historia->peso,
+                    ];
+                }
             }
+            
               
-            if ($historia->imc < 18.5) {
-                $resultados['anomalías'][] = [
-                    'historia_id' => $historia->id,
-                    'mensaje' => 'IMC indica bajo peso: ' . $historia->imc,
-                ];
-            } elseif ($historia->imc >= 18.5 && $historia->imc <= 24.9) {
-                $resultados['patrones'][] = [
-                    'historia_id' => $historia->id,
-                    'mensaje' => 'IMC dentro de rango normal: ' . $historia->imc,
-                ];
-            } elseif ($historia->imc >= 25 && $historia->imc <= 29.9) {
-                $resultados['anomalías'][] = [
-                    'historia_id' => $historia->id,
-                    'mensaje' => 'IMC indica sobrepeso: ' . $historia->imc,
-                ];
-            } else {
-                // IMC mayor a 30
-                $resultados['anomalías'][] = [
-                    'historia_id' => $historia->id,
-                    'mensaje' => 'IMC indica obesidad: ' . $historia->imc,
-                ];
+            foreach ($historias as $historia) {
+                // Obtener edad del paciente
+                $edad = $historia->paciente->edad; // Asumiendo que tienes una relación con el paciente
+            
+                // Evaluar peso según edad
+                if ($edad < 13) {
+                    // Niños
+                    $pesoNormal = ($historia->peso >= 20 && $historia->peso <= 45); // Ejemplo de rangos
+                } elseif ($edad < 20) {
+                    // Adolescentes
+                    $pesoNormal = ($historia->peso >= 50 && $historia->peso <= 70); // Ejemplo de rangos
+                } elseif ($edad < 65) {
+                    // Adultos
+                    $pesoNormal = ($historia->peso >= 50 && $historia->peso <= 100); // Ejemplo de rangos
+                } else {
+                    // Adultos mayores
+                    $pesoNormal = ($historia->peso >= 45 && $historia->peso <= 90); // Ejemplo de rangos
+                }
+            
+                // Evaluar IMC
+                if ($historia->imc < 18.5) {
+                    $resultados['anomalías'][] = [
+                        'historia_id' => $historia->id,
+                        'mensaje' => 'IMC indica bajo peso: ' . $historia->imc,
+                    ];
+                } elseif ($historia->imc >= 18.5 && $historia->imc <= 24.9) {
+                    $resultados['patrones'][] = [
+                        'historia_id' => $historia->id,
+                        'mensaje' => 'IMC dentro de rango normal: ' . $historia->imc,
+                    ];
+                } elseif ($historia->imc >= 25 && $historia->imc <= 29.9) {
+                    $resultados['anomalías'][] = [
+                        'historia_id' => $historia->id,
+                        'mensaje' => 'IMC indica sobrepeso: ' . $historia->imc,
+                    ];
+                } else {
+                    // IMC mayor a 30
+                    $resultados['anomalías'][] = [
+                        'historia_id' => $historia->id,
+                        'mensaje' => 'IMC indica obesidad: ' . $historia->imc,
+                    ];
+                }
+            
+                // Análisis final sobre peso
+                if (!$pesoNormal) {
+                    $resultados['anomalías'][] = [
+                        'historia_id' => $historia->id,
+                        'mensaje' => 'Peso anormal: ' . $historia->peso,
+                    ];
+                } else {
+                    $resultados['patrones'][] = [
+                        'historia_id' => $historia->id,
+                        'mensaje' => 'Peso dentro del rango normal: ' . $historia->peso,
+                    ];
+                }
             }
-         
+            
                                                 
            
             if (!empty($historia->ta)) {
@@ -647,20 +801,40 @@ public function detectarPatronesYAnomalias($pacienteId)
                 $sistolica = (int) $sistolica;
                 $diastolica = (int) $diastolica;
             
-                // Comprobar si la presión arterial está fuera de los límites
-                if ($sistolica < 90 || $diastolica < 60 || $sistolica > 140 || $diastolica > 90) {
+                // Clasificación de la presión arterial
+                if ($sistolica < 90 || $diastolica < 60) {
+                    // Presión arterial baja
                     $resultados['anomalías'][] = [
                         'historia_id' => $historia->id,
-                        'mensaje' => 'Presión arterial anormal: ' . $historia->ta,
+                        'mensaje' => 'Presión arterial baja: ' . $historia->ta,
                     ];
-                } else {
+                } elseif ($sistolica >= 90 && $sistolica < 120 && $diastolica >= 60 && $diastolica < 80) {
+                    // Presión arterial normal
                     $resultados['patrones'][] = [
                         'historia_id' => $historia->id,
-                        'mensaje' => 'Presión arterial dentro de rango normal: ' . $historia->ta,
+                        'mensaje' => 'Presión arterial normal: ' . $historia->ta,
+                    ];
+                } elseif (($sistolica >= 120 && $sistolica < 130 && $diastolica < 80) || ($sistolica < 140 && $diastolica >= 80 && $diastolica < 90)) {
+                    // Hipertensión en etapa 1
+                    $resultados['anomalías'][] = [
+                        'historia_id' => $historia->id,
+                        'mensaje' => 'Presión arterial alta (etapa 1): ' . $historia->ta,
+                    ];
+                } elseif (($sistolica >= 130 && $sistolica < 140) || ($diastolica >= 80 && $diastolica < 90)) {
+                    // Hipertensión en etapa 2
+                    $resultados['anomalías'][] = [
+                        'historia_id' => $historia->id,
+                        'mensaje' => 'Presión arterial alta (etapa 2): ' . $historia->ta,
+                    ];
+                } elseif ($sistolica >= 180 || $diastolica >= 120) {
+                    // Crisis hipertensiva
+                    $resultados['anomalías'][] = [
+                        'historia_id' => $historia->id,
+                        'mensaje' => 'Crisis hipertensiva: ' . $historia->ta,
                     ];
                 }
             }
-
+            
             // 5. Patrones en la temperatura corporal
             if ($historia->temperatura < 36.0 || $historia->temperatura > 37.5) {
                 $resultados['anomalías'][] = [
@@ -722,7 +896,7 @@ public function detectarPatronesYAnomalias($pacienteId)
             }
 
             // 10. Patrones en horas laborales
-            if ($historia->horas_laborales > 50) {
+            if ($historia->horas_laborales > 10) {
                 $resultados['anomalías'][] = [
                     'historia_id' => $historia->id,
                     'mensaje' => 'Exceso de horas laborales: ' . $historia->horas_laborales,

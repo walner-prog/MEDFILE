@@ -83,7 +83,7 @@
         
             <div class="row">
                 <div class="col-lg-2">
-                    @can('create', App\Models\Doctor::class)
+                    @can('crear-doctor', App\Models\Doctor::class)
                     <button class="btn btn-indigo mb-3" data-toggle="modal" data-target="#createDoctorForm">
                         <i class="fas fa-plus"></i> Crear Doctor
                     </button>

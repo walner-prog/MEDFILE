@@ -58,10 +58,10 @@
     <div class="row">
         <div class="col">
             <nav aria-label="breadcrumb" class="rounded-3 p-3 mb-4 ">
-                <ol id="breadcrumb" class="breadcrumb mb-0  text-light bg-indigo">
+                <ol id="breadcrumb" class="breadcrumb mb-0  text-light ">
                     <li class="breadcrumb-item">Hogar</li>
                     <li class="breadcrumb-item active" aria-current="page">Registro de Usuarios</li>
-                    <li class="text-dark breadcrumb-item active">Bienvenido a la seccion de Usuarios, {{ Auth::user()->name }} {{ Auth::user()->email }}.</li>
+                    <li class="text-dark breadcrumb-item active">Bienvenido a la seccion de Usuarios, {{ Auth::user()->name }} tu correo es : {{ Auth::user()->email }}.</li>
                 </ol>
             </nav>
         </div>

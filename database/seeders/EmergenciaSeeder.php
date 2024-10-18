@@ -14,6 +14,6 @@ class EmergenciaSeeder extends Seeder
      */
     public function run()
     {
-        Emergencia::factory()->count(400)->create(); // Ajusta el número de registros según tus necesidades
+        Emergencia::factory()->count(50)->create(); // Ajusta el número de registros según tus necesidades
     }
 }

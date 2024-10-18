@@ -1,10 +1,8 @@
    <!DOCTYPE html>
    <html lang="en">
     <head>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-" crossorigin="anonymous" />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-" crossorigin="anonymous" />
-         <!-- Agrega esto en la sección head de tu HTML -->
-           <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" integrity="sha512-TCJ6FYD6dMj4wsiWZz6swnVMqB5RW2MaebusGM1h8zE3DlX5C4sG5ndooMU2t7pLzYl5GmMKa9oB/njpy5Ul9w==" crossorigin="anonymous" />
+
+        
               <!-- Otros encabezados -->
     
               <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
@@ -1459,20 +1457,21 @@
                                @endif
                            </div>
                        
-                           <div class="col-lg-7 form-group">
-                            <label for="doctor_id">Nombre del Elaborador (Médico) <span class="text-danger">*</span></label>
-                            <select class="form-control select2 w-100" id="doctor_id" name="doctor_id" required>
+                           <div class="col-lg-7">
+                            <label for="nombre_elabora_historia">Nombre del Elaborador (Médico) <span class="text-danger">*</span></label>
+                            <select class="form-control select2 w-100" id="doctor_id" name="nombre_elabora_historia" required>
                                 <option value="">Seleccione un médico</option>
                                 @foreach($doctores as $doctor)
-                                    <option value="{{ $doctor->id }}" data-codigo="{{ $doctor->codigo }}" {{ old('doctor_id') == $doctor->id ? 'selected' : '' }}>
+                                    <option value="{{ $doctor->primer_nombre }} {{ $doctor->primer_apellido }}" data-codigo="{{ $doctor->codigo }}" {{ old('nombre_elabora_historia') == $doctor->primer_nombre . ' ' . $doctor->primer_apellido ? 'selected' : '' }}>
                                         {{ $doctor->primer_nombre }} {{ $doctor->primer_apellido }} 
                                     </option>
                                 @endforeach
                             </select>
-                            @if ($errors->has('doctor_id'))
-                                <div class="text-danger">{{ $errors->first('doctor_id') }}</div>
+                            @if ($errors->has('nombre_elabora_historia'))
+                                <div class="text-danger">{{ $errors->first('nombre_elabora_historia') }}</div>
                             @endif
                         </div>
+                        
                         
                         
                        
@@ -1496,6 +1495,9 @@
      </div>
 
  </div>
+
+ 
+
   @endsection
   
   

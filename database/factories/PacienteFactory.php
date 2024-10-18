@@ -10,6 +10,12 @@ class PacienteFactory extends Factory
 {
     protected $model = \App\Models\Paciente::class;
 
+    protected function generateUniqueCedula()
+    {
+        // Generar un número único para la cédula
+        return $this->faker->unique()->numerify('234-######-####-R');
+    }
+
     public function definition()
     {
         // Listas de valores fijos para los campos
@@ -43,44 +49,50 @@ class PacienteFactory extends Factory
                 'Corinto' => ['Corinto Centro', 'Puerto Morazán', 'Las Lomas'],
                 'San Pedro del Norte' => ['San Pedro Centro', 'Las Maravillas', 'El Calvario'],
                 'Chichigalpa' => ['Chichigalpa Centro', 'Las Brisas', 'La Ceiba'],
-                'Posoltega' => ['Posoltega Centro', 'Barrio El Triunfo', 'San Francisco']
+                'Posoltega' => ['Posoltega Centro', 'Barrio El Triunfo', 'Santa Maria']
             ]
         ];
         $empleadores = [
-            'Hospital San Juan de Dios', 'Clínica Santa María', 'Centro Médico La Paz', 
-            'Hospital Nacional', 'Centro de Salud San Carlos'
+            'Constructora XYZ', 
+            'Tecnologías Avanzadas S.A.', 
+            'Instituto Educativo San Felipe', 
+            'Compañía de Seguros La Protección', 
+            'Consultora Financiera ABC', 
+            'Agencia de Marketing Digital', 
+            'Escuela Técnica de Diseño', 
+            'Desarrollo de Software Innovador', 
+            'Compañía Energética Verde', 
+            'Universidad del Futuro'
         ];
 
         $escolaridad = [
-            'Primaria Completa','Secundaria Incompleta','Secundaria Completa','Universidad Incompleta','Universidad Completa','Ninguno'
+            'Primaria Completa', 'Secundaria Incompleta', 'Secundaria Completa', 
+            'Universidad Incompleta', 'Universidad Completa', 'Ninguno'
         ];
 
-        $nombres = [
-            'Mercedes', 'María', 'Byron', 'David', 'Gonzalo', 'Luis', 'Fernanda', 'Noemi', 'Jaime', 'Eduardo', 
-            'Carlos', 'Daniel', 'Marlene', 'Estefania', 'Johanna', 'Sofia', 'Martha', 'Patricia', 'Diana', 'Lucía', 
-            'Jaime', 'Vicente', 'Sahira', 'Maribel', 'Xavier', 'Eduardo', 'Alex', 'Ruben', 'Mireya', 'Katerine', 
-            'Danilo', 'Fernando', 'Oswaldo', 'Ernesto', 'Juan', 'Jose', 'Geovanny', 'Ramiro', 'Marlene', 'Alexandra', 
-            'Lenin', 'Eduardo', 'Hernán', 'Sebastián', 'Pedro', 'Raquel', 'Alejandra', 'Georgina', 'Piedad', 'Karina', 
-            'Monserrat', 'Diego', 'Javier', 'Ricardo', 'Israel', 'Lilli', 'Lucia', 'Susana', 'del Rocio', 'José', 
-            'Eliecer', 'Edgar', 'Guillermo', 'Gustavo', 'Patricio', 'Lourdes', 'del Rocío', 'Fanny', 'Margoth', 'Jorge', 
-            'Alfonso', 'Alexandra', 'Elizabeth', 'Jorge', 'Xavier', 'Andrés', 'Alberto', 'Wilson', 'Fernando', 'Karol', 
-            'Narcisa', 'Elizabeth', 'Vanessa', 'Luz', 'Mariuxi', 'Santander', 'Luis Enrique', 'Gladys', 'Monserrate', 
-            'Maria', 'Jose', 'Diego', 'Alejandro', 'Angela', 'Lucciola', 'Martha', 'Fabiola', 'Carlos', 'Dionisio'
+        // Listas separadas de nombres femeninos y masculinos
+        $nombres_femeninos = [
+            'Mercedes', 'María', 'Fernanda', 'Noemi', 'Marlene', 'Estefania', 
+            'Johanna', 'Sofia', 'Martha', 'Patricia', 'Diana', 'Lucía', 'Sahira', 
+            'Maribel', 'Katerine', 'Raquel', 'Alejandra', 'Georgina', 'Piedad', 
+            'Karina', 'Monserrat', 'Susana', 'Lilli', 'Fanny', 'Margoth', 'Gladys', 
+            'Angela', 'Fabiola', 'Vanessa', 'Luz', 'Mireya', 'Estefania', 'Lucia', 'Sofia'
+        ];
+
+        $nombres_masculinos = [
+            'Byron', 'David', 'Gonzalo', 'Luis', 'Jaime', 'Eduardo', 'Carlos', 
+            'Daniel', 'Xavier', 'Ruben', 'Danilo', 'Fernando', 'Oswaldo', 'Ernesto', 
+            'Juan', 'Jose', 'Geovanny', 'Ramiro', 'Lenin', 'Eduardo', 'Hernán', 
+            'Sebastián', 'Pedro', 'Javier', 'Ricardo', 'Israel', 'Diego', 'Jorge'
         ];
         
         $apellidos = [
-            'López', 'González', 'Cevallos', 'Trujillo', 'Balcazar', 'Campoverde', 'Campos', 'Mendieta', 'Cárdenas', 'Molina',
-            'Villavicencio', 'Pesantez', 'Novillo', 'Jara', 'Perez', 'Cabrera', 'Morales', 'Harris', 'Iñiguez', 'Iñiguez',
-            'Chuchuca', 'Serrano', 'Martinez', 'Cepeda', 'Montalvo', 'Aponte', 'Cobos', 'Veloz', 'Pazmiño', 'Arregui',
-            'García', 'García', 'Lopez', 'Bravo', 'Ortega', 'Vintimilla', 'Cabezas', 'Velasco', 'Narvaez', 'Calvachi',
-            'Saguay', 'Sanaguano', 'Lopez', 'Montero', 'Guaraca', 'Cuñas', 'Arcos', 'Cabezas', 'Panchez', 'Hernandez',
-            'Masache', 'Alvarado', 'Cajas', 'Logroño', 'Valencia', 'Cuviña', 'Romero', 'Pacheco', 'Andrade', 'Soto',
-            'Chicaiza', 'Ronquillo', 'Guasca', 'Tulmo', 'Mena', 'Zapata', 'Lara', 'Valencia', 'Cañar', 'Caisalitín',
-            'Llerena', 'Vargas', 'Carrion', 'Córdova', 'Paredes', 'Lucas', 'Suárez', 'Pineda', 'Montenegro', 'Espinoza',
-            'Macias', 'Yanez', 'De', 'Ring', 'Salvador', 'Murillo', 'Calvache', 'Rosero', 'Luis Enrique', 'Ordóñez', 'Alemán',
-            'Franco', 'Pico', 'Redroban', 'Becerra', 'Suarez', 'Velasquez', 'Rizzo', 'Gonzalez', 'Sornoza', 'Moran'
+            'López', 'González', 'Cevallos', 'Trujillo', 'Balcazar', 'Campoverde', 
+            'Campos', 'Mendieta', 'Cárdenas', 'Molina', 'Villavicencio', 'Pesantez', 
+            'Novillo', 'Jara', 'Perez', 'Cabrera', 'Morales', 'Harris', 'Iñiguez', 
+            'Chuchuca', 'Serrano', 'Martinez', 'Cepeda', 'Montalvo', 'Aponte', 
+            'Cobos', 'Veloz', 'Pazmiño', 'Arregui', 'García', 'Bravo', 'Ortega'
         ];
-        
 
         // Elegir un departamento aleatorio
         $departamento = $this->faker->randomElement($departamentos);
@@ -94,17 +106,41 @@ class PacienteFactory extends Factory
         $fechaNacimiento = $this->faker->dateTimeBetween('-80 years', '-18 years');
         $edad = Carbon::parse($fechaNacimiento)->age;
 
-        // Generar el nombre y determinar el sexo
-        $primerNombre = $this->faker->randomElement($nombres);
-        $segundoNombre = $this->faker->randomElement($nombres);
+        // Determinar sexo
+        $sexo = $this->faker->randomElement(['M', 'F']);
+
+        // Seleccionar nombres en función del sexo
+        if ($sexo == 'F') {
+            $primerNombre = $this->faker->randomElement($nombres_femeninos);
+            $segundoNombre = $this->faker->randomElement($nombres_femeninos);
+        } else {
+            $primerNombre = $this->faker->randomElement($nombres_masculinos);
+            $segundoNombre = $this->faker->randomElement($nombres_masculinos);
+        }
+
+        // Generar apellidos aleatorios
         $primerApellido = $this->faker->randomElement($apellidos);
         $segundoApellido = $this->faker->randomElement($apellidos);
-        $sexo = (strtolower(explode(' ', $primerNombre)[0]) == 'fernanda' || strtolower(explode(' ', $primerNombre)[0]) == 'mireya') ? 'F' : 'M';
+              $correos = "mi-correo";  // Crear correo basado en el primer nombre
+         $correo = strtolower($correos) . '@gmail.com';
+         $parentesco_options = [
+            'Madre',
+            'Padre',
+            'Hermano',
+          
+        ];
+        $profesiones = [
+            'Estudiante',
+            'Ingeniero',
+            'Enfermero',
+            'Docente',
+            'Desarrollador',
+        ];
 
         return [
             'no_expediente' => $this->faker->unique()->numerify('EXP-#######'),  // Único 
-            'fecha' => $this->faker->date, 
-            'establecimiento_salud' => $this->faker->company,
+            'fecha' => $this->faker->dateTimeBetween('2022-01-01', '2024-05-31')->format('Y-m-d'), // Fecha entre 2022 y 2024
+            'establecimiento_salud' => 'MEDFILE-IA', // Establecimiento de salud fijo
             'primer_nombre' => $primerNombre, // En español 
             'segundo_nombre' => $segundoNombre, // En español 
             'primer_apellido' => $primerApellido, // En español 
@@ -112,25 +148,28 @@ class PacienteFactory extends Factory
             'fecha_nacimiento' => $fechaNacimiento->format('Y-m-d'), 
             'edad' => $edad,
             'sexo' => $sexo,
+            'telefono' => $this->faker->unique()->numerify('505-########'),
+            'correo' => $correo,
+            'direccion' =>$departamento,
             'raza_etnia' => $this->faker->randomElement($razas),
-            'no_cedula' => $this->faker->unique()->numerify('###########'),
+            'no_cedula' => $this->generateUniqueCedula(), // Generar cedula única
             'categoria' => $this->faker->randomElement($categorias),
             'no_inss' => $this->faker->unique()->numerify('##########'),
             'estado_civil' => $this->faker->randomElement($estados_civiles),
             'escolaridad' => $this->faker->randomElement($escolaridad),
 
-            'ocupacion' => $this->faker->word,
+           'ocupacion' => $edad < 65 ? $this->faker->randomElement($profesiones) : 'Ninguna',
             'direccion_residencia' => $this->faker->randomElement($direccionOptions),
-            'localidad' => $this->faker->word,
+            'localidad' =>  $this->faker->randomElement($direccionOptions),
             'municipio' => $municipio,
             'departamento' => $departamento,
             'responsable_emergencia' => $this->faker->name('es_ES'), // En español
-            'parentesco' => $this->faker->word,
-            'telefono_responsable' => $this->faker->phoneNumber,
-            'direccion_responsable' => $this->faker->address,
+             'parentesco' => $this->faker->randomElement($parentesco_options), 
+            'telefono_responsable' => $this->faker->unique()->numerify('505-########'),
+            'direccion_responsable' =>$departamento,
             'empleador' => $this->faker->randomElement($empleadores),
-            'direccion_empleador' => $this->faker->address,
-         
+            'direccion_empleador' => $departamento,
+            'password' => bcrypt('12345' . strtolower(str_replace(' ', '', $primerNombre))) // Genera y encripta la contraseña
         ];
     }
 }

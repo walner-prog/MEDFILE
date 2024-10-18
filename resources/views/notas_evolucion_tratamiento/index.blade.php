@@ -73,7 +73,7 @@
   </head>
   @extends('adminlte::page')
     
-  @section('title', 'MEDFILE')
+  @section('title', 'nota-tratamientos')
 
 
   @section('content')
@@ -84,7 +84,7 @@
             <nav aria-label="breadcrumb" class="rounded-3 p-3 mb-4">
                 <ol id="breadcrumb" class="breadcrumb mb-0  text-light">
                     <li class="breadcrumb-item">Hogar</li>
-                    <li class="breadcrumb-item active" aria-current="page">Registros de Lista de Problemas de pacientes Ingresados </li>
+                    <li class="breadcrumb-item active" aria-current="page">Registros de Notas Evolución y Tratamientos de Pacientes Ingresados </li>
                 </ol>
             </nav>
         </div>
@@ -153,11 +153,11 @@
                 <div class="modal-header bg-primary">
                     <div class="row">
                         <div class="col-lg-8">
-                            <h5 class="modal-title text-white" id="createNotaEvolucionFormModalLabel">Crear Nota de Evolución de Tratamiento</h5>
+                            <h4 class="modal-title text-white" id="createNotaEvolucionFormModalLabel">Crear Nota de Evolución de Tratamiento</h4>
                         </div>
 
                         <div id="datos-paciente" class="mb-3">
-                            <h4>Datos del Paciente</h4>
+                          
                             <div class="p-3 mb-2 border rounded datos-pacientes bg-white">
                                 <div class="mb-2">
                                     <strong class="color-primario">
@@ -225,42 +225,37 @@
                         </div>
 
                         <div class="row">
-                    
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label for="buscar_paciente" class="bold">Buscar Paciente</label>
                                     <i class="fa-solid fa-magnifying-glass fa-1x mb-1"></i>
-                                    <input type="text" class="form-control" id="buscar_paciente" placeholder="Buscar por nombre, cédula o expediente">
+                                    <input type="text" class="form-control" autocomplete="off" id="buscar_paciente" placeholder="Buscar por nombre, cédula o expediente">
                                 </div>
                                 <div id="lista_pacientes" class="list-group"></div>
                             </div>
-        
+                        
                             <div class="col-lg-6" hidden>
                                 <div class="form-group">
-                                    <label for="paciente_id">Paciente seleccionado  </label>
-                                    <select class="form-control" id="paciente_id" name="paciente_id" required>
-                                     
-                                    </select>
+                                    <label for="paciente_id">Paciente seleccionado</label>
+                                    <select class="form-control" id="paciente_id" name="paciente_id" required></select>
                                     @if ($errors->has('paciente_id'))
                                         <div class="text-danger">{{ $errors->first('paciente_id') }}</div>
                                     @endif
                                 </div>
-                            </div> 
-        
-                                <div class="col-lg-3">
-                                    <div class="form-group">
-                                        <label for="paciente_id_id">ID Paciente seleccionado<span class="text-danger">*</span></label>
-                                        <input type="number" class="form-control" id="paciente_id_id" name="paciente_id" value="{{ old('paciente_id_id') }}" required readonly>
-                                        @if ($errors->has('paciente_id_id'))
-                                            <div class="text-danger">{{ $errors->first('paciente_id') }}</div>
-                                        @endif
-                                    </div>
-                                    
+                            </div>
+                        
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label for="paciente_id_id">ID Paciente seleccionado<span class="text-danger">*</span></label>
+                                    <input type="number" class="form-control" id="paciente_id_id" name="paciente_id" value="{{ old('paciente_id_id') }}" required readonly>
+                                    @if ($errors->has('paciente_id_id'))
+                                        <div class="text-danger">{{ $errors->first('paciente_id_id') }}</div>
+                                    @endif
                                 </div>
-    
+                            </div>
+                        </div> <!-- Fila cerrada correctamente -->
+                        
                         <div class="row">
-                            
-                           
                             <div class="col-lg-2">
                                 <div class="form-group">
                                     <label for="edad">Edad <span class="text-danger">*</span></label>
@@ -270,44 +265,7 @@
                                     @endif
                                 </div>
                             </div>
-                            <div class="col-lg-2">
-                                <div class="form-group">
-                                    <label for="fecha_hora">Fecha y Hora <span class="text-danger">*</span></label>
-                                    <input type="datetime-local" class="form-control" id="fecha_hora" name="fecha_hora" required>
-                                    @if ($errors->has('fecha_hora'))
-                                        <div class="text-danger">{{ $errors->first('fecha_hora') }}</div>
-                                    @endif
-                                </div>
-                            </div>
-    
-                            <div class="col-lg-2">
-                                <div class="form-group">
-                                    <label for="servicio">Servicio</label>
-                                    <input type="text" class="form-control" id="servicio" name="servicio">
-                                </div>
-                            </div>
-                            <div class="col-lg-2">
-                                <div class="form-group">
-                                    <label for="sala">Sala</label>
-                                    <input type="text" class="form-control" id="sala" name="sala">
-                                </div>
-                            </div>
-
-                            <div class="col-lg-2 ">
-                                <div class="form-group">
-                                    <label for="no_expediente">No. Expediente <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" id="no_expediente" name="no_expediente" readonly>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-3">
-                                <div class="form-group">
-                                    <label for="establecimiento_salud">Establecimiento de Salud</label>
-                                    <input type="text" class="form-control" id="establecimiento_salud" name="establecimiento_salud" value="{{ old('establecimiento_salud') }}">
-                                </div>
-                            </div>
-
-                           
+                        
                             <div class="col-lg-3">
                                 <div class="form-group">
                                     <label for="no_cedula">No. Cédula <span class="text-danger">*</span></label>
@@ -317,17 +275,7 @@
                                     @endif
                                 </div>
                             </div>
-                            
-                            <div class="col-lg-3">
-                                <div class="form-group">
-                                    <label for="no_cama">No. Cama <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" id="no_cama" name="no_cama" value="{{ old('no_cama') }}" required>
-                                    @if ($errors->has('no_cama'))
-                                        <div class="text-danger">{{ $errors->first('no_cama') }}</div>
-                                    @endif
-                                </div>
-                            </div>
-                            
+                        
                             <div class="col-lg-3">
                                 <div class="form-group">
                                     <label for="no_inss">No. INSS <span class="text-danger">*</span></label>
@@ -337,8 +285,59 @@
                                     @endif
                                 </div>
                             </div>
-                            
-                     
+                        
+                            <div class="col-lg-2">
+                                <div class="form-group">
+                                    <label for="no_expediente">No. Expediente <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="no_expediente" name="no_expediente" readonly>
+                                </div>
+                            </div>
+                        </div> <!-- Fila cerrada correctamente -->
+                        
+                        <div class="row">
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label for="fecha_hora">Fecha y Hora <span class="text-danger">*</span></label>
+                                    <input type="datetime-local" class="form-control" id="fecha_hora" name="fecha_hora" required>
+                                    @if ($errors->has('fecha_hora'))
+                                        <div class="text-danger">{{ $errors->first('fecha_hora') }}</div>
+                                    @endif
+                                </div>
+                            </div>
+                        
+                            <div class="col-lg-2">
+                                <div class="form-group">
+                                    <label for="servicio">Servicio</label>
+                                    <input type="text" class="form-control" id="servicio" name="servicio">
+                                </div>
+                            </div>
+                        
+                            <div class="col-lg-2">
+                                <div class="form-group">
+                                    <label for="sala">Sala</label>
+                                    <input type="text" class="form-control" id="sala" name="sala">
+                                </div>
+                            </div>
+                        
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label for="establecimiento_salud">Establecimiento de Salud</label>
+                                    <input type="text" class="form-control" id="establecimiento_salud" name="establecimiento_salud" value="{{ old('establecimiento_salud') }}">
+                                </div>
+                            </div>
+                        
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label for="no_cama">No. Cama <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="no_cama" name="no_cama" value="{{ old('no_cama') }}" required>
+                                    @if ($errors->has('no_cama'))
+                                        <div class="text-danger">{{ $errors->first('no_cama') }}</div>
+                                    @endif
+                                </div>
+                            </div>
+                        </div> <!-- Fila cerrada correctamente -->
+                        
+                        <div class="row">
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label for="problemas_evolucion">Problemas de Evolución <span class="text-danger">*</span></label>
@@ -348,6 +347,7 @@
                                     @endif
                                 </div>
                             </div>
+                        
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label for="planes">Planes <span class="text-danger">*</span></label>
@@ -357,23 +357,24 @@
                                     @endif
                                 </div>
                             </div>
-                      
-    
-                    
+                        </div> <!-- Fila cerrada correctamente -->
+                        
+                        <div class="row">
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label for="participantes_atencion">Participantes en la Atención</label>
                                     <textarea class="form-control" id="participantes_atencion" name="participantes_atencion" rows="3">{{ old('participantes_atencion') }}</textarea>
                                 </div>
                             </div>
+                        
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label for="firma_codigo_profesional">Firma/Código Profesional</label>
                                     <input type="text" class="form-control" id="firma_codigo_profesional" name="firma_codigo_profesional" value="{{ old('firma_codigo_profesional') }}">
                                 </div>
                             </div>
-                        </div>
-                          
+                        </div> <!-- Fila final cerrada correctamente -->
+                        
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                             <button type="submit" class="btn btn-primary">Guardar Nota de Evolución</button>

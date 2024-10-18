@@ -49,7 +49,7 @@
     
         @extends('adminlte::page')
         
-        @section('title', 'AdminSalud')
+        @section('title', 'editar problema')
         
         
         
@@ -61,7 +61,7 @@
                     <nav aria-label="breadcrumb" class="rounded-3 p-3 mb-4">
                         <ol id="breadcrumb" class="breadcrumb mb-0  text-light">
                             <li class="breadcrumb-item">Hogar</li>
-                            <li class="breadcrumb-item active" aria-current="page">Registros de Lista de Problemas de pacientes Ingresados </li>
+                            <li class="breadcrumb-item active" aria-current="page">Registros de Notas evolucion de pacientes Ingresados </li>
                             <li class="breadcrumb-item active" aria-current="page">Editar </li>
                         </ol>
                     </nav>
@@ -89,10 +89,10 @@
                         <div class="modal-header bg-primary">
                             <div class="row">
                                 <div class="col-lg-8">
-                                    <h5 class="modal-title text-white" id="editNotaEvolucionFormLabel{{ $nota->id }}">Editar Nota de Evolución</h5>
+                                    <h4 class="modal-title text-white" id="editNotaEvolucionFormLabel{{ $nota->id }}">Editar Nota de Evolución</h4>
                                 </div>
                                 <div id="datos-paciente" class="mb-3">
-                                    <h4>Datos del Paciente</h4>
+                                   
                                     <div class="p-3 mb-2 border rounded datos-pacientes bg-white">
                                         <div class="mb-2">
                                             <strong class="color-primario">
@@ -274,7 +274,7 @@
                                 
             
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                               
                                     <button type="submit" class="btn btn-primary">Guardar Cambios</button>
                                 </div>
                             </form>
