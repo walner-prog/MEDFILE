@@ -448,6 +448,14 @@ return [
                 'icon'       => 'fas fa-fw fa-user-md',
                 'active'     => ['especialidades.index'],
             ],
+            [
+                'text'       => 'chat IA ',
+                'icon_color' => 'white',
+                'text_color' => 'dark',
+                'route'      => 'chat.medico',
+                'icon'       => 'fas fa-fw fa-user-md',
+                'active'     => ['chat.medico'],
+            ],
         ],
     ],
 

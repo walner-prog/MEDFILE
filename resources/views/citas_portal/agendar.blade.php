@@ -35,7 +35,9 @@
         </nav>
     </div>
 </div>
-<div class="row">
+<div class="row" data-aos="fade-right"
+     data-aos-offset="500"
+     data-aos-easing="ease-in-sine">
     <!-- Imagen -->
     <div class="col-lg-6 mb-3">
         <img src="{{ asset('assets/img/citas.jpeg') }}" alt="Descripción de la imagen" class="img-fluid" />

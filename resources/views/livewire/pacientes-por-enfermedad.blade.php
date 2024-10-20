@@ -34,9 +34,9 @@
                         $badgeClass = $porcentaje >= 50 ? 'bg-success' : 'bg-warning';
                     @endphp
                     <tr>
-                        <td>{{ $paciente->primer_nombre }}</td>
-                        <td>{{ $paciente->primer_apellido }}</td>
-                        <td>{{ \Carbon\Carbon::parse($paciente->fecha_nacimiento)->age }}</td>
+                        <td class="text-primary font-weight-bold">{{ $paciente->primer_nombre }}</td>
+                        <td class=" text-primary font-weight-bold">{{ $paciente->primer_apellido }}</td>
+                        <td class=" text-primary">{{ \Carbon\Carbon::parse($paciente->fecha_nacimiento)->age }}</td>
                         <td>{{ $enfermedad->enfermedades_cronicas }}</td>
                         <td>
                             <span class="badge {{ $badgeClass }}">

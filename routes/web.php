@@ -159,6 +159,7 @@ Route::get('promedio_consultas_general', [PacienteController::class, 'getPromedi
 Route::get('pacientes_con_promedio_consultas', [PacienteController::class, 'getPacientesConPromedioConsultas'])->middleware('permission:ver-paciente');
 Route::get('promedio_consultas_por_enfermedad', [PacienteController::class, 'getPromedioConsultasPorEnfermedad'])->middleware('permission:ver-paciente');
 Route::get('pacientes_calculos', [PacienteController::class, 'calculosPacientes'])->name('pacientes.calculos')->middleware('permission:ver-calculos-pacientes');
+Route::get('/grafica-enfermedades', [PacienteController::class, 'graficaEnfermedadesCronicas'])->name('grafica.enfermedades');
 
 //Route::resource('emergencias', EmergenciaController::class);
 Route::resource('emergencias', EmergenciaController::class)->middleware('permission:ver-emergencia');
@@ -274,5 +275,5 @@ Route::post('/upload-file', [FileUploadController::class, 'upload']);
  Route::get('/chat-historial', [FileUploadController::class, 'getChats'])->name('chat.historial');
  // Route::get('/chat/{chatId?}', [ChatBotController::class, 'showChat'])->name('chat.show');
  Route::get('/chat/{chat_id}', [FileUploadController::class, 'viewChat'])->name('chat.view');
- Route::get('/chat-medico', [FileUploadController::class, 'chatMedico'])->name('chat');
+ Route::get('/chat-medico', [FileUploadController::class, 'chatMedico'])->name('chat.medico');
  

@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
 use Barryvdh\DomPDF\Facade\Pdf;
 use GuzzleHttp\Client;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class HistoriaClinicaController extends Controller
@@ -187,7 +188,7 @@ class HistoriaClinicaController extends Controller
         // Crear historia clínica
            $historiaClinica = HistoriaClinica::create($request->all());
   
-        return redirect()->route('historias_clinicas.index', compact('historiaClinica'))->with('info', 'Historia clínica creada con éxito.');
+           return redirect()->route('historias_clinicas.index', compact('historiaClinica'))->with('info', 'Historia clínica creada con éxito.');
     }
 
 
@@ -458,7 +459,7 @@ class HistoriaClinicaController extends Controller
 
       
     public function analizarHistoriaClinica(Request $request, $id)
- {
+  {
 
       try {
         // Obtén la historia clínica del paciente
@@ -489,7 +490,7 @@ class HistoriaClinicaController extends Controller
                 'Content-Type' => 'application/json',
             ],
             'json' => [
-                'model' => 'gpt-4',
+                'model' => 'gpt-4o',
                 'messages' => [
                     ['role' => 'user', 'content' => $inputResumen],
                 ],
@@ -614,7 +615,7 @@ class HistoriaClinicaController extends Controller
                       'Content-Type' => 'application/json',
                   ],
                   'json' => [
-                      'model' => 'gpt-4',
+                      'model' => 'gpt-4o',
                       'messages' => [
                           ['role' => 'user', 'content' => $inputRecomendaciones],
                       ],
@@ -645,7 +646,7 @@ class HistoriaClinicaController extends Controller
   }
   
   public function guardarArchivo(Request $request, $id)
-{
+ {
     $request->validate([
         'archivo_examen' => 'required|file|mimes:pdf,jpg,jpeg,png', // Validar tipos de archivo
     ]);
@@ -665,7 +666,6 @@ class HistoriaClinicaController extends Controller
 
     return back()->with('success', 'Archivo guardado exitosamente.');
 }
-
 
 public function detectarPatronesYAnomalias($pacienteId)
 {

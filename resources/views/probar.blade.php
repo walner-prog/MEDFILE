@@ -1,6 +1,9 @@
 <!-- resources/views/home.blade.php -->
 @extends('layouts.app_portal')
-
+<head>
+    <link
+    rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+</head>
 @section('content')
 @if(session('info'))
     <div class="alert alert-success">
@@ -19,7 +22,9 @@
 </div>
 
         <!-- Carrusel de imágenes -->
-<div id="carouselExample" class="carousel slide" data-bs-ride="carousel" data-aos="fade-up" data-aos-duration="500">
+<div id="carouselExample" class="carousel slide" data-bs-ride="carousel"  data-aos="fade-down"
+     data-aos-easing="linear"
+     data-aos-duration="1000">
     <div class="carousel-inner">
         <div class="carousel-item active">
             <img src="{{ asset('assets/img/medfile3.jpeg') }}" class="d-block w-100" alt="Imagen 1">
@@ -50,8 +55,9 @@
 </div>
 
 <!-- Sección de Servicios -->
-<div class="services mt-5" data-aos="fade-up" data-aos-duration="500">
-    <h2>Servicios Disponibles</h2>
+<div class="services mt-5 " data-aos="fade-up"
+    data-aos-duration="1000">
+    <h2 class="animate__animated animate__fadeInDown">Servicios Disponibles</h2>
     <p>Ofrecemos una plataforma fácil y accesible para que nuestros pacientes agenden citas, revisen su historial médico, y reciban notificaciones sobre sus citas pendientes.</p>
     <div class="row mt-4">
       <div class="col-lg-4 mb-4">
@@ -88,7 +94,8 @@
     </div>
 </div>
 
-<div class="mental-health mt-5 border p-2 border-radius" data-aos="fade-up" data-aos-duration="500">
+<div class="mental-health mt-5 border p-2 border-radius" data-aos="fade-up"
+   data-aos-duration="1000">
     <h2 class="text-center">Apoyo en Salud Mental</h2>
     <p class="text-center">
         Nuestra plataforma ofrece un enfoque innovador en el cuidado de la salud mental, permitiendo a los pacientes acceder a recursos valiosos y apoyo personalizado.

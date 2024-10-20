@@ -13,12 +13,12 @@ class DoctorCitas extends Component
     public function mount()
     {
         // Obtener el doctor autenticado
-        $doctor = Auth::user(); // O Auth::guard('doctor')->user() si tienes un guard específico
+        $doctor = Auth::user(); 
 
         // Filtrar las citas por el id del doctor autenticado
         $this->citas = Cita::with('paciente', 'especialidad')
                            ->where('doctor_id', $doctor->id)
-                           ->get();
+                           ->paginate();
     }
 
     public function render()

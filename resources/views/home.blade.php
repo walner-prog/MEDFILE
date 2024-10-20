@@ -314,6 +314,8 @@
                 </div>
                 
             </div>
+
+           
             
             
             <div class="container mt-2">
@@ -358,11 +360,6 @@
 
          <br>
   
-      
-     
-         
-     
-     
 
 
     @livewireScripts
@@ -405,7 +402,7 @@
 
 <script>
   var ctx = document.getElementById('pacientesChart').getContext('2d');
-var pacientesCiudadChart = new Chart(ctx, {
+  var pacientesCiudadChart = new Chart(ctx, {
     type: 'bar',
     data: {
         labels: @json($ciudades),
@@ -571,6 +568,7 @@ var pacientesCiudadChart = new Chart(ctx, {
     });
     </script>
 
+
 <script>
     var ctx = document.getElementById('pacientesGeneroChart').getContext('2d');
     var pacientesGeneroChart = new Chart(ctx, {
@@ -640,6 +638,37 @@ var pacientesCiudadChart = new Chart(ctx, {
     });
 </script>
 
+<script>
+  // Obtenemos los datos desde el servidor
+  const enfermedades = @json($enfermedades);
+
+  // Creamos los arrays para etiquetas (enfermedades) y datos (cantidad de pacientes)
+  const labels = enfermedades.map(e => e.enfermedad_cronica);
+  const data = enfermedades.map(e => e.total);
+
+  // Configuración de la gráfica
+  const ctx = document.getElementById('enfermedadesChart').getContext('2d');
+  const enfermedadesChart = new Chart(ctx, {
+      type: 'bar', // Tipo de gráfica: barra
+      data: {
+          labels: labels, // Etiquetas (enfermedades)
+          datasets: [{
+              label: 'Número de Pacientes',
+              data: data, // Datos (número de pacientes por enfermedad)
+              backgroundColor: 'rgba(54, 162, 235, 0.2)', // Color de las barras
+              borderColor: 'rgba(54, 162, 235, 1)', // Color del borde de las barras
+              borderWidth: 1 // Ancho del borde
+          }]
+      },
+      options: {
+          scales: {
+              y: {
+                  beginAtZero: true // Empezar el eje Y en 0
+              }
+          }
+      }
+  });
+</script>
 @stop
 
 </body>

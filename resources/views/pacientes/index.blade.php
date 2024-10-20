@@ -120,6 +120,7 @@
       <!-- Código o vista para ver un paciente -->
       
       @livewire('pacientes')
+      
      @endcan
   
     
@@ -168,11 +169,12 @@
                             <div class="col-lg-2">
                                 <div class="form-group">
                                     <label for="fecha">Fecha</label>
-                                    <input type="date" class="form-control edit_imput" name="fecha" value="{{ old('fecha') }}" required>
+                                    <input type="date" class="form-control edit_imput" id="fecha" name="fecha" value="{{ old('fecha') }}" readonly required>
                                     @if ($errors->has('fecha'))
                                         <div class="text-danger">{{ $errors->first('fecha') }}</div>
                                     @endif
                                 </div>
+                                
                             </div>
                             <div class="col-lg-4">
                                 <div class="form-group">
@@ -225,7 +227,7 @@
                             <div class="col-lg-2">
                                 <div class="form-group">
                                     <label for="fecha_nacimiento">Fecha de Nacimiento</label>
-                                    <input type="date" class="form-control edit_imput" name="fecha_nacimiento" value="{{ old('fecha_nacimiento') }}" required>
+                                    <input type="date" class="form-control edit_imput" id="fecha_nacimiento" name="fecha_nacimiento" value="{{ old('fecha_nacimiento') }}" required>
                                     @if ($errors->has('fecha_nacimiento'))
                                         <div class="text-danger">{{ $errors->first('fecha_nacimiento') }}</div>
                                     @endif
@@ -234,12 +236,13 @@
                             <div class="col-lg-1">
                                 <div class="form-group">
                                     <label for="edad">Edad</label>
-                                    <input type="number" class="form-control edit_imput" name="edad" value="{{ old('edad') }}" required>
+                                    <input type="number" class="form-control edit_imput" id="edad" name="edad" value="{{ old('edad') }}" readonly required>
                                     @if ($errors->has('edad'))
                                         <div class="text-danger">{{ $errors->first('edad') }}</div>
                                     @endif
                                 </div>
                             </div>
+                            
                             <div class="col-lg-2">
                                 <div class="form-group">
                                     <label for="sexo">Sexo</label>
@@ -730,7 +733,37 @@ $(document).ready(function() {
     }
 });
 
+
   </script>
+  <script>
+    document.getElementById('fecha_nacimiento').addEventListener('change', function() {
+        const fechaNacimiento = new Date(this.value);
+        const hoy = new Date();
+        let edad = hoy.getFullYear() - fechaNacimiento.getFullYear();
+        const mes = hoy.getMonth() - fechaNacimiento.getMonth();
+
+        if (mes < 0 || (mes === 0 && hoy.getDate() < fechaNacimiento.getDate())) {
+            edad--;
+        }
+
+        document.getElementById('edad').value = edad > 0 ? edad : 0;
+    });
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const fechaInput = document.getElementById('fecha');
+        const hoy = new Date();
+        const dia = ('0' + hoy.getDate()).slice(-2);
+        const mes = ('0' + (hoy.getMonth() + 1)).slice(-2); // Enero es 0, así que sumamos 1
+        const año = hoy.getFullYear();
+        const fechaActual = `${año}-${mes}-${dia}`;
+        
+        fechaInput.value = fechaActual;
+    });
+</script>
+
+
+
   <script>
     // Maneja el clic en el ícono de tres puntos
 $(document).on('click', '.toggle-buttons', function() {

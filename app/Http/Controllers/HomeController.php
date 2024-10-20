@@ -128,5 +128,16 @@ foreach ($pacientes as $paciente) {
         ));
     }
 
+    public function graficaEnfermedadesCronicas()
+    {
+        // Agrupamos los pacientes por enfermedad crónica y contamos cuántos hay de cada una
+        $enfermedades = Paciente::select('enfermedad_cronica', DB::raw('count(*) as total'))
+                                ->whereNotNull('enfermedad_cronica') // Aseguramos que la enfermedad crónica no sea nula
+                                ->groupBy('enfermedad_cronica')
+                                ->get();
+        
+        return view('home', compact('enfermedades'));
+    }
+ 
 
 }

@@ -85,6 +85,11 @@
             @livewire('pacientes-por-enfermedad')
         </div>
         <div class="col-lg-6">
+            @livewire('pacientes-enfermedad-renal')
+
+
+        </div>
+        <div class="col-lg-6">
             @livewire('ciudades-con-pacientes')
 
         </div>

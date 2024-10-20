@@ -17,7 +17,7 @@
                 @foreach ($enfermedadesConPacientes as $enfermedad)
                     <tr>
                         <td class="p-1">
-                            <span class="">{{ $enfermedad->enfermedades_cronicas }}</span>
+                            <span class=" text-primary font-weight-bold">{{ $enfermedad->enfermedades_cronicas }}</span>
                         </td>
                         <td class="p-1">
                             <span class="badge bg-primary">{{ $enfermedad->pacientes_count }}</span>
@@ -37,8 +37,8 @@
             </tbody>
             <tfoot>
                 <tr>
-                    <td><strong>Total Pacientes:</strong></td>
-                    <td><strong>{{ $enfermedadesConPacientes->sum('pacientes_count') }}</strong></td>
+                    <td><strong class=" text-success">Total Pacientes:</strong></td>
+                    <td><strong class=" text-primary">{{ $enfermedadesConPacientes->sum('pacientes_count') }}</strong></td>
                     <td></td> <!-- Columna vacía para el total -->
                 </tr>
             </tfoot>

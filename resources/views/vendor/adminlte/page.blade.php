@@ -8,7 +8,7 @@
 
     <link rel="stylesheet" href="{{ asset('full-calendar/es.ts') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-<hash>" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
+     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 @stop
 
 @section('classes_body', $layoutHelper->makeBodyClasses())
@@ -61,6 +61,7 @@
     @yield('js')
 
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js'></script>
+    
 @stop
 
 

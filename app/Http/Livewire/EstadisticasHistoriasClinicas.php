@@ -15,7 +15,8 @@ class EstadisticasHistoriasClinicas extends Component
     public $porcentajeDrogas;
 
     public function mount()
-    {
+    {  
+        
         $this->totalPacientes = Paciente::count();
         $this->totalHistorias = HistoriaClinica::count();
         $this->enfermedadesCronicasCount = HistoriaClinica::whereNotNull('enfermedades_cronicas')->count();
